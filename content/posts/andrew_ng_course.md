@@ -325,23 +325,10 @@ Produces an exponential family, parameterized by b, a, and T
 
     + @00:17:38 Finally, derivative of cost function comes out as
 
-    + {{< logseq/orgEXPORT >}}\frac{\partial LossFn}{\partial W^{[3]}} = -\frac{1}{m} \sum_{n=1}^{m} (y^{i} - a^{[3]})(a^{[2]})^{T}
+    + {{< logseq/orgEXPORT >}}\frac {\partial LossFn} {\partial W^{[3]}} = -\frac{1}{m} \sum_{n=1}^{m} (y^{i} - a^{[3]})(a^{[2]})^{T}
 {{< / logseq/orgEXPORT >}}
 
 Then we continue to previous layers ![image.png](/image_1674560524973_0.png)
-
-    + 
-
-    + 
-
-    + 
-
-    + {{< logseq/orgEXPORT >}}θj
-:= θj − α
-∂
-∂θj
-J(θ).
-{{< / logseq/orgEXPORT >}}
 
   + @00:34:37  Improving the network
 
@@ -426,4 +413,20 @@ J(θ).
 
   + @00:48:17 Jensen's Inequality
 
+#### Lecture 15 - EM + Factor Analysis
 
+  + {{< youtube tw6cmL5STuY >}}
+
+  + Factory Analysis:
+
+    + Definitions online:
+
+      + Factor analysis (FA) allows us to simplify a set of complex variables or items using statistical procedures to explore the underlying dimensions that explain the relationships between the multiple variables/items.
+
+      + Factor analysis is **one of the unsupervised machine learning algorithms which is used for dimensionality reduction**. This algorithm creates factors from the observed variables to represent the common variance i.e. variance due to correlation among the observed variables.
+
+#### Lecture 16 - Independent Component Analasys & Re-enforcement Learning\
+
+  + {{< youtube YQA9lLdLig8 >}}
+
+  + 
