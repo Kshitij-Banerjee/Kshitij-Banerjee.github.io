@@ -16,7 +16,7 @@ lastMod: 2023-01-24
 ---
 ## Introduction
 
-  + These are my rough notes (directly exported from LogSeq) for the course.
+  + Note: These are my rough notes, which are auto-synced from my private LogSeq, and is a WIP.
 
   + I'll update and make these more readable in the future.
 
