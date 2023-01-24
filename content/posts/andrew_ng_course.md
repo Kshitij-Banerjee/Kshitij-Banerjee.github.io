@@ -20,6 +20,10 @@ lastMod: 2023-01-24
 
   + I'll update and make these more readable in the future.
 
+### Lecture Notes:
+
+  + https://cs229.stanford.edu/notes2022fall/main_notes.pdf
+
 #### Lecture 1 - Intro
 
   + {{< youtube jGwO_UgTS7I >}}
@@ -311,8 +315,115 @@ Produces an exponential family, parameterized by b, a, and T
 
   + 
 
-#### Lecture 12 - Back propagation and NN Improvements
+#### Lecture 12 - Back propagation and NN Optimisations
 
   + {{< youtube zUazLXZZA2U >}}
 
+  + @00:06:08 - Loss function and partial derivates for back propagation
+
+![image.png](/image_1674556024293_0.png)
+
+    + @00:17:38 Finally, derivative of cost function comes out as
+
+    + {{< logseq/orgEXPORT >}}\frac{\partial LossFn}{\partial W^{[3]}} = -\frac{1}{m} \sum_{n=1}^{m} (y^{i} - a^{[3]})(a^{[2]})^{T}
+{{< / logseq/orgEXPORT >}}
+
+Then we continue to previous layers ![image.png](/image_1674560524973_0.png)
+
+    + 
+
+    + 
+
+    + 
+
+    + {{< logseq/orgEXPORT >}}θj
+:= θj − α
+∂
+∂θj
+J(θ).
+{{< / logseq/orgEXPORT >}}
+
+  + @00:34:37  Improving the network
+
+    + Sigmoid has problems because the derivate is very small with large X,
+
+    + RelU, has better derivates and helps with the backpropagation
+
+    + Normalising Inputs @00:48:20
+
+      + if Xs are big, then Wx + B is big, So Z is big, so derivates on sigmoid are very saturated
+
+      + Normalise (by reducing X by the means), makes the X smaller, but still variance could be high in Y @00:49:39
+
+      + Dividing X by Sigma, it becomes more homogeneous around the axis
+
+![image.png](/image_1674561947221_0.png)
+
+    + @01:05:26 Optimisations - Mini batch Gr.Desc
+
+    + @01:11:48 - Momentum Algorithm
+
+      + Looks at the past updates, and considers those for future iterations
+
+![image.png](/image_1674564963664_0.png)
+
+    + 
+
+#### Lecture 13 - Debugging ML models and Error Analysis
+
+  + {{< youtube ORrStCArmP4 >}}
+
+  + @00:09:56  Bias vs Variance Diagnostics
+
+    + Understand how much of the problem comes from bias vs variance
+
+    + High Variance model problems
+
+![image.png](/image_1674565738786_0.png)
+
+      + Training error, also increases as training examples increase, because the perfect fit becomes harder with more training data
+
+      + If there is a huge gap between training and test error, then the model has a high variance
+
+        + Because, the model is able to fit the training set well, i.e: overfitting (like a higher degree polynomial)
+
+    + High Bias model problems
+
+![image.png](/image_1674565874183_0.png)
+
+      + Even on training set, the error is high - that means the model is not fitting the data well
+
+  + @00:27:00 Optimisation Algorithm
+
+    + If another algorithm is able to get better results, then possibly the current algorithm is not converging
+
+      + Maybe a different cost function is needed
+
+    + 
+
   + 
+
+#### Lecture 14 - Expectation Maximization Algorithms
+
+  + {{< youtube rVfZHWTwXSA >}}
+
+  + @00:01:37  Unsupervised Learning
+
+    + @00:02:33 K-means clustering
+
+      + 1. Initialise cluster centroids randomly, usually take k random training sets for k clusters
+2. Color the point, based on nearest centroid 
+{{< logseq/orgEXPORT >}}C^{j} = arg min ||x^{i} - u_{j}||^{2}
+{{< / logseq/orgEXPORT >}}
+
+      + 3. Update centroid with new values
+
+  + @00:17:26 Anomaly Detection
+
+  + @00:24:49  Expectation maximisation Algorithm
+
+    + EM implements a softer way to assign to classes, and updates with probability instead of hard assigment like K-means did
+
+  + @00:48:17 Jensen's Inequality
+
+
