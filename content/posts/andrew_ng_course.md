@@ -8,11 +8,11 @@ tags:
 - Andrew
 - Ng
 - Stanford
-date: 2023-01-04
-title: Intro To Machine Learning
+date: 2023-01-20
+title: Intro to ML
 fileName: andrew_ng_course
 categories: Machine Learning
-lastMod: 2023-02-04
+lastMod: 2023-02-05
 ---
 ## Introduction
 
@@ -542,17 +542,36 @@ Then we continue to previous layers ![image.png](/image_1674560524973_0.png)
 
       + @00:25:20 - Optimal Value Function V^{*}
 
+        + [:span]
+ls-type:: annotation
+hl-page:: 180
+hl-color:: yellow
+
+
       + @00:30:09 - PI^{*}(S) = Optimal Policy
+
+        + [:span]
+ls-type:: annotation
+hl-page:: 180
+hl-color:: red
+
 
     + @00:35:31 - Value Iteration
 
+![image.png](/image_1675524729839_0.png)
+
       + @00:42:30 - Backup operator
+
+        + takes a current estimate of
+the value function, and maps it to a new estimate.
 
       + @00:43:30  - Converges to V*
 
       + @00:45:30 - Illustration of the iteration algorithms
 
     + @00:50:34 - Policy Iteration
+
+![image.png](/image_1675524850899_0.png)
 
     + @00:55:10 - Value vs Policy Iteration
 
@@ -576,15 +595,48 @@ Then we continue to previous layers ![image.png](/image_1674560524973_0.png)
 
       + @01:14:19
 
-Lecture 18 - Continuous State MDP & Model Simulation
+Lecture 18 - Continuous/Infinite State MDP & Model Simulation
 
   + {{< youtube QFu5nuc-S0s >}}
 
+    + Value Function Approximation
 
+      + Find a model / simulator that transitions s_t -> s_t+1
+
+        + For example, one may choose to learn a linear model of the form
+s_{t+1} = A s_{t} + B a_{t},
+
+        + Typically a gaussian error is added to make it a stochastic model
+
+    + @00:47:04 Fitted Value Iteration
+
+      + The main idea of fitted value iteration is that we are going to approximately carry out value iteration step, over a finite sample of states s(1), . . . , s(n).
+
+        + Specifically, we will use a supervised learning algorithm, to approximate the value function as a linear or non-linear function of the states:
+
+      + @01:01:50 - illustration
+
+      + @01:16:27  - Example of how using simulator and
+
+    + 
 
 Lecture 19 - Reward Model & Linear Dynamical System
 
   + {{< youtube 0rt2CsEQv6U >}}
+
+    + @00:06:40 - State action Rewards, makes reward function depend on both state and actions
+
+    + @00:11:42 Finite Horizon MDP, replaces Discount factor with Finite horizon time, and it assumes a finite number of steps taken
+
+    + @00:16:40  - Non stationary transition probabilities
+
+    + @00:23:30 Value iteration in non stationary problems
+
+    + @00:30:33 Illustration of the algorithm
+
+    + @00:32:30 - Linear Quadratic Regulation
+
+    + 
 
 Lecture 20 - RL Debugging
 
