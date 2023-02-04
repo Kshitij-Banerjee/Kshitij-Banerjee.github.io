@@ -8,21 +8,36 @@ tags:
 - Andrew
 - Ng
 - Stanford
-date: 2023-01-24
-title: Stanford Machine Learning Course from Andrew Ng Notes
+date: 2023-01-04
+title: Intro To Machine Learning
 fileName: andrew_ng_course
 categories: Machine Learning
-lastMod: 2023-01-24
+lastMod: 2023-02-04
 ---
 ## Introduction
 
   + Note: These are my rough notes, which are auto-synced from my private LogSeq, and is a WIP.
 
-  + I'll update and make these more readable in the future.
+  + I'll update and make these more readable in the future (which possibly means never :D)
 
 ### Lecture Notes:
 
   + https://cs229.stanford.edu/notes2022fall/main_notes.pdf
+
+![AndrewNgMLCourseNotes.pdf](/andrewngmlcoursenotes_1674652188746_0.pdf)
+
+### Notations
+
+  + A pair (x^{(i)}, y^{(i)}) is called a training example, the superscript “(i)” in the
+notation is simply an index into the training set, and has nothing to do with
+exponentiation.
+
+  + The notation “a := b” to denote an assignment operation
+
+  + _h_ is called a hypothesis
+
+  + The notation “p(y(i)|x(i); θ)” indicates that this is the distribution of y(i)
+given x(i) and parameterized by θ.
 
 #### Lecture 1 - Intro
 
@@ -38,13 +53,27 @@ lastMod: 2023-01-24
 
   + {{< youtube 4b4MUYve_U8 >}}
 
-  + @00:06:24 Linear Regression - H(x) = SUM( Theta[_j_] * X[_j_]) + Theta[ _0_ ]
+  + @00:06:24 Linear Regression
+
+    + {{< logseq/orgEXPORT >}}h_{θ}(x) = θ_0 + θ_1x_1 + θ_2x_2
+{{< / logseq/orgEXPORT >}}
+
+    + {{< logseq/orgEXPORT >}}J(θ) = \sum_{n=1}^{n}
+(h_θ( x^{(i)} ) − y^{(i)})^2
+{{< / logseq/orgEXPORT >}}
 
   + @00:21:37 - Gradient descent visualisation
 
-    + @00:17:13 Cost Function: J(ø) = Sum{ H(X) - Y )^2 }
+    + @00:17:13 Cost Function:
+
+      + {{< logseq/orgEXPORT >}}J(θ) = \sum_{n=1}^{n}
+(h_θ( x^{(i)} ) − y^{(i)})^2
+{{< / logseq/orgEXPORT >}}
 
     + @00:23:54 Optimisation: ø[_j_] = ø[_j_] - Learning_Rate * Partial_derivative( J(ø) )
+
+      + {{< logseq/orgEXPORT >}}θj := θj − α \dfrac{∂J(θ)} {∂θj}
+{{< / logseq/orgEXPORT >}}
 
     + @00:45:00 Stochastic Gradient Descent = Do for each examples
 
@@ -123,9 +152,18 @@ Produces an exponential family, parameterized by b, a, and T
 
   + {{< youtube nt63k3bfXS0 >}}
 
-  + @00:05:17  Generative Learning Algorithms, P(X|Y) instead of P(Y|X)
+  + @00:05:17  Generative Learning Algorithms, try to find the P(X|Y) instead of P(Y|X)
 
     + It also learns P(Y)- Called class prior, before you see anything, what is the chance
+
+    + Example:
+
+      + If building classifier for elephants vs dogs. First, looking at elephants, we can build a
+model of what elephants look like. Then, looking at dogs, we can build a
+separate model of what dogs look like. Finally, to classify a new animal, we
+can match the new animal against the elephant model, and match it against
+the dog model, to see whether the new animal looks more like the elephants
+or more like the dogs we had seen in the training set.
 
   + @00:10:09 GDA - Gaussian Discriminant Analysis
 
@@ -407,7 +445,24 @@ Then we continue to previous layers ![image.png](/image_1674560524973_0.png)
 
   + @00:17:26 Anomaly Detection
 
+    + To detect anomaly, first find the Probability density function of the given data P(x)
+
+    + Then, if P(x) on the new sample is close to 0, then the new sample has an anomaly
+
   + @00:24:49  Expectation maximisation Algorithm
+
+    + Allows us to find a joint distribution that models the data without knowing anything about the distribution of the data.
+
+    + {{< logseq/orgEXPORT >}}p(x(i), z(i)) = p(x(i)|z(i))p(z(i))
+{{< / logseq/orgEXPORT >}}
+
+    + 
+
+    + @00:31:21 2 steps in EM algorithms
+
+      + Guess the value, by setting W[j] via bayes rule
+
+      + 
 
     + EM implements a softer way to assign to classes, and updates with probability instead of hard assigment like K-means did
 
@@ -421,12 +476,118 @@ Then we continue to previous layers ![image.png](/image_1674560524973_0.png)
 
     + Definitions online:
 
-      + Factor analysis (FA) allows us to simplify a set of complex variables or items using statistical procedures to explore the underlying dimensions that explain the relationships between the multiple variables/items.
+      + @00:17:33  Factor analysis (FA)
+
+        + allows us to simplify a set of complex variables or items using statistical procedures to explore the underlying dimensions that explain the relationships between the multiple variables/items.
 
       + Factor analysis is **one of the unsupervised machine learning algorithms which is used for dimensionality reduction**. This algorithm creates factors from the observed variables to represent the common variance i.e. variance due to correlation among the observed variables.
 
-#### Lecture 16 - Independent Component Analasys & Re-enforcement Learning\
+#### Lecture 16 - Independent Component Analysis & Re-enforcement Learning
 
   + {{< youtube YQA9lLdLig8 >}}
+
+    + Why do we need non-gaussian distributions in ICA
+
+      + @00:02:59 It's important that the training set doesn't follow a gaussian density for ICA to work
+
+      + @00:20:00 - So, we take a sigmoid function as the choice of our cumulative density function, as its derivate is non-gaussian and modes normal speech beter - as it has fatter edges, i.e more outliers wrt to the mean.
+
+    + @00:51:40 Re-inforcement Learning
+
+      + @00:53:40 Reward Function = R(S)
+
+      + @00:54:04 = Credit assign problem : how do we attribute previous actions to the result in reward functions?
+
+    + @00:56:10 Markov Decision Process
+
+      + @00:56:49 S - set of all states
+
+      + @00:57:04 - A set of actions
+
+      + @00:57:21 - P_{sa} - Taking action a on s, what is the probability of getting to next state
+
+      + @00:58:22  - R = Reward Function
+
+      + @00:59:10 - Example illustrating MDP with maze problem
+
+      + @01:07:45 - Discount factor
+
+      + @01:11:52 Policy / Controller
+
+#### Lecture 17 - MDPs & Value/Policy Iteration
+
+  + {{< youtube d5gaWTo6kDM >}}
+
+    + @00:06:50 - Value function
+
+      + V_{pi}s = E[R(s_0) + ...)]
+
+      + @00:08:29 - What is the expected total payoff, if you start at S and execute _pi_
+
+      + @00:09:20 - Explanation of Value function over the maze example
+
+    + @00:11:20 - Bellman Equations
+
+      + @00:12:07 Intuition behind it
+
+        + Immediate Reward of R(s_{0}) + DiscountFactor * [R(s_{1}) + DF*...]
+
+        + @00:19:30  DP formulation = V_{s0} = R(S_{0}) + DiscountFactor * V_{s1}
+
+        + s' is used to denote the next step
+
+        + @00:21:05  Illustration of V over the maze
+
+        + @00:22:50 - Matrix definition of Value function calculation
+
+      + @00:25:20 - Optimal Value Function V^{*}
+
+      + @00:30:09 - PI^{*}(S) = Optimal Policy
+
+    + @00:35:31 - Value Iteration
+
+      + @00:42:30 - Backup operator
+
+      + @00:43:30  - Converges to V*
+
+      + @00:45:30 - Illustration of the iteration algorithms
+
+    + @00:50:34 - Policy Iteration
+
+    + @00:55:10 - Value vs Policy Iteration
+
+      + Small states - Policy iteration is fine, but large problems the Value iteration is faster
+
+    + @00:58:40 - How to handle Unknown P_{sa}
+
+      + Workflow is to find P from data,
+
+      + Take a random policy and let the problem run, and see how much probability of moving to other directions when taken P for each decision as simple probability
+
+    + @01:03:40  workflow
+
+      + Take actions randomly to get P_{sa}
+
+      + Solve Bellmans equations using value iteration to get V
+
+      + Update Policy(S)  with argmax of V over all decisions
+
+    + @01:08:20 Exploration vs Exploitation problem - Local optimas
+
+      + @01:14:19
+
+Lecture 18 - Continuous State MDP & Model Simulation
+
+  + {{< youtube QFu5nuc-S0s >}}
+
+
+
+Lecture 19 - Reward Model & Linear Dynamical System
+
+  + {{< youtube 0rt2CsEQv6U >}}
+
+Lecture 20 - RL Debugging
+
+  + {{< youtube pLhPQynL0tY >}}
 
   + 
