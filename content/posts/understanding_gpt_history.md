@@ -59,9 +59,9 @@ mentary information to neural network models, so it is natural to think about a 
 implicitly for contexts with arbitrary lengths  
 The authors then explain how a simple recurrent neural network works
 
-![image.png](image_1687079484371_0.png)
+![image.png](/image_1687079484371_0.png)
 
-![image.png](image_1687079552173_0.png)
+![image.png](/image_1687079552173_0.png)
 
 Where
 
@@ -87,7 +87,7 @@ The solution is to "unroll" the model T times, and then follow normal backpropat
 
 Instead, of keeping separate weight matrix for each time-step, the weight matrix is instead shared across the unfolded layers.
 
-![image.png](image_1687080413026_0.png)
+![image.png](/image_1687080413026_0.png)
 
 Note, how weights V and U , remain the same through the unfolding process
 
@@ -109,7 +109,7 @@ PyTorch
 
 [Code Doc](https://pytorch.org/docs/stable/generated/torch.nn.RNN.html)
 
-![image.png](image_1687081259085_0.png)
+![image.png](/image_1687081259085_0.png)
 
 Input:
 
