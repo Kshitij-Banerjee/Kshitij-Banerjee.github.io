@@ -2,4 +2,9 @@ baseURL = 'https://Kshitij-Banerjee.github.io'
 languageCode = 'en-us'
 title = "Kshitij's Notes"
 theme = 'PaperMod'
-
+[sitemap]
+  changefreq = "weekly"
+  filename = "sitemap.xml"
+  priority = 0.5
+[permalinks]
+  posts = "/:year/:month/:day/:slug/"
