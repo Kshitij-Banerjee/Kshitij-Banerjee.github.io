@@ -1,6 +1,5 @@
 
 ---
-Title: Understanding GPT History (through papers)
 Category: Machine Learning  
 Layout: post  
 Name: Understanding GPT and it's History  
@@ -26,21 +25,21 @@ CNN, following [DeepMind WaveNet 2016](https://arxiv.org/abs/1609.03499)
 
 ## Papers intend to deep-dive into:
 
-[[RNN]] , following Mikolov et al. 2010 ![Recurrent neural network based language model](https://www.fit.vutbr.cz/research/groups/speech/publi/2010/mikolov_interspeech2010_IS100722.pdf)
+RNN , following Mikolov et al. 2010 {{< pdflink "https://www.fit.vutbr.cz/research/groups/speech/publi/2010/mikolov_interspeech2010_IS100722.pdf" "Recurrent neural network based language model" >}}
 
-[[Backpropagation through time ]], followed in Mikael Bod ́en 2001 ![BPTT](https://axon.cs.byu.edu/~martinez/classes/678/Papers/RNN_Intro.pdf)
+Backpropagation through time , followed in Mikael Bod ́en 2001 {{< pdflink "https://axon.cs.byu.edu/~martinez/classes/678/Papers/RNN_Intro.pdf" "BPTT" >}}
 
-[[LSTM]] , following Graves et al. 2014 ![Generating Sequences With Recurrent Neural Networks](https://arxiv.org/pdf/1308.0850.pdf)
+LSTM , following Graves et al. 2014 {{< pdflink "https://arxiv.org/pdf/1308.0850.pdf" "Generating Sequences With Recurrent Neural Networks" >}}
 
-[[GRU]] , following Kyunghyun Cho et al. 2014 ![On the Properties of Neural Machine Translation: Encoder–Decoder](https://arxiv.org/pdf/1409.1259.pdf)
+GRU , following Kyunghyun Cho et al. 2014 {{< pdflink "https://arxiv.org/pdf/1409.1259.pdf" "On the Properties of Neural Machine Translation: Encoder–Decoder" >}}
 
-[[Batch Normalisation]], following Sergey Ioffe et al. 2015 ![Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/pdf/1502.03167.pdf)
+Batch Normalisation, following Sergey Ioffe et al. 2015 {{< pdflink "https://arxiv.org/pdf/1502.03167.pdf" "Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift" >}}
 
-[[Attention]], following Dzmitry Bahdanau, 2015 ![Dzmitry Bahdanau, 2015](https://arxiv.org/pdf/1409.0473.pdf)
+Attention, following Dzmitry Bahdanau, 2015 {{< pdflink "https://arxiv.org/pdf/1409.0473.pdf" "Dzmitry Bahdanau, 2015" >}}
 
-[[Layer Normalization]], following Jimmy Lei Ba, 2016 ![Layer Normalization](https://arxiv.org/pdf/1607.06450.pdf)
+Layer Normalization, following Jimmy Lei Ba, 2016 {{< pdflink "https://arxiv.org/pdf/1607.06450.pdf" "Layer Normalization" >}}
 
-[[Transformers]] , following Vaswani et al. 2017 ![Attention Is All You Need](https://arxiv.org/pdf/1706.03762.pdf)
+Transformers , following Vaswani et al. 2017 {{< pdflink "https://arxiv.org/pdf/1706.03762.pdf" "Attention Is All You Need" >}}
 
 ## Let's get started
 
@@ -79,7 +78,7 @@ Notable lines:
 amounts of data, large hidden layer is needed  
 > Convergence is usually achieved after 10-20 epochs.  
 > regularization of networks to penalize large weights did not provide any significant improvements.  
-[[Backpropagation through time ]], followed in Mikael Bod ́en 2001
+Backpropagation through time , followed in Mikael Bod ́en 2001
 
 The key insight is around how to back-propagate through the recursion caused loop
 
@@ -121,6 +120,17 @@ L  = Sequence Length
 
 H_in = Hidden Layer
 
+### Bidirectional RNN
+
+Paper: Mike et al 1997 {{< pdflink "https://deeplearning.cs.cmu.edu/F23/document/readings/Bidirectional%20Recurrent%20Neural%20Networks.pdf" "paper" >}}
+
+> Future input information coming up later than is usually also useful for prediction. With an RNN, this can be partially  
+achieved by delaying the output by a certain number of time frames to include future information. While delaying the output by some frames has been used successfully to improve results in a practical speech recogni-  
+tion system [12], which was also confirmed by the experiments conducted here, the optimal delay is task dependent and has to be found by the “trial and error” error method on a validation test set.  
+> To overcome the limitations of a regular RNN outlined in the previous section, we propose a bidirectional recurrent  
+neural network (BRNN) that can be trained using all available input information in the past and future of a specific time frame.  
+![image.png](/image_1687353507326_0.png)
+
 ### LSTM - Long Short-term Memory
 
 **Paper:** Graves et al. 2014 [Generating Sequences With Recurrent Neural Networks](https://arxiv.org/pdf/1308.0850.pdf)
@@ -138,4 +148,75 @@ few inputs, and these inputs were themselves predicted by the network, it has
 little opportunity to recover from past mistakes. Having a longer memory has  
 a stabilising effect, because even if the network cannot make sense of its recent  
 history, it can look further back in the past to formulate its predictions.  
+![image.png](/image_1687273677960_0.png)
+
+![image.png](/image_1687273755357_0.png)
+
+In my words, I understand it as follows
+
+The forget gate, tries to find how much to forget in the next iteration. The network learns weights, such that for certain inputs x, at hidden states h and a previous cell state c[t-1] - it predicts how to forget in the next iteration
+
+Simlarly, the input gate learns how much to store in the new cell state at t.
+
+Combining both, the new c[t] is a F*c[t-1] + I*(WX+Wh+b)
+
+The paper has some great examples of text generation and handwriting prediction using LSTMs, that I would encourage going through.
+
+Paper 2 by Google:  hasim et al. 2014  {{< pdflink "https://arxiv.org/pdf/1402.1128.pdf" "hasim et all" >}}
+
+> The recurrent connections in the  
+LSTM layer are directly from the cell output units to the cell input  
+units, input gates, output gates and forget gates. The cell output units  
+are connected to the output layer of the network.  
+![image.png](/image_1687352816805_0.png)
+
+PyTorch:
+
+Reference: https://pytorch.org/docs/stable/generated/torch.nn.LSTM.html
+
+### GRU - Gated Recurrent Neural Networks
+
+Paper:
+
+[Cho et. al 2014](https://arxiv.org/pdf/1406.1078.pdf) {{< pdflink "https://arxiv.org/pdf/1406.1078.pdf" "Learning Phrase representations using Encoder-Decoder" >}}
+
+On the Properties of Neural Machine Translation: {{< pdflink "https://arxiv.org/pdf/1409.1259.pdf" "On the Properties of Neural Machine Translation: Encoder–Decoder" >}}
+
+{{< pdflink "https://arxiv.org/pdf/1412.3555.pdf" "paper" >}}
+
+**From the Papers:**
+
+> In addition to a novel model architecture, we also  
+propose a new type of hidden unit (f in Eq. (1))  
+that has been motivated by the LSTM unit but is  
+much simpler to compute and implement.1 Fig. 2  
+shows the graphical depiction of the proposed hidden unit.  
+> We show that the neural machine translation performs  
+relatively well on short sentences without unknown words,   
+but its performance de-grades rapidly as the length of the sentence  
+and the number of unknown words increase.   
+Furthermore, we find that the pro-posed gated recursive convolutional net-  
+work learns a grammatical structure of a sentence automatically.  
+![image.png](/image_1687355590275_0.png)
+
+In my words, they simplified the task to an update gate and a reset gate, instead of the complicated interactions between multiple gates in LSTMs.
+
+Both the reset gates and update gates are a function of the input, and the hidden state at t-1
+
+![image.png](/image_1687590382787_0.png)
+
+![image.png](/image_1687590390930_0.png)
+
+and the next h state is calculated as
+
+![image.png](/image_1687590493510_0.png)
+
+As each hidden unit has separate reset and update gates, each hidden unit will learn to capture
+		  dependencies over different time scales.  
+Those units that learn to capture short-term dependencies
+		  will tend to have reset gates that are frequently active, but those that capture longer-term dependencies will have update gates that are mostly active.  
+### Batch Normalisation
+
+**Paper:** Batch Normalisation, following Sergey Ioffe et al. 2015 {{< pdflink "https://arxiv.org/pdf/1502.03167.pdf" "Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift" >}}
+
 TO BE CONTINUED..
