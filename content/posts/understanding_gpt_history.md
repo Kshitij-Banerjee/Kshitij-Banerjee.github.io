@@ -1,7 +1,7 @@
 
 ---
 Category: Machine Learning  
-Title: Understanding GPT history through papers
+Title: Understanding GPT History through papers  
 Layout: post  
 Name: Understanding GPT and it's History  
 date: 2023-06-18  
@@ -219,5 +219,95 @@ Those units that learn to capture short-term dependencies
 ### Batch Normalisation
 
 **Paper:** Batch Normalisation, following Sergey Ioffe et al. 2015 {{< pdflink "https://arxiv.org/pdf/1502.03167.pdf" "Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift" >}}
+
+**The problem**
+
+> Training is complicated by the fact that the inputs to each layer  
+are affected by the parameters of all preceding layers – so  
+that small changes to the network parameters amplify as  
+the network becomes deeper.  
+			    
+> Change in the distributions of layers’ inputs presents a problem because the layers need to continu-  
+ously adapt to the new distribution.  
+			    
+> Input distribution properties that make training more efficient – such as having the same distribution   
+between the training and test data – apply to training the sub-network as well. As such it is advantageous for the  
+distribution of x to remain fixed over time.  
+			    
+> Consider a layer with a sigmoid activation function z = g(W u + b) where u is the layer input,  
+the weight matrix W and bias vector b are the layer parameters to be learned, and g(x) = 1/ 1+exp(−x) . As |x|  
+increases, g′(x) tends to zero. This means that for all dimensions of x = W u+b except those with small absolute values, the gradient flowing down to u will vanish and the model will train slowly.  
+			    
+> If, however, we could ensure that the distribution of nonlinearity inputs remains more  
+stable as the network trains, then the optimizer would be less likely to get stuck in the saturated regime,and the training would accelerate.  
+So they propose a new solution
+
+#### The Solution:
+
+Introduce a normalization step that fixes the means and variances of every layer inputs
+
+What they tried: One approach could be to modify the network directly at regular intervals, to maintain the normalisation properties. They explain that this doesn't work  because
+
+> The issue with the above approach is that the gradient descent optimization does not take into account the fact that the normalization takes place.  
+				    
+> We have observed this empirically in initial experiments, where the  
+model blows up when the normalization parameters are  
+computed outside the gradient descent step  
+And hence they proposed the solution to bring the batch-normalisation layer
+
+> To address this issue, we would like to ensure that, for any parameter values,  
+the network always produces activations with the desired  
+distribution. Doing so would allow the gradient of the  
+loss with respect to the model parameters to account for  
+the normalization, and for its dependence on the model  
+parameters Θ  
+#### The Batch Normalisation Layer Algo
+
+![image.png](/image_1688217694180_0.png)
+
+##### Important points:
+
+####### *Normalises dimensions independently:*
+
+The algorithm works to normalise each dimension independently. So for each dimension k, it hopes to normalise
+					  ![image.png](/image_1688217792094_0.png)  
+###### *Enables the layers to still adapt*
+
+It's important to not change what each layer represents.  So they don't want to specifically force every activation to be of mean 0 and variance 1. Instead, they introduce the scaling parameters to let the network still learn the biases and scaling factors. The algorithm merely ensures that the *distribution* of the inputs is maintained.
+
+This is done via
+
+![image.png](/image_1688217971417_0.png)
+
+Note that this enables the network to retain the representation
+
+*Cons: Creates coupling* between the examples in the training
+
+> Rather, BNγ,β (x) depends both on the training example and the other examples in the mini-batch.  
+###### *The BN layer is differentiable:*
+
+![image.png](/image_1688218206587_0.png)
+
+##### *Normalization is only needed during training*
+
+> The normalization of activations that  
+depends on the mini-batch allows efficient training, but is  
+neither necessary nor desirable during inference  
+Hence after training, only the population statistics is used for the providing the same effect during inference
+
+![image.png](/image_1688218400152_0.png)
+
+These statistics are calculated by using moving average method
+
+> We use the unbiased variance estimate Var[x] = m  
+m−1 · EB[σ^2 ], where   
+the expectation is over training mini-batches of size m and σ^2  are their sample variances  
+						    
+> Since the means and variances are fixed during inference,  
+the normalization is simply a linear transform applied to  
+each activation.  
+#### Final Algorithm
+
+![image.png](/image_1688218663442_0.png)
 
 TO BE CONTINUED..
