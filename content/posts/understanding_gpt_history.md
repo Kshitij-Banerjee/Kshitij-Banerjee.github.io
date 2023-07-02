@@ -5,6 +5,8 @@ Title: Understanding GPT History through papers
 Layout: post  
 Name: Understanding GPT and it's History  
 date: 2023-06-18  
+cover:
+  image: "/UnderstandingGPTBanner.jpg"
 ---
   
 # Introduction
