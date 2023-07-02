@@ -1,9 +1,9 @@
 
 ---
 Category: Machine Learning  
-Title: Understanding GPT History through papers  
+Title: Understanding GPT - A Journey from RNNs to Transformers   
 Layout: post  
-Name: Understanding GPT and it's History  
+Name: Understanding GPT - A Journey from RNNs to Transformers  
 date: 2023-06-18  
 banner: "/UnderstandingGPTBanner.jpg"  
 cover:  
@@ -12,11 +12,10 @@ cover:
   
 # Introduction
 
-This post is inspired by Andrej Karpathy's [makemore](https://github.com/karpathy/makemore) series. Unfortunately, as of the time of this writing, he hasn't updated this series in the last 6 months. In short, andrej is teaching us how the modern LLMs came to be, by going through the series of seminal papers that led to its formation - and andrej was kind enough to walk us through the details in his video series. But it has currently left a hole in our understanding. The series jumps straight from wave nets, to transformers and GPT and it leaves a lot to be filled.
+In the ever-evolving field of NLP and Machine Learning, understanding the progression of techniques and models is crucial. Inspired by Andrej Karpathy's enlightening 'makemore' series, this post aims to dive deep into the key academic papers that shaped our current landscape of language models. From Recurrent Neural Networks (RNNs) to Transformers, let's demystify these complex concepts together.
 
-So as I go on my path to understand the history, I'd like this to fill the gap for anyone else who might be going through the same journey.
-	  I believe, andrej will eventually complete this series in terms of code, and when it does - it will be a far better source than this post will ever be.  
-	  But, if you're like me, and looking for a crash-course on the various papers and the core concepts. Follow along:-  
+As of the time of this writing, Andrej hasn't updated his series in the last 6 months. This leaves a gap in our comprehension as the series jumps from WaveNets to Transformers and GPT. Hence, I'd like this blog to act as a bridge, filling the void for anyone on a similar journey of understanding. Rest assured, when Andrej completes his series, it will serve as a comprehensive resource. Meanwhile, let's delve into these transformative papers and core concepts. Ready? Let's get started!
+
 ## Papers NOT be going through
 
 The following papers are ones, that andrew has explained in a lot of detail in his make more lecture series on [YouTube](https://www.youtube.com/watch?v=PaCmpygFfXo) , and I would recommend anyone to go through the series - as its the best explanation I've seen so far.
