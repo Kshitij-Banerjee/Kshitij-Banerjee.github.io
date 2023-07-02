@@ -5,8 +5,9 @@ Title: Understanding GPT History through papers
 Layout: post  
 Name: Understanding GPT and it's History  
 date: 2023-06-18  
-cover:
-  image: "/UnderstandingGPTBanner.jpg"
+banner: "/UnderstandingGPTBanner.jpg"  
+cover:  
+  image: "/UnderstandingGPTBanner.jpg"  
 ---
   
 # Introduction
@@ -50,15 +51,23 @@ Transformers , following Vaswani et al. 2017 {{< pdflink "https://arxiv.org/pdf
 
 **Paper:** [Mikolov et al. 2010](https://www.fit.vutbr.cz/research/groups/speech/publi/2010/mikolov_interspeech2010_IS100722.pdf)
 
-**Summary**
+#### Summary
 
-In effect, the paper references the MLP paper by [Bengio](https://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf), and cites the shortcoming that the context length is fixed and manually set. (The context length is the number of previous tokens that are fed into the MLP to generate the next word).
+Previous papers were attempting to solve the problem of sequence prediction. Namely, given X tokens of a sequence, predict the X+1th token.
 
-Quoting the author:-
+While the bigram and MLP papers solved this via feeding some fixed context-length to predict the next token, they had their shortcomings.
+
+In effect, the paper references the MLP paper by [Bengio](https://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf), and cites the shortcoming that the context length is fixed and manually set.
+
+To solve these shortcomings, the authors explain how a recurrent neural network can "figure-out" the context length instead of manually setting it
+
+#### The problem, in the words of the author:-
 
 > It is well known that humans can exploit longer context with great success. Also, cache models provide comple-  
 mentary information to neural network models, so it is natural to think about a model that would encode temporal information  
 implicitly for contexts with arbitrary lengths  
+#### The solution
+
 The authors then explain how a simple recurrent neural network works
 
 ![image.png](/image_1687079484371_0.png)
@@ -75,19 +84,15 @@ Output layer y(t) represents probability distribution of next word given previou
 
 Back-propagation through time (BPTT) algorithm is used. (This is covered next)
 
-Notable lines:
+#### How do you back-propagate through the loop ?
 
-> Based on our experiments, size of hidden layer should reflect amount of training data - for large  
-amounts of data, large hidden layer is needed  
-> Convergence is usually achieved after 10-20 epochs.  
-> regularization of networks to penalize large weights did not provide any significant improvements.  
-Backpropagation through time , followed in Mikael Bod ́en 2001
+Backpropagation through time , followed in Mikael Bod ́en 2001 {{< pdflink "https://axon.cs.byu.edu/~martinez/classes/678/Papers/RNN_Intro.pdf" "BPTT" >}}
 
 The key insight is around how to back-propagate through the recursion caused loop
 
 The solution is to "unroll" the model T times, and then follow normal backpropation
 
-Instead, of keeping separate weight matrix for each time-step, the weight matrix is instead shared across the unfolded layers.
+**Instead, of keeping separate weight matrix for each time-step, the weight matrix is instead shared across the unfolded layers.**
 
 ![image.png](/image_1687080413026_0.png)
 
@@ -105,8 +110,14 @@ gets smaller and smaller until it diminishes completely. Some have also pointed 
 the instability caused by possibly ambiguous deltas (e.g. (Pollack, 1991)) may disrupt  
 convergence. An opposing result has been put forward for certain learning tasks (Bod ́en  
 et al., 1999).  
-Note that batch normalization and layer normalization were probably not present at this time.
+Note:  Batch normalization and layer normalization were probably not present at this time.
 
+Notable lines from the paper:-
+
+> Based on our experiments, size of hidden layer should reflect amount of training data - for large  
+amounts of data, large hidden layer is needed  
+> Convergence is usually achieved after 10-20 epochs.  
+> regularization of networks to penalize large weights did not provide any significant improvements.  
 PyTorch
 
 [Code Doc](https://pytorch.org/docs/stable/generated/torch.nn.RNN.html)
@@ -269,7 +280,7 @@ parameters Θ
 
 ##### Important points:
 
-####### *Normalises dimensions independently:*
+###### *Normalises dimensions independently:*
 
 The algorithm works to normalise each dimension independently. So for each dimension k, it hopes to normalise
 					  ![image.png](/image_1688217792094_0.png)  
@@ -311,5 +322,22 @@ each activation.
 #### Final Algorithm
 
 ![image.png](/image_1688218663442_0.png)
+
+### Layer Normalisation
+
+**Paper**: Layer Normalization, following Jimmy Lei Ba, 2016 {{< pdflink "https://arxiv.org/pdf/1607.06450.pdf" "Layer Normalization" >}}
+
+**The problem**
+
+Batch normalisation depends on mini-batches, and it isn't obvious how to use them in an RNN model
+
+> In feed-forward networks with fixed depth, it is straightforward to store the statistics separately for each hidden layer. However, the summed inputs to the recurrent neurons in a recurrent neural network (RNN) often vary with the length of the sequence so applying batch normalization to RNNs appears to require different statistics for different time-steps.  
+The change is to calculate the mean and variance statistics over all the hidden units in a layer, instead of the batches
+
+![image.png](/image_1688222306090_0.png)
+
+After that, the famliar bias and gain are added, similar to BN
+
+![image.png](/image_1688222333541_0.png)
 
 TO BE CONTINUED..
