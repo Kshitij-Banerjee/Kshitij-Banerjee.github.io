@@ -12,9 +12,11 @@ cover:
   
 # Introduction
 
-In the ever-evolving field of NLP and Machine Learning, understanding the progression of techniques and models is crucial. Inspired by Andrej Karpathy's enlightening 'makemore' series, this post aims to dive deep into the key academic papers that shaped our current landscape of language models. From Recurrent Neural Networks (RNNs) to Transformers, let's demystify these complex concepts together.
+ChatGPT has rightly taken the world by storm, and has possibly started the 6th wave. Given its importance, the rush to build new products and research on top is understandable. But, I've always liked to ground myself with foundational knowledge on how things work, before exploring anything additive. To gain such foundational knowledge, I believe understanding the progression of techniques and models is crucial to comprehend how these LLM models work under the hood.
 
-As of the time of this writing, Andrej hasn't updated his series in the last 6 months. This leaves a gap in our comprehension as the series jumps from WaveNets to Transformers and GPT. Hence, I'd like this blog to act as a bridge, filling the void for anyone on a similar journey of understanding. Rest assured, when Andrej completes his series, it will serve as a comprehensive resource. Meanwhile, let's delve into these transformative papers and core concepts. Ready? Let's get started!
+Inspired by Andrej Karpathy's enlightening 'makemore' series, this post aims to dive deep into the key academic papers that shaped our current landscape of language models. From Recurrent Neural Networks (RNNs) to Transformers, let's demystify these complex concepts together.
+
+As of the time of this writing, Andrej hasn't updated his series in the last 6 months. This leaves a gap in our comprehension as the series jumps from WaveNets to Transformers and GPT. Hence, I'd like this blog to act as a bridge, filling the void for anyone on a similar journey of understanding. Rest assured, when Andrej completes his series, it will serve as a comprehensive resource. Meanwhile, let me summarise as best as I can.
 
 ## Papers NOT be going through
 
@@ -38,9 +40,9 @@ GRU , following Kyunghyun Cho et al. 2014 {{< pdflink "https://arxiv.org/pdf/14
 
 Batch Normalisation, following Sergey Ioffe et al. 2015 {{< pdflink "https://arxiv.org/pdf/1502.03167.pdf" "Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift" >}}
 
-Attention, following Dzmitry Bahdanau, 2015 {{< pdflink "https://arxiv.org/pdf/1409.0473.pdf" "Dzmitry Bahdanau, 2015" >}}
-
 Layer Normalization, following Jimmy Lei Ba, 2016 {{< pdflink "https://arxiv.org/pdf/1607.06450.pdf" "Layer Normalization" >}}
+
+Attention, following Dzmitry Bahdanau, 2015 {{< pdflink "https://arxiv.org/pdf/1409.0473.pdf" "Dzmitry Bahdanau, 2015" >}}
 
 Transformers , following Vaswani et al. 2017 {{< pdflink "https://arxiv.org/pdf/1706.03762.pdf" "Attention Is All You Need" >}}
 
@@ -48,17 +50,13 @@ Transformers , following Vaswani et al. 2017 {{< pdflink "https://arxiv.org/pdf
 
 ### RNN - Recurrent Neural Networks
 
-**Paper:** [Mikolov et al. 2010](https://www.fit.vutbr.cz/research/groups/speech/publi/2010/mikolov_interspeech2010_IS100722.pdf)
+*Paper: [Mikolov et al. 2010](https://www.fit.vutbr.cz/research/groups/speech/publi/2010/mikolov_interspeech2010_IS100722.pdf)*
 
 #### Summary
 
-Previous papers were attempting to solve the problem of sequence prediction. Namely, given X tokens of a sequence, predict the X+1th token.
+The primary challenge that this paper addresses is sequence prediction: given X tokens of a sequence, predict the X+1th token. While the bigram and [MLP](https://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf) papers solved this by feeding some fixed context-length to predict the next token, they had their shortcomings - namely fixed and manually set context lengths. To overcome these, the authors propose how a recurrent neural network can "figure-out" the context length instead of manually setting it.
 
-While the bigram and MLP papers solved this via feeding some fixed context-length to predict the next token, they had their shortcomings.
-
-In effect, the paper references the MLP paper by [Bengio](https://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf), and cites the shortcoming that the context length is fixed and manually set.
-
-To solve these shortcomings, the authors explain how a recurrent neural network can "figure-out" the context length instead of manually setting it
+The proposed RNNs, can "build a context" of information from the past and incorporate it into their predictions. This feature allows RNNs to capture dependencies between elements in a sequence, making them especially suited for tasks involving sequential data.
 
 #### The problem, in the words of the author:-
 
@@ -99,22 +97,15 @@ Note, how weights V and U , remain the same through the unfolding process
 
 Important quotes from the paper:
 
-> It is important to note, however, that after error deltas have been calculated, weights  
-are folded back adding up to one big change for each weight. Obviously there is a greater  
-memory requirement (both past errors and activations need to be stored away), the larger  
-τ we choose.  
+> It is important to note, however, that after error deltas have been calculated, weights are folded back adding up to one big change for each weight. Obviously there is a greater memory requirement (both past errors and activations need to be stored away), the larger τ we choose.  
 > In practice, a large τ is quite useless due to a “vanishing gradient effect” (see e.g.  
 (Bengio et al., 1994)). For each layer the error is backpropagated through the error  
-gets smaller and smaller until it diminishes completely. Some have also pointed out that  
-the instability caused by possibly ambiguous deltas (e.g. (Pollack, 1991)) may disrupt  
-convergence. An opposing result has been put forward for certain learning tasks (Bod ́en  
-et al., 1999).  
+gets smaller and smaller until it diminishes completely. Some have also pointed out that the instability caused by possibly ambiguous deltas (e.g. (Pollack, 1991)) may disrupt convergence. An opposing result has been put forward for certain learning tasks (Bod ́en et al., 1999).  
 Note:  Batch normalization and layer normalization were probably not present at this time.
 
 Notable lines from the paper:-
 
-> Based on our experiments, size of hidden layer should reflect amount of training data - for large  
-amounts of data, large hidden layer is needed  
+> Based on our experiments, size of hidden layer should reflect amount of training data - for large amounts of data, large hidden layer is needed  
 > Convergence is usually achieved after 10-20 epochs.  
 > regularization of networks to penalize large weights did not provide any significant improvements.  
 PyTorch
@@ -135,7 +126,7 @@ H_in = Hidden Layer
 
 ### Bidirectional RNN
 
-Paper: Mike et al 1997 {{< pdflink "https://deeplearning.cs.cmu.edu/F23/document/readings/Bidirectional%20Recurrent%20Neural%20Networks.pdf" "paper" >}}
+*Paper: Mike et al 1997 {{< pdflink "https://deeplearning.cs.cmu.edu/F23/document/readings/Bidirectional%20Recurrent%20Neural%20Networks.pdf" "paper" >}}*
 
 > Future input information coming up later than is usually also useful for prediction. With an RNN, this can be partially  
 achieved by delaying the output by a certain number of time frames to include future information. While delaying the output by some frames has been used successfully to improve results in a practical speech recogni-  
@@ -146,7 +137,7 @@ neural network (BRNN) that can be trained using all available input information 
 
 ### LSTM - Long Short-term Memory
 
-**Paper:** Graves et al. 2014 [Generating Sequences With Recurrent Neural Networks](https://arxiv.org/pdf/1308.0850.pdf)
+*Paper: Graves et al. 2014 [Generating Sequences With Recurrent Neural Networks](https://arxiv.org/pdf/1308.0850.pdf)*
 
 **Summary**
 
@@ -230,7 +221,7 @@ Those units that learn to capture short-term dependencies
 		  will tend to have reset gates that are frequently active, but those that capture longer-term dependencies will have update gates that are mostly active.  
 ### Batch Normalisation
 
-**Paper:** Batch Normalisation, following Sergey Ioffe et al. 2015 {{< pdflink "https://arxiv.org/pdf/1502.03167.pdf" "Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift" >}}
+*Paper: [[Batch Normalisation]], following Sergey Ioffe et al. 2015 {{< pdflink "https://arxiv.org/pdf/1502.03167.pdf" "Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift" >}}*
 
 **The problem**
 
@@ -324,7 +315,7 @@ each activation.
 
 ### Layer Normalisation
 
-**Paper**: Layer Normalization, following Jimmy Lei Ba, 2016 {{< pdflink "https://arxiv.org/pdf/1607.06450.pdf" "Layer Normalization" >}}
+*Paper: [[Layer Normalization]], following Jimmy Lei Ba, 2016 {{< pdflink "https://arxiv.org/pdf/1607.06450.pdf" "Layer Normalization" >}}*
 
 **The problem**
 
@@ -339,4 +330,71 @@ After that, the famliar bias and gain are added, similar to BN
 
 ![image.png](/image_1688222333541_0.png)
 
-TO BE CONTINUED..
+### Attention: Neural Machine Translation
+
+Paper: Attention, following Dzmitry Bahdanau, 2015 {{< pdflink "https://arxiv.org/pdf/1409.0473.pdf" "Dzmitry Bahdanau, 2015" >}}
+
+#### Background
+
+This paper was trying to solve language translation problems, and while the title doesn't focus on attention - this is the first time that the mechanism of "attention" was provided. So it brings us to the foundations of how attention came to be.
+
+At the time of this paper, the encoder-decoder architecture is prominent for translation. Namely, a bidirectional RNN is used to encode the source sentence, and the decoder RNN is conditioned on the output of this encoder RNN to produce the translated sentence.
+
+#### Problem
+
+In the words of the author:
+
+> A potential issue with this encoder–decoder approach is that a neural network needs to be able to compress all the necessary information of a source sentence into a fixed-length vector. This may make it difficult for the neural network to cope with long sentences  
+#### Solution Abstract:
+
+> Introduce an extension to the encoder–decoder model which learns to align and translate jointly. Each time the proposed model generates a word in a translation, it (soft-)searches for a set of positions in a source sentence where the most relevant information is concentrated. The model then predicts a target word based on the context vectors associated with these source positions and all the previous generated target words.  
+#### Architecture
+
+![image.png](/image_1688718307045_0.png)
+
+The authors propose a novel architecture, each output word in the decoder is created by considering not only the previous hidden state of the decoder, but also considering a  context vector C of the encoder network outputs. This context vector itself is a weighted sum of the hidden states of the encoder network, where the weights are trained and learn the "alignment" between output words and input words.
+
+#### Math
+
+i, is used for the decoder network , and the j is used for the encoder networks
+
+The hidden states s[i] of the decoder RNN are calculated as a function of s[i-1], y[i-1] and c[i]
+
+![image.png](/image_1688719158646_0.png)
+
+The context vector c[i] is calculated as a weighted sum of all the encoder hidden states h[j]
+
+![image.png](/image_1688719251116_0.png)
+
+These α weights are an important piece here. These represent the "alignment" of the decoded word to the encoded sentence. Hence, these are trained to be a function of s[i-1], and h[j]. Essentially, the weights help the model understand how much of the j_th input word is resposible for translating the ith output/decoded state.
+
+![image.png](/image_1688719468000_0.png)
+
+Note:
+
+> We parametrize the alignment model a as a feedforward neural network which is **jointly** trained with all the other components of the proposed system. the alignment model directly computes a soft alignment, which allows the gradient of the cost function to be backpropagated through.  
+Finally, p(y) is conditioned on previous words, hidden state s[i], and the context vector c[i]
+
+![image.png](/image_1688719050822_0.png)
+
+#### The Golden Words
+
+> The probability αij , or its associated energy eij , reflects the importance of the annotation hj with respect to the previous hidden state si−1 in deciding the next state si and generating yi. Intuitively, this implements a mechanism of **attention** in the decoder. The decoder decides parts of the source sentence to pay attention to.  
+By letting the decoder have an attention mechanism, we relieve the encoder from the burden of having to encode all information in the source sentence into a fixedlength vector. With this new approach the information can be spread throughout the sequence of annotations, which can be selectively retrieved by the decoder accordingly.  
+#### Results
+
+![image.png](/image_1688732372869_0.png)
+
+## In the next post
+
+Now thats we've covered some of the basics from RNNs to Attention, we'll cover more advanced topics in the next post.
+
+## Conclusion
+
+A detailed analysis of each influential paper in this domain can facilitate a comprehensive understanding of these models. Recognizing the limitations of each model and how succeeding models strive to address them is integral to this exploration.
+
+While the completion of Andrej Karpathy's series is anticipated, further exploration of these foundational works will serve to strengthen our understanding of modern language models. Anticipate future posts in this series, which will delve into the realm of Transformers.
+
+I invite readers to share their insights on these concepts. Which paper do you consider most intriguing?
+
+If i've made errors or haven't described something correctly - please do comment, help me learn and correct the article for future readers.
