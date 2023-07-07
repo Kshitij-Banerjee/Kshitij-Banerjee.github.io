@@ -1,9 +1,9 @@
 
 ---
 Category: Machine Learning  
-Title: Understanding GPT - A Journey from RNNs to Transformers   
+Title: Understanding GPT - A Journey from RNNs to Attention   
 Layout: post  
-Name: Understanding GPT - A Journey from RNNs to Transformers  
+Name: Understanding GPT - A Journey from RNNs to Attention  
 date: 2023-06-18  
 banner: "/UnderstandingGPTBanner.jpg"  
 cover:  
@@ -30,21 +30,23 @@ CNN, following [DeepMind WaveNet 2016](https://arxiv.org/abs/1609.03499)
 
 ## Papers intend to deep-dive into:
 
-RNN , following Mikolov et al. 2010 {{< pdflink "https://www.fit.vutbr.cz/research/groups/speech/publi/2010/mikolov_interspeech2010_IS100722.pdf" "Recurrent neural network based language model" >}}
+1. RNN , following Mikolov et al. 2010 {{< pdflink "https://www.fit.vutbr.cz/research/groups/speech/publi/2010/mikolov_interspeech2010_IS100722.pdf" "Recurrent neural network based language model" >}}
 
-Backpropagation through time , followed in Mikael Bod ́en 2001 {{< pdflink "https://axon.cs.byu.edu/~martinez/classes/678/Papers/RNN_Intro.pdf" "BPTT" >}}
+2.  Bidirectional RNN, following Mike et al 1997 {{< pdflink "https://deeplearning.cs.cmu.edu/F23/document/readings/Bidirectional%20Recurrent%20Neural%20Networks.pdf" "paper" >}}
 
-LSTM , following Graves et al. 2014 {{< pdflink "https://arxiv.org/pdf/1308.0850.pdf" "Generating Sequences With Recurrent Neural Networks" >}}
+3. Backpropagation through time , followed in Mikael Bod ́en 2001 {{< pdflink "https://axon.cs.byu.edu/~martinez/classes/678/Papers/RNN_Intro.pdf" "BPTT" >}}
 
-GRU , following Kyunghyun Cho et al. 2014 {{< pdflink "https://arxiv.org/pdf/1409.1259.pdf" "On the Properties of Neural Machine Translation: Encoder–Decoder" >}}
+4. LSTM , following Graves et al. 2014 {{< pdflink "https://arxiv.org/pdf/1308.0850.pdf" "Generating Sequences With Recurrent Neural Networks" >}}
 
-Batch Normalisation, following Sergey Ioffe et al. 2015 {{< pdflink "https://arxiv.org/pdf/1502.03167.pdf" "Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift" >}}
+5. GRU , following Kyunghyun Cho et al. 2014 {{< pdflink "https://arxiv.org/pdf/1409.1259.pdf" "On the Properties of Neural Machine Translation: Encoder–Decoder" >}}
 
-Layer Normalization, following Jimmy Lei Ba, 2016 {{< pdflink "https://arxiv.org/pdf/1607.06450.pdf" "Layer Normalization" >}}
+6. Batch Normalisation, following Sergey Ioffe et al. 2015 {{< pdflink "https://arxiv.org/pdf/1502.03167.pdf" "Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift" >}}
 
-Attention, following Dzmitry Bahdanau, 2015 {{< pdflink "https://arxiv.org/pdf/1409.0473.pdf" "Dzmitry Bahdanau, 2015" >}}
+7. Layer Normalization, following Jimmy Lei Ba, 2016 {{< pdflink "https://arxiv.org/pdf/1607.06450.pdf" "Layer Normalization" >}}
 
-Transformers , following Vaswani et al. 2017 {{< pdflink "https://arxiv.org/pdf/1706.03762.pdf" "Attention Is All You Need" >}}
+8. Attention, following Dzmitry Bahdanau, 2015 {{< pdflink "https://arxiv.org/pdf/1409.0473.pdf" "Dzmitry Bahdanau, 2015" >}}
+
+9. Transformers , following Vaswani et al. 2017 {{< pdflink "https://arxiv.org/pdf/1706.03762.pdf" "Attention Is All You Need" >}}
 
 ## Let's get started
 
