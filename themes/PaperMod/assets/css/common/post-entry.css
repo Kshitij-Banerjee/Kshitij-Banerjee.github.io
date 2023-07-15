@@ -88,14 +88,16 @@
 
 .entry-cover {
     margin-bottom: var(--gap);
-    text-align: center;
+    display: flex; /* Use flexbox to center the image */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    position: relative;
 }
 
 .entry-cover img {
     border-radius: var(--radius);
     pointer-events: none;
-    width: 100%;
-    height: auto;
+    max-height: 350px;
 }
 
 .entry-cover a {
