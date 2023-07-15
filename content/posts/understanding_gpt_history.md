@@ -8,6 +8,8 @@ date: 2023-06-18
 banner: "/UnderstandingGPTBanner.jpg"  
 cover:  
   image: "/UnderstandingGPTBanner.jpg"  
+tags: [ML, AI, machine-learning, RNN, Neural-networks]  
+keywords: [ML, AI, machine-learning, RNN, Neural-networks]  
 ---
   
 # Introduction
