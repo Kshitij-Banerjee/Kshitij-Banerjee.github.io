@@ -179,3 +179,10 @@ Below is the tabular version for comparison
 
 ![image.png](/image_1689489530758_0.png)
 
+# Conclusion
+
+The paper packs a ton of things into it. Its brilliant, but also probably takes a few iterations to absorb all the content well.
+
+I intend to dive into the code that is available in [tensor2tensor](https://github.com/tensorflow/tensor2tensor/tree/master/tensor2tensor) and update this post with more understanding and learnings from the code.
+
+In the next post, I intend to cover GPT-1 and 2 and work our way towards the GPT-3 and other state-of-the-art model architectures and additions.
