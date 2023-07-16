@@ -92,6 +92,7 @@
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
     position: relative;
+    background-color: white;
 }
 
 .entry-cover img {
