@@ -5,9 +5,9 @@ Title: Understanding GPT - Transformers
 Layout: post  
 Name: Understanding GPT - Transformers  
 date: 2023-07-07  
-banner: "/image_1688744668247_0.png"  
+banner: "Transformers_banner_1689490231707_0.png"  
 cover:  
-  image: "/image_1688744668247_0.png"  
+  image: "Transformers_banner_1689490231707_0.png"  
 tags: [ML, machine-learning, AI, Transformers,]  
 keywords: [ML, machine-learning, AI, Transformers,]  
 ---
@@ -178,3 +178,4 @@ Below is the tabular version for comparison
 * The authors are able to build attention distributions on the model, to realise that the model is relatively easier to reason about the relationship between positions and tokens.
 
 ![image.png](/image_1689489530758_0.png)
+
