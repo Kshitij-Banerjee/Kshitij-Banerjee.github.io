@@ -196,3 +196,9 @@ I wrote this blog completely in Logseq, and have a script that exports it into H
 (Item that goes into IN of Project BLOG) - TODO: Write a post on how to use Logseq to Blog with Hugo.
 
 Logseq gives you wings. Try it: https://logseq.com/
+
+# Additional Resources
+
+I found a video online from logseqmastery.com on a similar topic. I think it has some great ideas
+
+{{video(https://www.youtube.com/watch?v=nieOiG8LGa0)}}
