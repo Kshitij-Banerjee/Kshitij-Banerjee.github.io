@@ -3,6 +3,7 @@ languageCode = 'en-us'
 title = "KiloBytes by KB"
 theme = 'PaperMod'
 disqusShortname = "kshitij-banerjee"
+googleAnalytics = "G-KFSE3K3EMC"
 [params]
 defaultTheme = "light"
 disableThemeToggle = true
