@@ -68,7 +68,8 @@
   {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
   <header class="entry-header">
     <h2 class="entry-hint-parent">
-      {{- .Title }}
+			{{- .Title }}
+			<div class="post-tags"> <li> <a> {{- .Params.Category }} </a></li> </div>
       {{- if .Draft }}
       <span class="entry-hint" title="Draft">
         <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
