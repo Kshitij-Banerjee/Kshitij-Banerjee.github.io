@@ -6,8 +6,9 @@ disqusShortname = "kshitij-banerjee"
 googleAnalytics = "G-KFSE3K3EMC"
 googleAnalytics_v4 = "G-KFSE3K3EMC"
 [params]
-defaultTheme = "light"
-disableThemeToggle = true
+	comments = true
+	defaultTheme = "light"
+	disableThemeToggle = true
 [sitemap]
   changefreq = "weekly"
   filename = "sitemap.xml"
