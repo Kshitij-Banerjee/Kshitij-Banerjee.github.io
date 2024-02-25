@@ -1,4 +1,5 @@
 ---
+Category: Algorithms
 layout: post
 title:  "Largest Area Under a Histogram (and related concepts/problems)."
 description: "A problem with a clever solution, with some insights to its construction"

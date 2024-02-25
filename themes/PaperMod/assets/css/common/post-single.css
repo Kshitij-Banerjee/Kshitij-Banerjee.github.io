@@ -325,6 +325,16 @@
     line-height: 34px;
     background: var(--code-bg);
 }
+.cover-tags {
+	display: block;
+	padding: 0 14px;
+	color: var(--secondary);
+	overflow-x: clip;
+	font-size: 10px;
+	line-height: 34px;
+	background: var(--code-bg);
+}
+
 
 .post-tags a:hover,
 .paginav a:hover {
