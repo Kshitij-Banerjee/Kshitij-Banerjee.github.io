@@ -147,4 +147,4 @@ Toread Crossing the chasm
 
 # To Be Continued ...
 
-The good thing about this book, is that each chapter is unique and talks about a different topic. As such, I read and take these notes in peace-meals on my MRT rides. The blog is published weekly, when I get the time to sync Logseq with Hugo. *Remaining: 45%*
+The good thing about this book, is that each chapter is unique and talks about a different topic. As such, I read and take these notes in piecemeals on my MRT rides. The blog is published weekly, when I get the time to sync Logseq with Hugo. *Remaining: 45%*
