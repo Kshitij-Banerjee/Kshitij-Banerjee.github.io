@@ -10,6 +10,7 @@ googleAnalytics_v4 = "G-KFSE3K3EMC"
     shortname = 'kshitij-banerjee'
 [params]
 	comments = true
+	comment = true
 	defaultTheme = "light"
 	disableThemeToggle = true
 [sitemap]
