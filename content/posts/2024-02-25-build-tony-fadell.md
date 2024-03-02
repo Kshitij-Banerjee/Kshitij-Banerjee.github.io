@@ -21,7 +21,9 @@ Overall, 4/5 stars for me, and I recommend reading it. It covers one strong indi
 
 I've read enough books on entrepreneurship, business and startups - but I think this one has more specific advice than the typical 0-1 book. I'm going to mention the ones that I thought were noteworthy for me / unique views. Do read the full book if you think these resonate.
 
-# Summary in 194 kilobytes
+Fair warning: The summary is a bit larger than usual. That's because the topics in each chapter are completely different, so the book packs a lot of interesting quotes and wisdom that I end up taking a note of. Feel free to skip to the topics that most interest you.
+
+# Summary in 200 kilobytes
 
 ## What to work on
 
@@ -145,6 +147,108 @@ Geoffrey Moore first mapped out when different people are open to new products i
 
 Toread Crossing the chasm
 
+## (Not) Killing yourself
+
+Steve jobs was obsessed with Apple. But not everyone should be Steve. Having a balance, and knowing what balance is right for you is good.
+
+To manage his work and keep things in order, interestingly - he used the same GTD concept to manage work.
+
+Additionally he made his list-of-things and projects completely public to his teams. That way everyone knew what he was focussing on. Eventually people followed and started doing the same.
+
+Assistants are good way for senior executives to delegate machinery work like booking meetings/emails so that the executive can stay productive . Assistants can be shared executives so save cost
+
+## How to handle a crisis
+
+Everyone goes through a moment of crisis and breakfppints
+
+1. Keep your focus on fixing the problem and not who to blame, that can be solved later
+
+2. Get in the weeds. Don’t worry about micromanagement . Release the pressure and let people do work once things are in control
+
+3. Get advice from mentors and investors
+
+4. Constant communication - externally and internally
+
+5. Accept responsibility as a leader and listen to feedback.
+
+## Hiring
+
+The best teams are multi generational. Experienced people have wisdom, but it takes energy to build, so you need younger people too.
+
+The 3 crown strategy -  Your hiring committee should have 1) The hiring manager, 2) manager of eventual custom of candidate.  Example: for UX designer customer would be engineers.
+
+What makes a good recruiter: People who are actually excited about the product, and can create and tell a good story
+
+Important questions to ask: Why you left the previous company, and why you'd like to join this one ? It needs to be a compelling and flowing story.
+
+Advise on onboarding new people - They need a lot of help from the manager. Show them how to work in the environment and what the culture is - so they don’t feel lonely and feel scared.
+
+You’ll also need to fire people. Don’t be scared of it, but don’t be callous, either. Give people plenty of warning and opportunity to course correct, follow the letter of the law, then bite the bullet and help them find a better opportunity.
+
+## Breakpoints
+
+Breakpoints are intentional and planned points in a companies journey, where the company must pause and change things about the way they work.
+
+Typically these arise as more and more people are joining and the company is growing. The old ways of working don't work anymore and change is needed.
+
+A communication strategy becomes very important as the team and company scales. You need effective ways to articulate leadership vision throughout.
+
+As your company increased, some individuals and teams will have to focus instead of go at breadth. This will be hard to do but is important to keep functions working great .
+
+### Meetings
+
+They become too much and overwhelming . But important .
+
+Managers have to keep track of how many and how much time is spent and optimise it
+
+### Culture
+
+Is the hardest thing to pinpoint and the hardest to preserve. Even
+
+So to preserve what you love, have your team write down the things they value most and build a plan to continue them.
+
+Culture arises organically but then needs to be codified to be maintained.
+
+Always remember that change is growth and growth is opportunity. Your company is an organism; its cells need to divide to multiply, they need to differentiate to become something new. Don’t worry about what you’re going to lose—think about what you’re going to become.
+
+## Design Thinking
+
+Design is not just a profession. A customer is not only a person who buys something. A product is not just a physical object or software that you sell. You can employ design thinking for everything you do.
+
+Design thinking forces you to really understand the problem you’re trying to solve. In this case, the problem isn’t “I need a car to get to work.” It’s actually much broader: “How do I want to get around?” The product you’re designing is a mobility strategy for your life.
+
+Literally the only way to make a really good product is to dig in, analyze your customer’s needs, and explore all the possible options (including the unexpected ones: maybe I can work from home, maybe I can move closer to work). There are no perfect designs. There are always constraints. But you choose the best of all the options—aesthetically, functionally, and at the necessary price point. That’s a design process.
+
+**Avoid Habituation**:
+
+Most people are so habituated to the problems in their home lives or work that they no longer realize they’re problems. You can’t solve interesting problems if you don’t notice they’re there.
+
+## Product Marketing Method
+
+Marketing cannot just be figured out at the very end. Use marketing to prototype your product narrative *from the beginning.*
+
+The creative team can help you make the product narrative tangible. This should happen in parallel with product development—one should feed the other.
+
+The best marketing is just telling the truth. The ultimate job of marketing is to find the very best way to tell the true story of your product.
+
+### *Messaging Architecture:*
+
+To make the story feel real, to make it tangible, you need to visualize it.
+
+It’s essential for product development: Product management and marketing work on the messaging architecture from day one.
+
+It's a living and shared document.
+
+The process of convincing someone to buy and use your product needs to respect the customer, needs to understand their needs at different points of the user experience. You
+
+Example from Nest:
+
+Top-line billboards would just introduce the idea of a new kind of thermostat. The packaging would highlight the top six features and how the product connects to your phone. The website would emphasize energy savings and showcase how Nest fits into your daily life. The usage guide inside the packaging would provide more detail about how to train the learning algorithm and tips for saving energy. The support site would go deeper with exact instructions and thorough explanations of all the features.
+
+## The point of PM's
+
+...
+
 # To Be Continued ...
 
-The good thing about this book, is that each chapter is unique and talks about a different topic. As such, I read and take these notes in piecemeals on my MRT rides. The blog is published weekly, when I get the time to sync Logseq with Hugo. *Remaining: 45%*
+The good thing about this book, is that each chapter is unique and talks about a different topic. As such, I read and take these notes in peace-meals on my MRT rides. The blog is published weekly, when I get the time to sync Logseq with Hugo. *Remaining: 40%*
