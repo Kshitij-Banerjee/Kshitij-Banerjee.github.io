@@ -23,7 +23,7 @@ I've read enough books on entrepreneurship, business and startups - but I think 
 
 Fair warning: The summary is a bit larger than usual. That's because the topics in each chapter are completely different, so the book packs a lot of interesting quotes and wisdom that I end up taking a note of. Feel free to skip to the topics that most interest you.
 
-# Summary in 200 kilobytes
+# Summary in 210 kilobytes
 
 ## What to work on
 
@@ -145,13 +145,13 @@ People will do their most creative and constructive work, when they have a sense
 
 Geoffrey Moore first mapped out when different people are open to new products in his book Crossing the Chasm.
 
-Toread Crossing the chasm
+To/read Crossing the chasm
 
 ## (Not) Killing yourself
 
 Steve jobs was obsessed with Apple. But not everyone should be Steve. Having a balance, and knowing what balance is right for you is good.
 
-To manage his work and keep things in order, interestingly - he used the same GTD concept to manage work.
+To manage his work and keep things in order, interestingly - he used [the same GTD concept](https://kshitij-banerjee.github.io/2024/02/16/getting-things-done-with-logseq/) to manage work. I wrote a [blog](https://kshitij-banerjee.github.io/2024/02/16/getting-things-done-with-logseq/) article on this recently, so do check that out if interested.
 
 Additionally he made his list-of-things and projects completely public to his teams. That way everyone knew what he was focussing on. Eventually people followed and started doing the same.
 
@@ -247,8 +247,33 @@ Top-line billboards would just introduce the idea of a new kind of thermostat. T
 
 ## The point of PM's
 
-...
+In many organisations PM's starting becoming project managers, and in some they start focusing on the marketing/sales aspect more. These are typically anti-patterns
 
-# To Be Continued ...
+The point of PM's is to be an architect of the product. They are someone that sees across the Sales, marketing, product development and support aspects and is able to guide the team on what needs to be done next.
 
-The good thing about this book, is that each chapter is unique and talks about a different topic. As such, I read and take these notes in peace-meals on my MRT rides. The blog is published weekly, when I get the time to sync Logseq with Hugo. *Remaining: 40%*
+> The product manager has to be a master negotiator and communicator. They have to influence people without managing them. They have to ask questions and listen and use their superpower—empathy for the customer, empathy for the team—to build bridges and mend road maps. They have to escalate if someone needs to play bad cop, but know they can’t play that card too often. They have to know what to fight for and which battles should be saved for another day. They have to pop up in meetings all over the company where teams are representing their own interests—their schedules, their needs, their issues—and stand alone, advocating for the customer.
+Amazing product managers usually emerge from other roles. They start in marketing or engineering or support, but because they care so deeply about the customer, they start fixing the product and working to redefine it, rather than just executing someone else’s spec or messaging. And their focus on the customer doesn’t cloud their understanding that ultimately this is a business—so they also dive into sales and ops, try to understand unit economics and pricing.
+
+# Sales Culture
+
+Don't do the typical model of giving sales people commission once the sale is closed. That creates short-term incentives for the sales team. Treat them with long term stock options and good salary
+
+# Being A CEO
+
+It's a poison to think that all good ideas only come from you. You need to seek ways to bring the best ideas to life.
+
+It's also a trap to get into the "only things invented here" syndrome.
+
+Steve jobs rejected android before google bought it. Had Steve jobs bought android, our lives might be very different.
+
+If you aren't failing = you aren't making progress. So embrace it
+
+# Conclusion
+
+Only two things matter in the end - "What you build", and "Who you build it with"
+
+You might get lucky, and the thing you're building succeeds. But luck does play a big role, so some failure is inevitable
+
+When you're building, don't just aim to make your users life better - aim to give them superpowers.
+
+Mentoring, is probably the most enriching and meaningful thing you will do. In fact, you will end up learning much more from your mentees, than you will teach them.
