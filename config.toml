@@ -1,6 +1,7 @@
 baseURL = 'https://Kshitij-Banerjee.github.io'
 languageCode = 'en-us'
 title = "KiloBytes by KB"
+subtitle = "by KB"
 theme = 'PaperMod'
 disqusShortname = "kshitij-banerjee"
 googleAnalytics = "G-KFSE3K3EMC"
