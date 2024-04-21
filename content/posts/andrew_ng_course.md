@@ -1,4 +1,5 @@
 ---
+draft: true
 category: Machine Learning
 layout: post
 name: Andrew Ng ML Overview Course Stanford
