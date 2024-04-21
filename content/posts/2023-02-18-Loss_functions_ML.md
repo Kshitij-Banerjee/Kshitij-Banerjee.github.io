@@ -15,7 +15,8 @@ keywords: [ML, machine-learning, AI, loss-functions ]
 ---
   Loss functions tell the algorithm how far we are from actual truth, and their gradients/derivates help understand how to reduce the overall loss (by changing the parameters being trained on)  
   All losses in keras defined [here](https://www.tensorflow.org/api_docs/python/tf/keras/losses)  
-#### Frequently we see the loss function being expressed as a negative loss, why is that so?
+
+#### But why is the loss function expressed as a negative loss?
 
 Plot: ![image.png](/image_1676730500910_0.png)
 
@@ -86,4 +87,4 @@ Integer classes as output
 
 Intuitively, the sparse categorical just takes the index of the true-value to calculate the loss
 
-So when model output is for example `[0.1, 0.3, 0.7]` and ground truth is `3` (if indexed from 1) then loss compute only logarithm of `0.7`. This doesn't change the final value, because in the regular version of categorical crossentropy other values are immediately multiplied by zero (because of one-hot encoding characteristic). Thanks to that it computes logarithm once per instance and omits the summation which leads to better performance. The formula might look like this:
+So when model output is for example `[0.1, 0.3, 0.7]` and ground truth is `3` (if indexed from 1) then loss compute only logarithm of `0.7`. This doesn't change the final value, because in the regular version of categorical crossentropy other values are immediately multiplied by zero (because of one-hot encoding characteristic). Thanks to that it computes logarithm once per instance and omits the summation which leads to better performance.
