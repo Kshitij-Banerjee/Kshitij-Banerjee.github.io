@@ -447,6 +447,9 @@ export default function withLoggingHook(componentName: string) {
 }
 ```
 
+#### Verdict
+- 👍 - Works as expected
+
 **Things to note:**
 - It doesn't know when to stop, and kindof keep spitting code at times - so I had to manually stop it
 
@@ -583,7 +586,7 @@ export function withLoggingHook<P extends object>(
 }
 ```
 
-### Verdict:
+### Verdict: 👍 
 
 - It's able to write basic hooks, but makes some errors with HOCs
 
@@ -601,7 +604,7 @@ export function withLoggingHook<P extends object>(
 
 - Giving it concrete examples, that it can follow.
 
-## Test 2: Write a test plan, and implement the test cases
+## Test 2: Implement test cases
 
 Next, let's test its test case writing abilities
 
@@ -671,10 +674,9 @@ describe('withLoggingHook', () => {
 
 - However, I did realise that multiple attempts on the same test case did not always lead to promising results.
 
-### Verdict
+### Verdict: 👎
 
 - For simple test cases, it works quite well, but just barely.
-
 - Anything more complex, it kinda makes too many bugs to be productively useful.
 
 ## Task 3: Excel Upload Component
@@ -745,7 +747,7 @@ export default ExcelUploadComponent;
 
 ```
 
-### Verdict
+### Verdict: 👍 👍  
 
 - Now that was *pretty* good. I have no idea how to use the xlsx utility, and have not looked at its documentation
 
