@@ -1,7 +1,7 @@
 
 ---
 Category: AI
-Title: Exploring Code LLMs
+Title: Exploring Code LLMs - Instruction fine-tuning, models and quantization
 Layout: post
 Name: Code LLMs
 date: 2024-04-14
@@ -41,7 +41,7 @@ Instead of explaining the concepts in painful detail, I'll refer to papers and q
 
 3. *Model Quantization*: How we can significantly improve model inference costs, by improving memory footprint via using less precision weights.
 
-**If you know all of the above, you may want to skip to [Part 2](#part-2-setting-up-the-environment-ollama-on-m1)**
+**If you know all of the above, you may want to skip to [Part 2](https://kshitij-banerjee.github.io/2024/04/15/deepseek-coder-can-it-code-in-react)**
 
 **Part 2: Local LLM Setup**
 
