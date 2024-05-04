@@ -1,7 +1,6 @@
-
 ---
 Category: AI
-Title: Deepseek-coder - Can it code in React?
+Title: Deepseek coder - Can it code in React?
 Layout: post
 Name: Deepseek-coder writes react
 date: 2024-04-15
@@ -9,16 +8,16 @@ banner: "exploring_code_llms.png"
 cover:
  image: "exploring_code_llms.png"
 tags: [Machine-Learning, AI]
-keywords: [Machine-Learning, AI]
+keywords: [Machine-Learning, AI, LLM]
 ---
 
 # Introduction
 
-The goal of this post is to deep-dive into LLM's that are **specialised in code generation tasks**, and see if we can use them to write code.
+The goal of this post is to deep-dive into LLMs that are **specialized in code generation tasks** and see if we can use them to write code.
 
 Note: Unlike copilot, we'll focus on *locally running LLM's*. This should be appealing to any developers working in enterprises that have data privacy and sharing concerns, but still want to improve their developer productivity with locally running models.
 
-To test our understanding, we'll perform a few simple coding tasks, and compare the various methods in achieving the desired results and also show the shortcomings.
+To test our understanding, we'll perform a few simple coding tasks, compare the various methods in achieving the desired results, and also show the shortcomings.
 
 In [Part-1](https://kshitij-banerjee.github.io/2024/04/14/exploring-code-llms/), I covered some papers around instruction fine-tuning, GQA and Model Quantization - All of which make running LLM's locally possible.
 
@@ -57,6 +56,9 @@ This repo figures out the cheapest available machine and hosts the ollama model 
 From 1 and 2, you should now have a hosted LLM model running. Now we need VSCode to call into these models and produce code.
 
 ## VSCode Extension Calling into the Model
+
+
+**[UPDATE]**: I've recently found an open source plugin works well. If I was starting from scratch, I'd try https://www.continue.dev/.
 
 Given the above best practices on how to provide the model its context, and the prompt engineering techniques that the authors suggested have positive outcomes on result. I created a VSCode plugin that implements these techniques, and is able to interact with Ollama running locally.
 
@@ -98,7 +100,7 @@ https://github.com/TabbyML/tabby
 
 For the most part, the 7b instruct model was quite useless and produces mostly error and incomplete responses.
 
-The 33b models can do quite a few things correct. However, its probably at the brink of usefuleness
+The 33b models can do quite a few things correctly. However, it's probably at the brink of usefulness
 
 The model doesn't really understand writing test cases at all.
 
@@ -136,13 +138,13 @@ export default function withLoggingHook(componentName: string) {
 
 **Things to note:**
 
-It doesn't know when to stop, and kindof keep spitting code at times - so I had to manually stop it
+It doesn't know when to stop, and kind of keep spitting code at times - so I had to manually stop it
 
 ### Verdict
 
 - 👍 - Works as expected
 
-### 1.2 Writing an HOC that augments the decorates the logging instead of using the hook.
+### 1.2 Writing a HOC that augments the logging instead of using the hook.
 
 *PROMPT:*
 
@@ -219,7 +221,7 @@ added a fireEvent import, but didn't use it later.
 
 #### Retry:
 
-I retried a couple more times. In next attempt, it jumbled the output and got things completely wrong.
+I retried a couple more times. In the next attempt, it jumbled the output and got things completely wrong.
 
 Attempt 3 is did pretty well though
 
@@ -302,7 +304,7 @@ Giving it concrete examples, that it can follow.
 
 Next, let's test its test case writing abilities
 
-### Test 2.1 - Writing tests for withLogginHook
+### Test 2.1 - Writing tests for withLoggingHook
 
 In the previous test, it wrote a withLoggingHook, let's use that as its context
 
