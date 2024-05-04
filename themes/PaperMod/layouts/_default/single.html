@@ -34,6 +34,9 @@
   {{- partial "toc.html" . }}
   {{- end }}
 
+	<div style="display: flex; justify-content: center; align-items: center;">
+		<iframe src="https://kilobytes.substack.com/embed" width="480" height="150" style="border:none; background:transparent;" frameborder="0" scrolling="no"></iframe>
+	</div>
   {{- if .Content }}
   <div class="post-content">
     {{- if not (.Param "disableAnchoredHeadings") }}
@@ -43,6 +46,9 @@
   {{- end }}
 
   <footer class="post-footer">
+		<div style="display: flex; justify-content: center; align-items: center;">
+			<iframe src="https://kilobytes.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
+		</div>
     {{- $tags := .Language.Params.Taxonomies.tag | default "tags" }}
     <ul class="post-tags">
       {{- range ($.GetTerms $tags) }}
