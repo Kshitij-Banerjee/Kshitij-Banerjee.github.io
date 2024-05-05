@@ -47,13 +47,17 @@ A file where some code is written, and a corresponding .test file that imports t
 
 ### Review of existing benchmarks and how they are setup
 
-- OpenAI Evals
+1. OpenAI Evals
 
-- [APPS benchmark](https://arxiv.org/pdf/2105.09938.pdf)
+2. [APPS benchmark](https://arxiv.org/pdf/2105.09938.pdf)
 
-- HumanEval
+3. HumanEval
 
-- CanAiCode
+4. CanAiCode
+
+5. MultiPL-E
+
+6. RepoBench
 
 ### In a future post, I intent to cover
 
@@ -63,7 +67,7 @@ Details on Visual verification
 
 Benchmark Results for 3 open source LLM models.
 
-# OpenAI Evals
+# 1) OpenAI Evals
 
 This is probably the most renowned of all evaluation frameworks. https://github.com/openai/evals
 
@@ -91,9 +95,9 @@ The framework allows to [build a custom eval](https://github.com/openai/evals/bl
 
 ### Verdict
 
-👍 - This could work for building a react benchmark.
+👍 - This could work for building a react benchmark. It might be a bit hard to get off the ground though, and may limit customization.
 
-# APPS
+# 2) APPS
 
 Paper: [Measuring Coding Challenge Competence With APPS](https://arxiv.org/pdf/2105.09938.pdf)
 
@@ -117,7 +121,7 @@ Repository: https://github.com/hendrycks/apps
 
 - 👎 - Not something to use for custom real world "app" related benchmarking
 
-# HumanEval
+# 3) HumanEval
 
 From OpenAI again, hand-written set of evaluations
 
@@ -139,7 +143,7 @@ Paper: [Evaluating LLMs](https://arxiv.org/pdf/2107.03374.pdf)
 
 If not testing python, this one is a 👎
 
-# CanAiCode
+# 4) CanAiCode
 
 Repo: https://github.com/the-crypt-keeper/can-ai-code/blob/main/prompts/codellama-input-v2.txt
 
@@ -147,9 +151,9 @@ Leaderboard: https://huggingface.co/spaces/mike-ravkine/can-ai-code-results
 
 ## Pros
 
-Supports Javascript, and not just python test cases.
+1. Supports Javascript, and not just python test cases.
 
-Template based generation of test cases. See [template prompt](https://github.com/the-crypt-keeper/can-ai-code/blob/main/prompts/starcoder-fim-input.txt) for starcoder
+2. Template based generation of test cases. See [template prompt](https://github.com/the-crypt-keeper/can-ai-code/blob/main/prompts/starcoder-fim-input.txt) for starcoder
 
 ```
 {% if language == "python" %}<fim_prefix>def {{Signature}}:
@@ -165,7 +169,7 @@ function {{Signature}} {
 // another function{% endif %}<fim_middle>
 ```
 
-Combined with yaml for tests
+3. Combined with yaml for tests
 
 ```yaml
 .Checks: &Checks
@@ -192,9 +196,9 @@ FactorialZeroShot:
 
 ## Cons
 
-Not customisable beyond simple input-output testing
+1 - Unfortunately, it is not customizable beyond simple input-output testing.
 
-# MultiPL-E
+# 5) MultiPL-E
 
 Meant to tests code LLMs on multiple programming languages.
 
@@ -222,10 +226,71 @@ Repo: https://github.com/nuprl/MultiPL-E
 
 3. Each of the test case needs to be decoded in a particular jsonl format, with escape characters fixed etc.
 
+## Verdict
+
+👍 - This could work for building a react benchmark. But may not be easy to add new test cases to.
+
+# 6) RepoBench
+
+Paper: [RepoBench](https://arxiv.org/pdf/2306.03091.pdf)
+
+Repo: https://github.com/Leolty/repobench
+
+Validates LLM on 3 tasks
+
+1 - Retrieval Task: Ability to retrieve the right contextual files.
+
+2 - Completion Task: Ability to complete next line, given the context files.
+
+3 - Combined Task: Retrieval + Completion
+
+Some interesting points noted in the paper:
+
+> Python Retrieval Shows Higher Accuracy Than Java: The language-specific results show that Python tasks typically show higher accuracy than
+Java across all retrieval methods. This discrepancy might be attributed to Python’s simpler syntax and
+less verbose nature, potentially reducing the variability of similar code snippets.
+
+> Pronounced Performance Differences in Java for RepoBenchC-2k: The evaluation on Java showcases a marked differentiation in model performance: Codex
+notably stands out as the superior model, followed by StarCoder, while CodeGen largely lags behind.
+
+*While there are some intuitive reasons cited, this clearly shows that benchmarks on Python may not directly apply to React / Typescript codebases.*
+
+### Interesting bits
+
+The project is easy to read and some interesting files are
+
+1 - Metrics: ExactMatch, Similarity, and Accuracy@K https://github.com/Leolty/repobench/blob/main/evaluation/metrics.py. Note: their accuracy@k is not a probabilistic calculation like the pass@k metric introduced in HumanEval, and refers to the number of accurate codes retrieved out of correct codes.
+
+2 - Retriever: https://github.com/Leolty/repobench/blob/main/retriever/retriever.py
+
+3 - Similarity (Jaccard, Edit, Cosine): https://github.com/Leolty/repobench/blob/main/retriever/similarity.py
+
+4 - Promp constructor: https://github.com/Leolty/repobench/blob/main/data/utils.py
+
+## Pros
+
+1 - Easy to understand
+
+2 - Repo level context understanding.
+
+3 - Usage of Google drive for dataset.
+
+4 - Multiple languages supported with various similarity metrics on next line.
+
+## Cons
+
+The question this benchmark is trying to answer is different from what we need.
+
+We require unit-test and visual accuracy, assuming the right context is already given.
+
+## Verdict
+
+Not applicable.
+
 # Conclusion
 
 So far, the only ones that meet what I'm looking for are the open-ai evals, and the MultiPL-E benchmark.
 
-What would've been great, is if these benchmarks were easier to prepare, and mimicked the way we write files and test cases naturally.
+Ideally, if these benchmarks were easier to prepare and mimicked the way we actually write code / test cases, then it would be much easier to extend.
 
-I will possibly experiment with writing a simple benchmark myself, and also extending the openai evals framework.
+So after this research, I believe the best answer is to build a new "ReactBench" - a benchmark that mimics how React code is structured and is geared towards accuracy on Typescript / React with unit-testing and snapshotting.
