@@ -1,0 +1,41 @@
+baseURL: https://Kshitij-Banerjee.github.io
+languageCode: en-us
+title: KiloBytes by KB
+subtitle: by KB
+theme: PaperMod
+disqusShortname: kshitij-banerjee
+googleAnalytics: G-KFSE3K3EMC
+googleAnalytics_v4: G-KFSE3K3EMC
+services:
+  disqus:
+    shortname: kshitij-banerjee
+params:
+  comments: true
+  comment: true
+  defaultTheme: light
+  disableThemeToggle: true
+  homeInfoParams:
+    enabled: true
+    imageUrl: https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Feb0e0342-380c-4c11-94fa-4e2c586ac21e_1170x1168.jpeg
+    title: "**Kshitij Banerjee (KB)**"
+    subtitle: "*AI, Books, and Code LLM Research*"
+  socialIcons:
+    - name: "linkedin"
+      url: https://www.linkedin.com/in/kshitijbanerjee/
+    - name: "substack"
+      url: https://kilobytes.substack.com/
+    - name: "github"
+      url: "https://github.com/Kshitij-Banerjee"
+    - name: "email"
+      url: "mailto:ksh.dce@gmail.com"
+sitemap:
+  changefreq: weekly
+  filename: sitemap.xml
+  priority: 0.5
+permalinks:
+  posts: /:year/:month/:day/:slug/
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON # necessary for search
