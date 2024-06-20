@@ -1,14 +1,276 @@
-<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Evaluating LLM Benchmarks for React | KiloBytes by KB</title>
-<meta name=keywords content="Machine-Learning,AI"><meta name=description content="Introduction I previously wrote about writing react code with Deepseek-coder 33b model, and whether we could improve some of these shortcomings with the latest research in the LLM space
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Evaluating LLM Benchmarks for React | KiloBytes by KB</title>
+<meta name="keywords" content="Machine-Learning, AI">
+<meta name="description" content="Introduction I previously wrote about writing react code with Deepseek-coder 33b model, and whether we could improve some of these shortcomings with the latest research in the LLM space
 But to really measure and mark progress, it would require the build of a benchmark to test various hypothesis around it.
 So in this post, I&rsquo;m going to evaluate existing benchmarks that specifically measures LLM capabilities on coding capabilities.
-My goal is to be able to build a benchmark that can test their React/Typescript coding capabilities."><meta name=author content><link rel=canonical href=https://Kshitij-Banerjee.github.io/2024/05/04/evaluating-llm-benchmarks-for-react/><link crossorigin=anonymous href=/assets/css/stylesheet.197da216ae0376a6e25536c67c59479922e8fce0dcc011f79bf6dcf38cf18663.css integrity="sha256-GX2iFq4DdqbiVTbGfFlHmSLo/ODcwBH3m/bc84zxhmM=" rel="preload stylesheet" as=style><link rel=icon href=https://Kshitij-Banerjee.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://Kshitij-Banerjee.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://Kshitij-Banerjee.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://Kshitij-Banerjee.github.io/apple-touch-icon.png><link rel=mask-icon href=https://Kshitij-Banerjee.github.io/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><noscript><style>#theme-toggle,.top-link{display:none}</style></noscript><script async src="https://www.googletagmanager.com/gtag/js?id=G-KFSE3K3EMC"></script><script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-KFSE3K3EMC",{anonymize_ip:!1})}</script><meta property="og:title" content="Evaluating LLM Benchmarks for React"><meta property="og:description" content="Introduction I previously wrote about writing react code with Deepseek-coder 33b model, and whether we could improve some of these shortcomings with the latest research in the LLM space
+My goal is to be able to build a benchmark that can test their React/Typescript coding capabilities.">
+<meta name="author" content="">
+<link rel="canonical" href="https://Kshitij-Banerjee.github.io/2024/05/04/evaluating-llm-benchmarks-for-react/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.197da216ae0376a6e25536c67c59479922e8fce0dcc011f79bf6dcf38cf18663.css" integrity="sha256-GX2iFq4DdqbiVTbGfFlHmSLo/ODcwBH3m/bc84zxhmM=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://Kshitij-Banerjee.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://Kshitij-Banerjee.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://Kshitij-Banerjee.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://Kshitij-Banerjee.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://Kshitij-Banerjee.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KFSE3K3EMC"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-KFSE3K3EMC', { 'anonymize_ip': false });
+}
+</script>
+<meta property="og:title" content="Evaluating LLM Benchmarks for React" />
+<meta property="og:description" content="Introduction I previously wrote about writing react code with Deepseek-coder 33b model, and whether we could improve some of these shortcomings with the latest research in the LLM space
 But to really measure and mark progress, it would require the build of a benchmark to test various hypothesis around it.
 So in this post, I&rsquo;m going to evaluate existing benchmarks that specifically measures LLM capabilities on coding capabilities.
-My goal is to be able to build a benchmark that can test their React/Typescript coding capabilities."><meta property="og:type" content="article"><meta property="og:url" content="https://Kshitij-Banerjee.github.io/2024/05/04/evaluating-llm-benchmarks-for-react/"><meta property="og:image" content="https://Kshitij-Banerjee.github.io/react-benchmark-eval.png"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-05-04T00:00:00+00:00"><meta property="article:modified_time" content="2024-05-04T00:00:00+00:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://Kshitij-Banerjee.github.io/react-benchmark-eval.png"><meta name=twitter:title content="Evaluating LLM Benchmarks for React"><meta name=twitter:description content="Introduction I previously wrote about writing react code with Deepseek-coder 33b model, and whether we could improve some of these shortcomings with the latest research in the LLM space
+My goal is to be able to build a benchmark that can test their React/Typescript coding capabilities." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Kshitij-Banerjee.github.io/2024/05/04/evaluating-llm-benchmarks-for-react/" />
+<meta property="og:image" content="https://Kshitij-Banerjee.github.io/react-benchmark-eval.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-05-04T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-05-04T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://Kshitij-Banerjee.github.io/react-benchmark-eval.png" />
+<meta name="twitter:title" content="Evaluating LLM Benchmarks for React"/>
+<meta name="twitter:description" content="Introduction I previously wrote about writing react code with Deepseek-coder 33b model, and whether we could improve some of these shortcomings with the latest research in the LLM space
 But to really measure and mark progress, it would require the build of a benchmark to test various hypothesis around it.
 So in this post, I&rsquo;m going to evaluate existing benchmarks that specifically measures LLM capabilities on coding capabilities.
-My goal is to be able to build a benchmark that can test their React/Typescript coding capabilities."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://Kshitij-Banerjee.github.io/posts/"},{"@type":"ListItem","position":2,"name":"Evaluating LLM Benchmarks for React","item":"https://Kshitij-Banerjee.github.io/2024/05/04/evaluating-llm-benchmarks-for-react/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Evaluating LLM Benchmarks for React","name":"Evaluating LLM Benchmarks for React","description":"Introduction I previously wrote about writing react code with Deepseek-coder 33b model, and whether we could improve some of these shortcomings with the latest research in the LLM space\nBut to really measure and mark progress, it would require the build of a benchmark to test various hypothesis around it.\nSo in this post, I\u0026rsquo;m going to evaluate existing benchmarks that specifically measures LLM capabilities on coding capabilities.\nMy goal is to be able to build a benchmark that can test their React/Typescript coding capabilities.","keywords":["Machine-Learning","AI"],"articleBody":"Introduction I previously wrote about writing react code with Deepseek-coder 33b model, and whether we could improve some of these shortcomings with the latest research in the LLM space\nBut to really measure and mark progress, it would require the build of a benchmark to test various hypothesis around it.\nSo in this post, I’m going to evaluate existing benchmarks that specifically measures LLM capabilities on coding capabilities.\nMy goal is to be able to build a benchmark that can test their React/Typescript coding capabilities.\nWhat we need Unit Test Evaluations In this method, we’ll require that the LLM write the code, and then we will run unit tests to measure the outcome.\nWe then will evaluate pass@1, pass@k, and strict-accuracy metrics.\nVisual verification In this method, we want to test style replication and ask the LLM to produce a component with some given specifications.\nWe’ll then verify it’s output against a known ground-truth of correct visual output.\nEase of writing, and similarity to real-life I’d also want this to be similar to how we write code practically.\nA file where some code is written, and a corresponding .test file that imports the code and runs a set of evaluations.\nHow the rest of the post is structured Review of existing benchmarks and how they are setup OpenAI Evals\nAPPS benchmark\nHumanEval\nCanAiCode\nMultiPL-E\nRepoBench\nIn a future post, I intent to cover Details on Test based method\nDetails on Visual verification\nBenchmark Results for 3 open source LLM models.\n1) OpenAI Evals This is probably the most renowned of all evaluation frameworks. https://github.com/openai/evals\nHowever, they don’t accept “Custom code” Evals. Meaning, only simple matches (Exact, Includes, Fuzzy Match) are possible test evaluations to run.\nEven though OpenAI doesn’t accept these evals. It’s worth noting that we can simply fork the repo and write our own custom evals\nThe framework allows to build a custom eval, as well as a custom completion function. It also comes with a nice cookbook tutorial.\nPros Mature framework.\nA ton of existing sample benchmarks. Once this is set up, it will allow one to find results on other interesting benchmarks.\nEnables custom evals and custom completions\nCons Doesn’t accept new custom evals.\nIt’s a bit heavy to setup, with git LFS and lots of dependencies that are added over time\nDoesn’t have many code related benchmarks\nVerdict 👍 - This could work for building a react benchmark. It might be a bit hard to get off the ground though, and may limit customization.\n2) APPS Paper: Measuring Coding Challenge Competence With APPS\nRepository: https://github.com/hendrycks/apps\n10,000 code generation problems of varying difficulties. Covers simple introductory problems, interview-level problems, and coding competition challenges\nPros Simple code base. See evaluation guide here\nA ton of Coding specific evaluations, with multiple difficulty levels.\nCons Most of the code benchmarks are python. So it may not work too well for other languages.\nIsn’t written with extensibility in mind, and mostly coded for testing python codebases.\nVerdict 👎 - Not something to use for custom real world “app” related benchmarking 3) HumanEval From OpenAI again, hand-written set of evaluations\nRepo: https://github.com/openai/human-eval\nPaper: Evaluating LLMs\nWe evaluate functional correctness on a set of 164 handwritten programming problems, which we call the HumanEval dataset. Each problem includes a function signature, docstring, body, and several unit tests, with an average of 7.7 tests per problem\nPros Pretty simple codebase, and good examples Cons Mostly python evaluations Verdict If not testing python, this one is a 👎\n4) CanAiCode Repo: https://github.com/the-crypt-keeper/can-ai-code/blob/main/prompts/codellama-input-v2.txt\nLeaderboard: https://huggingface.co/spaces/mike-ravkine/can-ai-code-results\nPros Supports Javascript, and not just python test cases.\nTemplate based generation of test cases. See template prompt for starcoder\n{% if language == \"python\" %}def {{Signature}}: '''a function {{Input}} that returns {{Output}}{% if Fact %} given {{Fact}}{% endif %}''' # another function{% endif %} {% if language == \"javascript\" %}// a function {{Input}} that returns {{Output}}{% if Fact %} given {{Fact}}{% endif %} function {{Signature}} { } // another function{% endif %} Combined with yaml for tests .Checks: \u0026Checks FactorialZeroShot: Signature: \"factorial(n)\" Input: \"with input n\" Output: \"the factorial of n using iteration\" Description: \"See if the model can implement a well known function\" Checks: one_argument: assert: \"len(f.args)\" eq: 1 returns_list: assert: \"isinstance(f.call(1),int)\" eq: true value_0: assert: \"f.call(1)\" eq: 1 value_5: assert: \"f.call(5)\" eq: 120 Cons 1 - Unfortunately, it is not customizable beyond simple input-output testing.\n5) MultiPL-E Meant to tests code LLMs on multiple programming languages.\nA system for translating unit test-driven neural code generation benchmarks to new languages. We have used MultiPL-E to translate two popular Python benchmarks (HumanEval and MBPP) to 18 other programming languages.\nExamples shown here: https://nuprl.github.io/MultiPL-E/\nPaper: MultiPL-E\nRepo: https://github.com/nuprl/MultiPL-E\nPros Examples on running JS tests: https://github.com/nuprl/MultiPL-E/blob/main/prompts/humaneval-js-keep.jsonl\nEnables writing tests as a function, so not just simple input output comparisons.\nAdding new tests seems simple: See https://nuprl.github.io/MultiPL-E/new_benchmark.html\nCons While the tutorial makes it sound like writing the test cases is really simple. This doesn’t seem to be the case\nhttps://github.com/nuprl/MultiPL-E/blob/main/prompts/humaneval-r-remove.jsonl\nEach of the test case needs to be decoded in a particular jsonl format, with escape characters fixed etc.\nVerdict 👍 - This could work for building a react benchmark. But may not be easy to add new test cases to.\n6) RepoBench Paper: RepoBench\nRepo: https://github.com/Leolty/repobench\nValidates LLM on 3 tasks\n1 - Retrieval Task: Ability to retrieve the right contextual files.\n2 - Completion Task: Ability to complete next line, given the context files.\n3 - Combined Task: Retrieval + Completion\nSome interesting points noted in the paper:\nPython Retrieval Shows Higher Accuracy Than Java: The language-specific results show that Python tasks typically show higher accuracy than Java across all retrieval methods. This discrepancy might be attributed to Python’s simpler syntax and less verbose nature, potentially reducing the variability of similar code snippets.\nPronounced Performance Differences in Java for RepoBenchC-2k: The evaluation on Java showcases a marked differentiation in model performance: Codex notably stands out as the superior model, followed by StarCoder, while CodeGen largely lags behind.\nWhile there are some intuitive reasons cited, this clearly shows that benchmarks on Python may not directly apply to React / Typescript codebases.\nInteresting bits The project is easy to read and some interesting files are\n1 - Metrics: ExactMatch, Similarity, and Accuracy@K https://github.com/Leolty/repobench/blob/main/evaluation/metrics.py. Note: their accuracy@k is not a probabilistic calculation like the pass@k metric introduced in HumanEval, and refers to the number of accurate codes retrieved out of correct codes.\n2 - Retriever: https://github.com/Leolty/repobench/blob/main/retriever/retriever.py\n3 - Similarity (Jaccard, Edit, Cosine): https://github.com/Leolty/repobench/blob/main/retriever/similarity.py\n4 - Promp constructor: https://github.com/Leolty/repobench/blob/main/data/utils.py\nPros 1 - Easy to understand\n2 - Repo level context understanding.\n3 - Usage of Google drive for dataset.\n4 - Multiple languages supported with various similarity metrics on next line.\nCons The question this benchmark is trying to answer is different from what we need.\nWe require unit-test and visual accuracy, assuming the right context is already given.\nVerdict Not applicable.\nConclusion So far, the only ones that meet what I’m looking for are the open-ai evals, and the MultiPL-E benchmark.\nIdeally, if these benchmarks were easier to prepare and mimicked the way we actually write code / test cases, then it would be much easier to extend.\nSo after this research, I believe the best answer is to build a new “ReactBench” - a benchmark that mimics how React code is structured and is geared towards accuracy on Typescript / React with unit-testing and snapshotting.\n","wordCount":"1234","inLanguage":"en","image":"https://Kshitij-Banerjee.github.io/react-benchmark-eval.png","datePublished":"2024-05-04T00:00:00Z","dateModified":"2024-05-04T00:00:00Z","mainEntityOfPage":{"@type":"WebPage","@id":"https://Kshitij-Banerjee.github.io/2024/05/04/evaluating-llm-benchmarks-for-react/"},"publisher":{"@type":"Organization","name":"KiloBytes by KB","logo":{"@type":"ImageObject","url":"https://Kshitij-Banerjee.github.io/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=nav><div class=logo><a href=https://Kshitij-Banerjee.github.io accesskey=h title="KiloBytes by KB (Alt + H)">KiloBytes by KB</a><div class=logo-switches></div></div><ul id=menu></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class="post-title entry-hint-parent">Evaluating LLM Benchmarks for React</h1><div class=post-meta><span title='2024-05-04 00:00:00 +0000 UTC'>May 4, 2024</span></div></header><figure class=entry-cover><img loading=eager src=https://Kshitij-Banerjee.github.io/react-benchmark-eval.png alt></figure><div style=display:flex;justify-content:center;align-items:center><iframe src=https://kilobytes.substack.com/embed width=480 height=150 style="border:none;background:0 0" frameborder=0 scrolling=no></iframe></div><div class=post-content><h1 id=introduction>Introduction<a hidden class=anchor aria-hidden=true href=#introduction>#</a></h1><p>I previously wrote about <a href=https://kshitij-banerjee.github.io/2024/04/15/deepseek-coder-can-it-code-in-react/>writing react code with Deepseek-coder 33b model</a>, and whether we could improve some of these shortcomings with the <a href=https://kshitij-banerjee.github.io/2024/04/30/can-llms-produce-better-code/>latest research in the LLM space</a></p><p>But to really measure and mark progress, it would require the build of a benchmark to test various hypothesis around it.</p><p>So in this post, I&rsquo;m going to evaluate existing benchmarks that specifically measures LLM capabilities on coding capabilities.</p><p>My goal is to be able to build a benchmark that can test their React/Typescript coding capabilities.</p><h2 id=what-we-need>What we need<a hidden class=anchor aria-hidden=true href=#what-we-need>#</a></h2><h3 id=unit-test-evaluations>Unit Test Evaluations<a hidden class=anchor aria-hidden=true href=#unit-test-evaluations>#</a></h3><p>In this method, we&rsquo;ll require that the LLM write the code, and then we will run unit tests to measure the outcome.</p><p>We then will evaluate pass@1, pass@k, and strict-accuracy metrics.</p><h3 id=visual-verification>Visual verification<a hidden class=anchor aria-hidden=true href=#visual-verification>#</a></h3><p>In this method, we want to test style replication and ask the LLM to produce a component with some given specifications.</p><p>We&rsquo;ll then verify it&rsquo;s output against a known ground-truth of correct visual output.</p><h3 id=ease-of-writing-and-similarity-to-real-life>Ease of writing, and similarity to real-life<a hidden class=anchor aria-hidden=true href=#ease-of-writing-and-similarity-to-real-life>#</a></h3><p>I&rsquo;d also want this to be similar to how we write code practically.</p><p>A file where some code is written, and a corresponding .test file that imports the code and runs a set of evaluations.</p><h1 id=how-the-rest-of-the-post-is-structured>How the rest of the post is structured<a hidden class=anchor aria-hidden=true href=#how-the-rest-of-the-post-is-structured>#</a></h1><h3 id=review-of-existing-benchmarks-and-how-they-are-setup>Review of existing benchmarks and how they are setup<a hidden class=anchor aria-hidden=true href=#review-of-existing-benchmarks-and-how-they-are-setup>#</a></h3><ol><li><p>OpenAI Evals</p></li><li><p><a href=https://arxiv.org/pdf/2105.09938.pdf>APPS benchmark</a></p></li><li><p>HumanEval</p></li><li><p>CanAiCode</p></li><li><p>MultiPL-E</p></li><li><p>RepoBench</p></li></ol><h3 id=in-a-future-post-i-intent-to-cover>In a future post, I intent to cover<a hidden class=anchor aria-hidden=true href=#in-a-future-post-i-intent-to-cover>#</a></h3><p>Details on Test based method</p><p>Details on Visual verification</p><p>Benchmark Results for 3 open source LLM models.</p><h1 id=1-openai-evals>1) OpenAI Evals<a hidden class=anchor aria-hidden=true href=#1-openai-evals>#</a></h1><p>This is probably the most renowned of all evaluation frameworks. <a href=https://github.com/openai/evals>https://github.com/openai/evals</a></p><p>However, they don&rsquo;t accept &ldquo;Custom code&rdquo; Evals. Meaning, only simple matches (Exact, Includes, Fuzzy Match) are possible test evaluations to run.</p><p>Even though OpenAI doesn&rsquo;t accept these evals. It&rsquo;s worth noting that we can simply fork the repo and write our own custom evals</p><p>The framework allows to <a href=https://github.com/openai/evals/blob/main/docs/custom-eval.md>build a custom eval</a>, as well as a <a href=https://github.com/openai/evals/blob/main/docs/completion-fns.md>custom completion function</a>. It also comes with a nice <a href=https://cookbook.openai.com/examples/evaluation/getting_started_with_openai_evals>cookbook tutorial</a>.</p><h3 id=pros>Pros<a hidden class=anchor aria-hidden=true href=#pros>#</a></h3><ol><li><p>Mature framework.</p></li><li><p>A ton of existing sample benchmarks. Once this is set up, it will allow one to find results on other interesting benchmarks.</p></li><li><p>Enables custom evals and custom completions</p></li></ol><h3 id=cons>Cons<a hidden class=anchor aria-hidden=true href=#cons>#</a></h3><ol><li><p>Doesn&rsquo;t accept new custom evals.</p></li><li><p>It&rsquo;s a bit heavy to setup, with git LFS and lots of dependencies that are added over time</p></li><li><p>Doesn&rsquo;t have many code related benchmarks</p></li></ol><h3 id=verdict>Verdict<a hidden class=anchor aria-hidden=true href=#verdict>#</a></h3><p>👍 - This could work for building a react benchmark. It might be a bit hard to get off the ground though, and may limit customization.</p><h1 id=2-apps>2) APPS<a hidden class=anchor aria-hidden=true href=#2-apps>#</a></h1><p>Paper: <a href=https://arxiv.org/pdf/2105.09938.pdf>Measuring Coding Challenge Competence With APPS</a></p><p>Repository: <a href=https://github.com/hendrycks/apps>https://github.com/hendrycks/apps</a></p><p>10,000 code generation problems of varying difficulties. Covers simple introductory problems, interview-level problems, and coding competition challenges</p><h2 id=pros-1>Pros<a hidden class=anchor aria-hidden=true href=#pros-1>#</a></h2><ol><li><p>Simple code base. See evaluation guide <a href=https://github.com/hendrycks/apps/blob/main/eval/README.md>here</a></p></li><li><p>A ton of <strong>Coding specific</strong> evaluations, with multiple difficulty levels.</p></li></ol><h2 id=cons-1>Cons<a hidden class=anchor aria-hidden=true href=#cons-1>#</a></h2><ol><li><p>Most of the code benchmarks are <em>python.</em> So it may not work too well for other languages.</p></li><li><p>Isn&rsquo;t written with extensibility in mind, and mostly coded for testing python codebases.</p></li></ol><h2 id=verdict-1>Verdict<a hidden class=anchor aria-hidden=true href=#verdict-1>#</a></h2><ul><li>👎 - Not something to use for custom real world &ldquo;app&rdquo; related benchmarking</li></ul><h1 id=3-humaneval>3) HumanEval<a hidden class=anchor aria-hidden=true href=#3-humaneval>#</a></h1><p>From OpenAI again, hand-written set of evaluations</p><p>Repo: <a href=https://github.com/openai/human-eval>https://github.com/openai/human-eval</a></p><p>Paper: <a href=https://arxiv.org/pdf/2107.03374.pdf>Evaluating LLMs</a></p><blockquote><p>We evaluate functional correctness on a set of 164 handwritten programming problems, which we call the HumanEval dataset. Each problem includes a function signature, docstring, body, and several unit tests, with an average of 7.7 tests per problem</p></blockquote><h2 id=pros-2>Pros<a hidden class=anchor aria-hidden=true href=#pros-2>#</a></h2><ol><li>Pretty simple codebase, and good examples</li></ol><h2 id=cons-2>Cons<a hidden class=anchor aria-hidden=true href=#cons-2>#</a></h2><ol><li>Mostly python evaluations</li></ol><h2 id=verdict-2>Verdict<a hidden class=anchor aria-hidden=true href=#verdict-2>#</a></h2><p>If not testing python, this one is a 👎</p><h1 id=4-canaicode>4) CanAiCode<a hidden class=anchor aria-hidden=true href=#4-canaicode>#</a></h1><p>Repo: <a href=https://github.com/the-crypt-keeper/can-ai-code/blob/main/prompts/codellama-input-v2.txt>https://github.com/the-crypt-keeper/can-ai-code/blob/main/prompts/codellama-input-v2.txt</a></p><p>Leaderboard: <a href=https://huggingface.co/spaces/mike-ravkine/can-ai-code-results>https://huggingface.co/spaces/mike-ravkine/can-ai-code-results</a></p><h2 id=pros-3>Pros<a hidden class=anchor aria-hidden=true href=#pros-3>#</a></h2><ol><li><p>Supports Javascript, and not just python test cases.</p></li><li><p>Template based generation of test cases. See <a href=https://github.com/the-crypt-keeper/can-ai-code/blob/main/prompts/starcoder-fim-input.txt>template prompt</a> for starcoder</p></li></ol><pre tabindex=0><code>{% if language == &#34;python&#34; %}&lt;fim_prefix&gt;def {{Signature}}:
+My goal is to be able to build a benchmark that can test their React/Typescript coding capabilities."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://Kshitij-Banerjee.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Evaluating LLM Benchmarks for React",
+      "item": "https://Kshitij-Banerjee.github.io/2024/05/04/evaluating-llm-benchmarks-for-react/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Evaluating LLM Benchmarks for React",
+  "name": "Evaluating LLM Benchmarks for React",
+  "description": "Introduction I previously wrote about writing react code with Deepseek-coder 33b model, and whether we could improve some of these shortcomings with the latest research in the LLM space\nBut to really measure and mark progress, it would require the build of a benchmark to test various hypothesis around it.\nSo in this post, I\u0026rsquo;m going to evaluate existing benchmarks that specifically measures LLM capabilities on coding capabilities.\nMy goal is to be able to build a benchmark that can test their React/Typescript coding capabilities.",
+  "keywords": [
+    "Machine-Learning", "AI"
+  ],
+  "articleBody": "Introduction I previously wrote about writing react code with Deepseek-coder 33b model, and whether we could improve some of these shortcomings with the latest research in the LLM space\nBut to really measure and mark progress, it would require the build of a benchmark to test various hypothesis around it.\nSo in this post, I’m going to evaluate existing benchmarks that specifically measures LLM capabilities on coding capabilities.\nMy goal is to be able to build a benchmark that can test their React/Typescript coding capabilities.\nWhat we need Unit Test Evaluations In this method, we’ll require that the LLM write the code, and then we will run unit tests to measure the outcome.\nWe then will evaluate pass@1, pass@k, and strict-accuracy metrics.\nVisual verification In this method, we want to test style replication and ask the LLM to produce a component with some given specifications.\nWe’ll then verify it’s output against a known ground-truth of correct visual output.\nEase of writing, and similarity to real-life I’d also want this to be similar to how we write code practically.\nA file where some code is written, and a corresponding .test file that imports the code and runs a set of evaluations.\nHow the rest of the post is structured Review of existing benchmarks and how they are setup OpenAI Evals\nAPPS benchmark\nHumanEval\nCanAiCode\nMultiPL-E\nRepoBench\nIn a future post, I intent to cover Details on Test based method\nDetails on Visual verification\nBenchmark Results for 3 open source LLM models.\n1) OpenAI Evals This is probably the most renowned of all evaluation frameworks. https://github.com/openai/evals\nHowever, they don’t accept “Custom code” Evals. Meaning, only simple matches (Exact, Includes, Fuzzy Match) are possible test evaluations to run.\nEven though OpenAI doesn’t accept these evals. It’s worth noting that we can simply fork the repo and write our own custom evals\nThe framework allows to build a custom eval, as well as a custom completion function. It also comes with a nice cookbook tutorial.\nPros Mature framework.\nA ton of existing sample benchmarks. Once this is set up, it will allow one to find results on other interesting benchmarks.\nEnables custom evals and custom completions\nCons Doesn’t accept new custom evals.\nIt’s a bit heavy to setup, with git LFS and lots of dependencies that are added over time\nDoesn’t have many code related benchmarks\nVerdict 👍 - This could work for building a react benchmark. It might be a bit hard to get off the ground though, and may limit customization.\n2) APPS Paper: Measuring Coding Challenge Competence With APPS\nRepository: https://github.com/hendrycks/apps\n10,000 code generation problems of varying difficulties. Covers simple introductory problems, interview-level problems, and coding competition challenges\nPros Simple code base. See evaluation guide here\nA ton of Coding specific evaluations, with multiple difficulty levels.\nCons Most of the code benchmarks are python. So it may not work too well for other languages.\nIsn’t written with extensibility in mind, and mostly coded for testing python codebases.\nVerdict 👎 - Not something to use for custom real world “app” related benchmarking 3) HumanEval From OpenAI again, hand-written set of evaluations\nRepo: https://github.com/openai/human-eval\nPaper: Evaluating LLMs\nWe evaluate functional correctness on a set of 164 handwritten programming problems, which we call the HumanEval dataset. Each problem includes a function signature, docstring, body, and several unit tests, with an average of 7.7 tests per problem\nPros Pretty simple codebase, and good examples Cons Mostly python evaluations Verdict If not testing python, this one is a 👎\n4) CanAiCode Repo: https://github.com/the-crypt-keeper/can-ai-code/blob/main/prompts/codellama-input-v2.txt\nLeaderboard: https://huggingface.co/spaces/mike-ravkine/can-ai-code-results\nPros Supports Javascript, and not just python test cases.\nTemplate based generation of test cases. See template prompt for starcoder\n{% if language == \"python\" %}def {{Signature}}: '''a function {{Input}} that returns {{Output}}{% if Fact %} given {{Fact}}{% endif %}''' # another function{% endif %} {% if language == \"javascript\" %}// a function {{Input}} that returns {{Output}}{% if Fact %} given {{Fact}}{% endif %} function {{Signature}} { } // another function{% endif %} Combined with yaml for tests .Checks: \u0026Checks FactorialZeroShot: Signature: \"factorial(n)\" Input: \"with input n\" Output: \"the factorial of n using iteration\" Description: \"See if the model can implement a well known function\" Checks: one_argument: assert: \"len(f.args)\" eq: 1 returns_list: assert: \"isinstance(f.call(1),int)\" eq: true value_0: assert: \"f.call(1)\" eq: 1 value_5: assert: \"f.call(5)\" eq: 120 Cons 1 - Unfortunately, it is not customizable beyond simple input-output testing.\n5) MultiPL-E Meant to tests code LLMs on multiple programming languages.\nA system for translating unit test-driven neural code generation benchmarks to new languages. We have used MultiPL-E to translate two popular Python benchmarks (HumanEval and MBPP) to 18 other programming languages.\nExamples shown here: https://nuprl.github.io/MultiPL-E/\nPaper: MultiPL-E\nRepo: https://github.com/nuprl/MultiPL-E\nPros Examples on running JS tests: https://github.com/nuprl/MultiPL-E/blob/main/prompts/humaneval-js-keep.jsonl\nEnables writing tests as a function, so not just simple input output comparisons.\nAdding new tests seems simple: See https://nuprl.github.io/MultiPL-E/new_benchmark.html\nCons While the tutorial makes it sound like writing the test cases is really simple. This doesn’t seem to be the case\nhttps://github.com/nuprl/MultiPL-E/blob/main/prompts/humaneval-r-remove.jsonl\nEach of the test case needs to be decoded in a particular jsonl format, with escape characters fixed etc.\nVerdict 👍 - This could work for building a react benchmark. But may not be easy to add new test cases to.\n6) RepoBench Paper: RepoBench\nRepo: https://github.com/Leolty/repobench\nValidates LLM on 3 tasks\n1 - Retrieval Task: Ability to retrieve the right contextual files.\n2 - Completion Task: Ability to complete next line, given the context files.\n3 - Combined Task: Retrieval + Completion\nSome interesting points noted in the paper:\nPython Retrieval Shows Higher Accuracy Than Java: The language-specific results show that Python tasks typically show higher accuracy than Java across all retrieval methods. This discrepancy might be attributed to Python’s simpler syntax and less verbose nature, potentially reducing the variability of similar code snippets.\nPronounced Performance Differences in Java for RepoBenchC-2k: The evaluation on Java showcases a marked differentiation in model performance: Codex notably stands out as the superior model, followed by StarCoder, while CodeGen largely lags behind.\nWhile there are some intuitive reasons cited, this clearly shows that benchmarks on Python may not directly apply to React / Typescript codebases.\nInteresting bits The project is easy to read and some interesting files are\n1 - Metrics: ExactMatch, Similarity, and Accuracy@K https://github.com/Leolty/repobench/blob/main/evaluation/metrics.py. Note: their accuracy@k is not a probabilistic calculation like the pass@k metric introduced in HumanEval, and refers to the number of accurate codes retrieved out of correct codes.\n2 - Retriever: https://github.com/Leolty/repobench/blob/main/retriever/retriever.py\n3 - Similarity (Jaccard, Edit, Cosine): https://github.com/Leolty/repobench/blob/main/retriever/similarity.py\n4 - Promp constructor: https://github.com/Leolty/repobench/blob/main/data/utils.py\nPros 1 - Easy to understand\n2 - Repo level context understanding.\n3 - Usage of Google drive for dataset.\n4 - Multiple languages supported with various similarity metrics on next line.\nCons The question this benchmark is trying to answer is different from what we need.\nWe require unit-test and visual accuracy, assuming the right context is already given.\nVerdict Not applicable.\nConclusion So far, the only ones that meet what I’m looking for are the open-ai evals, and the MultiPL-E benchmark.\nIdeally, if these benchmarks were easier to prepare and mimicked the way we actually write code / test cases, then it would be much easier to extend.\nSo after this research, I believe the best answer is to build a new “ReactBench” - a benchmark that mimics how React code is structured and is geared towards accuracy on Typescript / React with unit-testing and snapshotting.\n",
+  "wordCount" : "1234",
+  "inLanguage": "en",
+  "image":"https://Kshitij-Banerjee.github.io/react-benchmark-eval.png","datePublished": "2024-05-04T00:00:00Z",
+  "dateModified": "2024-05-04T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://Kshitij-Banerjee.github.io/2024/05/04/evaluating-llm-benchmarks-for-react/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "KiloBytes by KB",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://Kshitij-Banerjee.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://Kshitij-Banerjee.github.io" accesskey="h" title="KiloBytes by KB (Alt + H)">KiloBytes by KB</a>
+            <div class="logo-switches">
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Evaluating LLM Benchmarks for React
+    </h1>
+    <div class="post-meta"><span title='2024-05-04 00:00:00 +0000 UTC'>May 4, 2024</span>
+
+</div>
+  </header> 
+<figure class="entry-cover"><img loading="eager" src="https://Kshitij-Banerjee.github.io/react-benchmark-eval.png" alt="">
+        
+</figure>
+
+	<div style="display: flex; justify-content: center; align-items: center;">
+		<iframe src="https://kilobytes.substack.com/embed" width="480" height="150" style="border:none; background:transparent;" frameborder="0" scrolling="no"></iframe>
+	</div>
+  <div class="post-content"><h1 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h1>
+<p>I previously wrote about <a href="https://kshitij-banerjee.github.io/2024/04/15/deepseek-coder-can-it-code-in-react/">writing react code with Deepseek-coder 33b model</a>, and whether we could improve some of these shortcomings with the <a href="https://kshitij-banerjee.github.io/2024/04/30/can-llms-produce-better-code/">latest research in the LLM space</a></p>
+<p>But to really measure and mark progress, it would require the build of a benchmark to test various hypothesis around it.</p>
+<p>So in this post, I&rsquo;m going to evaluate existing benchmarks that specifically measures LLM capabilities on coding capabilities.</p>
+<p>My goal is to be able to build a benchmark that can test their React/Typescript coding capabilities.</p>
+<h2 id="what-we-need">What we need<a hidden class="anchor" aria-hidden="true" href="#what-we-need">#</a></h2>
+<h3 id="unit-test-evaluations">Unit Test Evaluations<a hidden class="anchor" aria-hidden="true" href="#unit-test-evaluations">#</a></h3>
+<p>In this method, we&rsquo;ll require that the LLM write the code, and then we will run unit tests to measure the outcome.</p>
+<p>We then will evaluate pass@1, pass@k, and strict-accuracy metrics.</p>
+<h3 id="visual-verification">Visual verification<a hidden class="anchor" aria-hidden="true" href="#visual-verification">#</a></h3>
+<p>In this method, we want to test style replication and ask the LLM to produce a component with some given specifications.</p>
+<p>We&rsquo;ll then verify it&rsquo;s output against a known ground-truth of correct visual output.</p>
+<h3 id="ease-of-writing-and-similarity-to-real-life">Ease of writing, and similarity to real-life<a hidden class="anchor" aria-hidden="true" href="#ease-of-writing-and-similarity-to-real-life">#</a></h3>
+<p>I&rsquo;d also want this to be similar to how we write code practically.</p>
+<p>A file where some code is written, and a corresponding .test file that imports the code and runs a set of evaluations.</p>
+<h1 id="how-the-rest-of-the-post-is-structured">How the rest of the post is structured<a hidden class="anchor" aria-hidden="true" href="#how-the-rest-of-the-post-is-structured">#</a></h1>
+<h3 id="review-of-existing-benchmarks-and-how-they-are-setup">Review of existing benchmarks and how they are setup<a hidden class="anchor" aria-hidden="true" href="#review-of-existing-benchmarks-and-how-they-are-setup">#</a></h3>
+<ol>
+<li>
+<p>OpenAI Evals</p>
+</li>
+<li>
+<p><a href="https://arxiv.org/pdf/2105.09938.pdf">APPS benchmark</a></p>
+</li>
+<li>
+<p>HumanEval</p>
+</li>
+<li>
+<p>CanAiCode</p>
+</li>
+<li>
+<p>MultiPL-E</p>
+</li>
+<li>
+<p>RepoBench</p>
+</li>
+</ol>
+<h3 id="in-a-future-post-i-intent-to-cover">In a future post, I intent to cover<a hidden class="anchor" aria-hidden="true" href="#in-a-future-post-i-intent-to-cover">#</a></h3>
+<p>Details on Test based method</p>
+<p>Details on Visual verification</p>
+<p>Benchmark Results for 3 open source LLM models.</p>
+<h1 id="1-openai-evals">1) OpenAI Evals<a hidden class="anchor" aria-hidden="true" href="#1-openai-evals">#</a></h1>
+<p>This is probably the most renowned of all evaluation frameworks. <a href="https://github.com/openai/evals">https://github.com/openai/evals</a></p>
+<p>However, they don&rsquo;t accept &ldquo;Custom code&rdquo; Evals. Meaning, only simple matches (Exact, Includes, Fuzzy Match) are possible test evaluations to run.</p>
+<p>Even though OpenAI doesn&rsquo;t accept these evals. It&rsquo;s worth noting that we can simply fork the repo and write our own custom evals</p>
+<p>The framework allows to <a href="https://github.com/openai/evals/blob/main/docs/custom-eval.md">build a custom eval</a>, as well as a <a href="https://github.com/openai/evals/blob/main/docs/completion-fns.md">custom completion function</a>. It also comes with a nice <a href="https://cookbook.openai.com/examples/evaluation/getting_started_with_openai_evals">cookbook tutorial</a>.</p>
+<h3 id="pros">Pros<a hidden class="anchor" aria-hidden="true" href="#pros">#</a></h3>
+<ol>
+<li>
+<p>Mature framework.</p>
+</li>
+<li>
+<p>A ton of existing sample benchmarks. Once this is set up, it will allow one to find results on other interesting benchmarks.</p>
+</li>
+<li>
+<p>Enables custom evals and custom completions</p>
+</li>
+</ol>
+<h3 id="cons">Cons<a hidden class="anchor" aria-hidden="true" href="#cons">#</a></h3>
+<ol>
+<li>
+<p>Doesn&rsquo;t accept new custom evals.</p>
+</li>
+<li>
+<p>It&rsquo;s a bit heavy to setup, with git LFS and lots of dependencies that are added over time</p>
+</li>
+<li>
+<p>Doesn&rsquo;t have many code related benchmarks</p>
+</li>
+</ol>
+<h3 id="verdict">Verdict<a hidden class="anchor" aria-hidden="true" href="#verdict">#</a></h3>
+<p>👍 - This could work for building a react benchmark. It might be a bit hard to get off the ground though, and may limit customization.</p>
+<h1 id="2-apps">2) APPS<a hidden class="anchor" aria-hidden="true" href="#2-apps">#</a></h1>
+<p>Paper: <a href="https://arxiv.org/pdf/2105.09938.pdf">Measuring Coding Challenge Competence With APPS</a></p>
+<p>Repository: <a href="https://github.com/hendrycks/apps">https://github.com/hendrycks/apps</a></p>
+<p>10,000 code generation problems of varying difficulties. Covers simple introductory problems, interview-level problems, and coding competition challenges</p>
+<h2 id="pros-1">Pros<a hidden class="anchor" aria-hidden="true" href="#pros-1">#</a></h2>
+<ol>
+<li>
+<p>Simple code base. See evaluation guide <a href="https://github.com/hendrycks/apps/blob/main/eval/README.md">here</a></p>
+</li>
+<li>
+<p>A ton of <strong>Coding specific</strong> evaluations, with multiple difficulty levels.</p>
+</li>
+</ol>
+<h2 id="cons-1">Cons<a hidden class="anchor" aria-hidden="true" href="#cons-1">#</a></h2>
+<ol>
+<li>
+<p>Most of the code benchmarks are <em>python.</em> So it may not work too well for other languages.</p>
+</li>
+<li>
+<p>Isn&rsquo;t written with extensibility in mind, and mostly coded for testing python codebases.</p>
+</li>
+</ol>
+<h2 id="verdict-1">Verdict<a hidden class="anchor" aria-hidden="true" href="#verdict-1">#</a></h2>
+<ul>
+<li>👎 - Not something to use for custom real world &ldquo;app&rdquo; related benchmarking</li>
+</ul>
+<h1 id="3-humaneval">3) HumanEval<a hidden class="anchor" aria-hidden="true" href="#3-humaneval">#</a></h1>
+<p>From OpenAI again, hand-written set of evaluations</p>
+<p>Repo: <a href="https://github.com/openai/human-eval">https://github.com/openai/human-eval</a></p>
+<p>Paper: <a href="https://arxiv.org/pdf/2107.03374.pdf">Evaluating LLMs</a></p>
+<blockquote>
+<p>We evaluate functional correctness on a set of 164 handwritten programming problems, which we call the HumanEval dataset. Each problem includes a function signature, docstring, body, and several unit tests, with an average of 7.7 tests per problem</p>
+</blockquote>
+<h2 id="pros-2">Pros<a hidden class="anchor" aria-hidden="true" href="#pros-2">#</a></h2>
+<ol>
+<li>Pretty simple codebase, and good examples</li>
+</ol>
+<h2 id="cons-2">Cons<a hidden class="anchor" aria-hidden="true" href="#cons-2">#</a></h2>
+<ol>
+<li>Mostly python evaluations</li>
+</ol>
+<h2 id="verdict-2">Verdict<a hidden class="anchor" aria-hidden="true" href="#verdict-2">#</a></h2>
+<p>If not testing python, this one is a 👎</p>
+<h1 id="4-canaicode">4) CanAiCode<a hidden class="anchor" aria-hidden="true" href="#4-canaicode">#</a></h1>
+<p>Repo: <a href="https://github.com/the-crypt-keeper/can-ai-code/blob/main/prompts/codellama-input-v2.txt">https://github.com/the-crypt-keeper/can-ai-code/blob/main/prompts/codellama-input-v2.txt</a></p>
+<p>Leaderboard: <a href="https://huggingface.co/spaces/mike-ravkine/can-ai-code-results">https://huggingface.co/spaces/mike-ravkine/can-ai-code-results</a></p>
+<h2 id="pros-3">Pros<a hidden class="anchor" aria-hidden="true" href="#pros-3">#</a></h2>
+<ol>
+<li>
+<p>Supports Javascript, and not just python test cases.</p>
+</li>
+<li>
+<p>Template based generation of test cases. See <a href="https://github.com/the-crypt-keeper/can-ai-code/blob/main/prompts/starcoder-fim-input.txt">template prompt</a> for starcoder</p>
+</li>
+</ol>
+<pre tabindex="0"><code>{% if language == &#34;python&#34; %}&lt;fim_prefix&gt;def {{Signature}}:
     &#39;&#39;&#39;a function {{Input}} that returns {{Output}}{% if Fact %} given {{Fact}}{% endif %}&#39;&#39;&#39;
     &lt;fim_suffix&gt;
 
@@ -19,32 +281,211 @@ function {{Signature}} {
 }
 
 // another function{% endif %}&lt;fim_middle&gt;
-</code></pre><ol start=3><li>Combined with yaml for tests</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>.Checks</span>: <span style=color:#75715e>&amp;Checks</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>FactorialZeroShot</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>Signature</span>: <span style=color:#e6db74>&#34;factorial(n)&#34;</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>Input</span>: <span style=color:#e6db74>&#34;with input n&#34;</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>Output</span>: <span style=color:#e6db74>&#34;the factorial of n using iteration&#34;</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>Description</span>: <span style=color:#e6db74>&#34;See if the model can implement a well known function&#34;</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>Checks</span>:
-</span></span><span style=display:flex><span>      <span style=color:#f92672>one_argument</span>:
-</span></span><span style=display:flex><span>            <span style=color:#f92672>assert</span>: <span style=color:#e6db74>&#34;len(f.args)&#34;</span>
-</span></span><span style=display:flex><span>            <span style=color:#f92672>eq</span>: <span style=color:#ae81ff>1</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>returns_list</span>:
-</span></span><span style=display:flex><span>            <span style=color:#f92672>assert</span>: <span style=color:#e6db74>&#34;isinstance(f.call(1),int)&#34;</span>
-</span></span><span style=display:flex><span>            <span style=color:#f92672>eq</span>: <span style=color:#66d9ef>true</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>value_0</span>:
-</span></span><span style=display:flex><span>            <span style=color:#f92672>assert</span>: <span style=color:#e6db74>&#34;f.call(1)&#34;</span>
-</span></span><span style=display:flex><span>            <span style=color:#f92672>eq</span>: <span style=color:#ae81ff>1</span>
-</span></span><span style=display:flex><span>      <span style=color:#f92672>value_5</span>:
-</span></span><span style=display:flex><span>            <span style=color:#f92672>assert</span>: <span style=color:#e6db74>&#34;f.call(5)&#34;</span>
-</span></span><span style=display:flex><span>            <span style=color:#f92672>eq</span>: <span style=color:#ae81ff>120</span>
-</span></span></code></pre></div><h2 id=cons-3>Cons<a hidden class=anchor aria-hidden=true href=#cons-3>#</a></h2><p>1 - Unfortunately, it is not customizable beyond simple input-output testing.</p><h1 id=5-multipl-e>5) MultiPL-E<a hidden class=anchor aria-hidden=true href=#5-multipl-e>#</a></h1><p>Meant to tests code LLMs on multiple programming languages.</p><blockquote><p>A system for translating unit test-driven neural code generation benchmarks to new languages. We have used MultiPL-E to translate two popular Python benchmarks (HumanEval and MBPP) to 18 other programming languages.</p></blockquote><p>Examples shown here: <a href=https://nuprl.github.io/MultiPL-E/>https://nuprl.github.io/MultiPL-E/</a></p><p>Paper: <a href=https://arxiv.org/pdf/2208.08227.pdf>MultiPL-E</a></p><p>Repo: <a href=https://github.com/nuprl/MultiPL-E>https://github.com/nuprl/MultiPL-E</a></p><h1 id=pros-4>Pros<a hidden class=anchor aria-hidden=true href=#pros-4>#</a></h1><ol><li><p>Examples on running JS tests: <a href=https://github.com/nuprl/MultiPL-E/blob/main/prompts/humaneval-js-keep.jsonl>https://github.com/nuprl/MultiPL-E/blob/main/prompts/humaneval-js-keep.jsonl</a></p></li><li><p>Enables writing tests as a function, so not just simple input output comparisons.</p></li><li><p>Adding new tests seems simple: See <a href=https://nuprl.github.io/MultiPL-E/new_benchmark.html>https://nuprl.github.io/MultiPL-E/new_benchmark.html</a></p></li></ol><h1 id=cons-4>Cons<a hidden class=anchor aria-hidden=true href=#cons-4>#</a></h1><ol><li><p>While the tutorial makes it sound like writing the test cases is really simple. This doesn&rsquo;t seem to be the case</p></li><li><p><a href=https://github.com/nuprl/MultiPL-E/blob/main/prompts/humaneval-r-remove.jsonl>https://github.com/nuprl/MultiPL-E/blob/main/prompts/humaneval-r-remove.jsonl</a></p></li><li><p>Each of the test case needs to be decoded in a particular jsonl format, with escape characters fixed etc.</p></li></ol><h2 id=verdict-3>Verdict<a hidden class=anchor aria-hidden=true href=#verdict-3>#</a></h2><p>👍 - This could work for building a react benchmark. But may not be easy to add new test cases to.</p><h1 id=6-repobench>6) RepoBench<a hidden class=anchor aria-hidden=true href=#6-repobench>#</a></h1><p>Paper: <a href=https://arxiv.org/pdf/2306.03091.pdf>RepoBench</a></p><p>Repo: <a href=https://github.com/Leolty/repobench>https://github.com/Leolty/repobench</a></p><p>Validates LLM on 3 tasks</p><p>1 - Retrieval Task: Ability to retrieve the right contextual files.</p><p>2 - Completion Task: Ability to complete next line, given the context files.</p><p>3 - Combined Task: Retrieval + Completion</p><p>Some interesting points noted in the paper:</p><blockquote><p>Python Retrieval Shows Higher Accuracy Than Java: The language-specific results show that Python tasks typically show higher accuracy than
+</code></pre><ol start="3">
+<li>Combined with yaml for tests</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">.Checks</span>: <span style="color:#75715e">&amp;Checks</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">FactorialZeroShot</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Signature</span>: <span style="color:#e6db74">&#34;factorial(n)&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Input</span>: <span style="color:#e6db74">&#34;with input n&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Output</span>: <span style="color:#e6db74">&#34;the factorial of n using iteration&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Description</span>: <span style="color:#e6db74">&#34;See if the model can implement a well known function&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Checks</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">one_argument</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">assert</span>: <span style="color:#e6db74">&#34;len(f.args)&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">eq</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">returns_list</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">assert</span>: <span style="color:#e6db74">&#34;isinstance(f.call(1),int)&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">eq</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">value_0</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">assert</span>: <span style="color:#e6db74">&#34;f.call(1)&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">eq</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">value_5</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">assert</span>: <span style="color:#e6db74">&#34;f.call(5)&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">eq</span>: <span style="color:#ae81ff">120</span>
+</span></span></code></pre></div><h2 id="cons-3">Cons<a hidden class="anchor" aria-hidden="true" href="#cons-3">#</a></h2>
+<p>1 - Unfortunately, it is not customizable beyond simple input-output testing.</p>
+<h1 id="5-multipl-e">5) MultiPL-E<a hidden class="anchor" aria-hidden="true" href="#5-multipl-e">#</a></h1>
+<p>Meant to tests code LLMs on multiple programming languages.</p>
+<blockquote>
+<p>A system for translating unit test-driven neural code generation benchmarks to new languages. We have used MultiPL-E to translate two popular Python benchmarks (HumanEval and MBPP) to 18 other programming languages.</p>
+</blockquote>
+<p>Examples shown here: <a href="https://nuprl.github.io/MultiPL-E/">https://nuprl.github.io/MultiPL-E/</a></p>
+<p>Paper: <a href="https://arxiv.org/pdf/2208.08227.pdf">MultiPL-E</a></p>
+<p>Repo: <a href="https://github.com/nuprl/MultiPL-E">https://github.com/nuprl/MultiPL-E</a></p>
+<h1 id="pros-4">Pros<a hidden class="anchor" aria-hidden="true" href="#pros-4">#</a></h1>
+<ol>
+<li>
+<p>Examples on running JS tests: <a href="https://github.com/nuprl/MultiPL-E/blob/main/prompts/humaneval-js-keep.jsonl">https://github.com/nuprl/MultiPL-E/blob/main/prompts/humaneval-js-keep.jsonl</a></p>
+</li>
+<li>
+<p>Enables writing tests as a function, so not just simple input output comparisons.</p>
+</li>
+<li>
+<p>Adding new tests seems simple: See <a href="https://nuprl.github.io/MultiPL-E/new_benchmark.html">https://nuprl.github.io/MultiPL-E/new_benchmark.html</a></p>
+</li>
+</ol>
+<h1 id="cons-4">Cons<a hidden class="anchor" aria-hidden="true" href="#cons-4">#</a></h1>
+<ol>
+<li>
+<p>While the tutorial makes it sound like writing the test cases is really simple. This doesn&rsquo;t seem to be the case</p>
+</li>
+<li>
+<p><a href="https://github.com/nuprl/MultiPL-E/blob/main/prompts/humaneval-r-remove.jsonl">https://github.com/nuprl/MultiPL-E/blob/main/prompts/humaneval-r-remove.jsonl</a></p>
+</li>
+<li>
+<p>Each of the test case needs to be decoded in a particular jsonl format, with escape characters fixed etc.</p>
+</li>
+</ol>
+<h2 id="verdict-3">Verdict<a hidden class="anchor" aria-hidden="true" href="#verdict-3">#</a></h2>
+<p>👍 - This could work for building a react benchmark. But may not be easy to add new test cases to.</p>
+<h1 id="6-repobench">6) RepoBench<a hidden class="anchor" aria-hidden="true" href="#6-repobench">#</a></h1>
+<p>Paper: <a href="https://arxiv.org/pdf/2306.03091.pdf">RepoBench</a></p>
+<p>Repo: <a href="https://github.com/Leolty/repobench">https://github.com/Leolty/repobench</a></p>
+<p>Validates LLM on 3 tasks</p>
+<p>1 - Retrieval Task: Ability to retrieve the right contextual files.</p>
+<p>2 - Completion Task: Ability to complete next line, given the context files.</p>
+<p>3 - Combined Task: Retrieval + Completion</p>
+<p>Some interesting points noted in the paper:</p>
+<blockquote>
+<p>Python Retrieval Shows Higher Accuracy Than Java: The language-specific results show that Python tasks typically show higher accuracy than
 Java across all retrieval methods. This discrepancy might be attributed to Python’s simpler syntax and
-less verbose nature, potentially reducing the variability of similar code snippets.</p></blockquote><blockquote><p>Pronounced Performance Differences in Java for RepoBenchC-2k: The evaluation on Java showcases a marked differentiation in model performance: Codex
-notably stands out as the superior model, followed by StarCoder, while CodeGen largely lags behind.</p></blockquote><p><em>While there are some intuitive reasons cited, this clearly shows that benchmarks on Python may not directly apply to React / Typescript codebases.</em></p><h3 id=interesting-bits>Interesting bits<a hidden class=anchor aria-hidden=true href=#interesting-bits>#</a></h3><p>The project is easy to read and some interesting files are</p><p>1 - Metrics: ExactMatch, Similarity, and Accuracy@K <a href=https://github.com/Leolty/repobench/blob/main/evaluation/metrics.py>https://github.com/Leolty/repobench/blob/main/evaluation/metrics.py</a>. Note: their accuracy@k is not a probabilistic calculation like the pass@k metric introduced in HumanEval, and refers to the number of accurate codes retrieved out of correct codes.</p><p>2 - Retriever: <a href=https://github.com/Leolty/repobench/blob/main/retriever/retriever.py>https://github.com/Leolty/repobench/blob/main/retriever/retriever.py</a></p><p>3 - Similarity (Jaccard, Edit, Cosine): <a href=https://github.com/Leolty/repobench/blob/main/retriever/similarity.py>https://github.com/Leolty/repobench/blob/main/retriever/similarity.py</a></p><p>4 - Promp constructor: <a href=https://github.com/Leolty/repobench/blob/main/data/utils.py>https://github.com/Leolty/repobench/blob/main/data/utils.py</a></p><h2 id=pros-5>Pros<a hidden class=anchor aria-hidden=true href=#pros-5>#</a></h2><p>1 - Easy to understand</p><p>2 - Repo level context understanding.</p><p>3 - Usage of Google drive for dataset.</p><p>4 - Multiple languages supported with various similarity metrics on next line.</p><h2 id=cons-5>Cons<a hidden class=anchor aria-hidden=true href=#cons-5>#</a></h2><p>The question this benchmark is trying to answer is different from what we need.</p><p>We require unit-test and visual accuracy, assuming the right context is already given.</p><h2 id=verdict-4>Verdict<a hidden class=anchor aria-hidden=true href=#verdict-4>#</a></h2><p>Not applicable.</p><h1 id=conclusion>Conclusion<a hidden class=anchor aria-hidden=true href=#conclusion>#</a></h1><p>So far, the only ones that meet what I&rsquo;m looking for are the open-ai evals, and the MultiPL-E benchmark.</p><p>Ideally, if these benchmarks were easier to prepare and mimicked the way we actually write code / test cases, then it would be much easier to extend.</p><p>So after this research, I believe the best answer is to build a new &ldquo;ReactBench&rdquo; - a benchmark that mimics how React code is structured and is geared towards accuracy on Typescript / React with unit-testing and snapshotting.</p></div><footer class=post-footer><div style=display:flex;justify-content:center;align-items:center><iframe src=https://kilobytes.substack.com/embed width=480 height=320 style="border:1px solid #eee;background:#fff" frameborder=0 scrolling=no></iframe></div><ul class=post-tags><li><a href=https://Kshitij-Banerjee.github.io/tags/machine-learning/>machine-learning</a></li><li><a href=https://Kshitij-Banerjee.github.io/tags/ai/>AI</a></li></ul></footer><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//kshitij-banerjee.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a>
-<script src=https://giscus.app/client.js data-repo=Kshitij-Banerjee/Kshitij-Banerjee.github.io data-repo-id=R_kgDOI1NsBg data-category=General data-category-id=DIC_kwDOI1NsBs4Cdf1h data-mapping=title data-strict=0 data-reactions-enabled=1 data-emit-metadata=1 data-input-position=top data-theme=preferred_color_scheme data-lang=en data-loading=lazy crossorigin=anonymous async></script></article></main><footer class=footer><span>&copy; 2024 <a href=https://Kshitij-Banerjee.github.io>KiloBytes by KB</a></span>
-<span>Powered by
-<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
-</a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script></body></html>
+less verbose nature, potentially reducing the variability of similar code snippets.</p>
+</blockquote>
+<blockquote>
+<p>Pronounced Performance Differences in Java for RepoBenchC-2k: The evaluation on Java showcases a marked differentiation in model performance: Codex
+notably stands out as the superior model, followed by StarCoder, while CodeGen largely lags behind.</p>
+</blockquote>
+<p><em>While there are some intuitive reasons cited, this clearly shows that benchmarks on Python may not directly apply to React / Typescript codebases.</em></p>
+<h3 id="interesting-bits">Interesting bits<a hidden class="anchor" aria-hidden="true" href="#interesting-bits">#</a></h3>
+<p>The project is easy to read and some interesting files are</p>
+<p>1 - Metrics: ExactMatch, Similarity, and Accuracy@K <a href="https://github.com/Leolty/repobench/blob/main/evaluation/metrics.py">https://github.com/Leolty/repobench/blob/main/evaluation/metrics.py</a>. Note: their accuracy@k is not a probabilistic calculation like the pass@k metric introduced in HumanEval, and refers to the number of accurate codes retrieved out of correct codes.</p>
+<p>2 - Retriever: <a href="https://github.com/Leolty/repobench/blob/main/retriever/retriever.py">https://github.com/Leolty/repobench/blob/main/retriever/retriever.py</a></p>
+<p>3 - Similarity (Jaccard, Edit, Cosine): <a href="https://github.com/Leolty/repobench/blob/main/retriever/similarity.py">https://github.com/Leolty/repobench/blob/main/retriever/similarity.py</a></p>
+<p>4 - Promp constructor: <a href="https://github.com/Leolty/repobench/blob/main/data/utils.py">https://github.com/Leolty/repobench/blob/main/data/utils.py</a></p>
+<h2 id="pros-5">Pros<a hidden class="anchor" aria-hidden="true" href="#pros-5">#</a></h2>
+<p>1 - Easy to understand</p>
+<p>2 - Repo level context understanding.</p>
+<p>3 - Usage of Google drive for dataset.</p>
+<p>4 - Multiple languages supported with various similarity metrics on next line.</p>
+<h2 id="cons-5">Cons<a hidden class="anchor" aria-hidden="true" href="#cons-5">#</a></h2>
+<p>The question this benchmark is trying to answer is different from what we need.</p>
+<p>We require unit-test and visual accuracy, assuming the right context is already given.</p>
+<h2 id="verdict-4">Verdict<a hidden class="anchor" aria-hidden="true" href="#verdict-4">#</a></h2>
+<p>Not applicable.</p>
+<h1 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h1>
+<p>So far, the only ones that meet what I&rsquo;m looking for are the open-ai evals, and the MultiPL-E benchmark.</p>
+<p>Ideally, if these benchmarks were easier to prepare and mimicked the way we actually write code / test cases, then it would be much easier to extend.</p>
+<p>So after this research, I believe the best answer is to build a new &ldquo;ReactBench&rdquo; - a benchmark that mimics how React code is structured and is geared towards accuracy on Typescript / React with unit-testing and snapshotting.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+		<div style="display: flex; justify-content: center; align-items: center;">
+			<iframe src="https://kilobytes.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
+		</div>
+    <ul class="post-tags">
+      <li><a href="https://Kshitij-Banerjee.github.io/tags/machine-learning/">machine-learning</a></li>
+      <li><a href="https://Kshitij-Banerjee.github.io/tags/ai/">AI</a></li>
+    </ul>
+  </footer><div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "kshitij-banerjee" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script src="https://giscus.app/client.js"
+        data-repo="Kshitij-Banerjee/Kshitij-Banerjee.github.io"
+        data-repo-id="R_kgDOI1NsBg"
+        data-category="General"
+        data-category-id="DIC_kwDOI1NsBs4Cdf1h"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="1"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://Kshitij-Banerjee.github.io">KiloBytes by KB</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+</body>
+
+</html>

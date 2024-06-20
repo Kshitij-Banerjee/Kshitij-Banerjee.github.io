@@ -1,3 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Book on KiloBytes by KB</title><link>https://Kshitij-Banerjee.github.io/tags/book/</link><description>Recent content in Book on KiloBytes by KB</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 24 Feb 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://Kshitij-Banerjee.github.io/tags/book/index.xml" rel="self" type="application/rss+xml"/><item><title>Build - Tony Fadell</title><link>https://Kshitij-Banerjee.github.io/2024/02/24/build-tony-fadell/</link><pubDate>Sat, 24 Feb 2024 00:00:00 +0000</pubDate><guid>https://Kshitij-Banerjee.github.io/2024/02/24/build-tony-fadell/</guid><description>Introduction Tony Fadell is CEO of nest (bought by google ), and instrumental in building products at Apple like the iPod and the iPhone.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Book on KiloBytes by KB</title>
+    <link>https://Kshitij-Banerjee.github.io/tags/book/</link>
+    <description>Recent content in Book on KiloBytes by KB</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 24 Feb 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://Kshitij-Banerjee.github.io/tags/book/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Build - Tony Fadell</title>
+      <link>https://Kshitij-Banerjee.github.io/2024/02/24/build-tony-fadell/</link>
+      <pubDate>Sat, 24 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>https://Kshitij-Banerjee.github.io/2024/02/24/build-tony-fadell/</guid>
+      <description>Introduction Tony Fadell is CEO of nest (bought by google ), and instrumental in building products at Apple like the iPod and the iPhone.
 The book is not about facts and science, but based on tony’s experience and deals with subjective concepts like how to build products, dealing with assholes, and how to hire etc.
-Overall, 4/5 stars for me, and I recommend reading it. It covers one strong individuals strong opinions, about how to deal with matters one must deal with when building impactful products.</description></item></channel></rss>
+Overall, 4/5 stars for me, and I recommend reading it. It covers one strong individuals strong opinions, about how to deal with matters one must deal with when building impactful products.</description>
+    </item>
+  </channel>
+</rss>

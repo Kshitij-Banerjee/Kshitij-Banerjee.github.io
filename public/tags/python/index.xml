@@ -1,6 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>python on KiloBytes by KB</title><link>https://Kshitij-Banerjee.github.io/tags/python/</link><description>Recent content in python on KiloBytes by KB</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 02 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://Kshitij-Banerjee.github.io/tags/python/index.xml" rel="self" type="application/rss+xml"/><item><title>Python Cheet Sheet</title><link>https://Kshitij-Banerjee.github.io/2023/01/02/python-cheet-sheet/</link><pubDate>Mon, 02 Jan 2023 00:00:00 +0000</pubDate><guid>https://Kshitij-Banerjee.github.io/2023/01/02/python-cheet-sheet/</guid><description>A quick cheatsheet on python operations
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>python on KiloBytes by KB</title>
+    <link>https://Kshitij-Banerjee.github.io/tags/python/</link>
+    <description>Recent content in python on KiloBytes by KB</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 02 Jan 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://Kshitij-Banerjee.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python Cheet Sheet</title>
+      <link>https://Kshitij-Banerjee.github.io/2023/01/02/python-cheet-sheet/</link>
+      <pubDate>Mon, 02 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://Kshitij-Banerjee.github.io/2023/01/02/python-cheet-sheet/</guid>
+      <description>A quick cheatsheet on python operations
 Slice:
 astring = &amp;#34;Hello World&amp;#34; print(astring[3:7]) # prints-&amp;gt; lo w print(astring[0:10:2]) # skips one character, prints -&amp;gt; Hlowr print(astring[::-1]) # reverse a string using step -1 Case
 astring.upper() astring.lower() Slicing complete list performs a copy
 spam_copy = spam[:] Zip to loop
-furniture = [&amp;#39;table&amp;#39;, &amp;#39;chair&amp;#39;, &amp;#39;rack&amp;#39;, &amp;#39;shelf&amp;#39;] price = [100, 50, 80, 40] for item, amount in zip(furniture, price): print(f&amp;#39;The {item} costs ${amount}&amp;#39;) Multiple assignments</description></item></channel></rss>
+furniture = [&amp;#39;table&amp;#39;, &amp;#39;chair&amp;#39;, &amp;#39;rack&amp;#39;, &amp;#39;shelf&amp;#39;] price = [100, 50, 80, 40] for item, amount in zip(furniture, price): print(f&amp;#39;The {item} costs ${amount}&amp;#39;) Multiple assignments</description>
+    </item>
+  </channel>
+</rss>
