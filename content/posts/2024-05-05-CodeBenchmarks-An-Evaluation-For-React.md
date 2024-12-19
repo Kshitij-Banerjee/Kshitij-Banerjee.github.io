@@ -1,4 +1,3 @@
-
 ---
 Category: AI, Machine-Learning
 Title: Evaluating LLM Benchmarks for React
@@ -10,7 +9,6 @@ cover:
   image: "react-benchmark-eval.png"
 tags: [Machine-Learning, AI]
 keywords: [Machine-Learning, AI]
-
 ---
 
 # Introduction
@@ -113,7 +111,7 @@ Repository: https://github.com/hendrycks/apps
 
 ## Cons
 
-1. Most of the code benchmarks are *python.* So it may not work too well for other languages.
+1. Most of the code benchmarks are _python._ So it may not work too well for other languages.
 
 2. Isn't written with extensibility in mind, and mostly coded for testing python codebases.
 
@@ -175,23 +173,23 @@ function {{Signature}} {
 .Checks: &Checks
 
 FactorialZeroShot:
-    Signature: "factorial(n)"
-    Input: "with input n"
-    Output: "the factorial of n using iteration"
-    Description: "See if the model can implement a well known function"
-    Checks:
-      one_argument:
-            assert: "len(f.args)"
-            eq: 1
-      returns_list:
-            assert: "isinstance(f.call(1),int)"
-            eq: true
-      value_0:
-            assert: "f.call(1)"
-            eq: 1
-      value_5:
-            assert: "f.call(5)"
-            eq: 120
+  Signature: "factorial(n)"
+  Input: "with input n"
+  Output: "the factorial of n using iteration"
+  Description: "See if the model can implement a well known function"
+  Checks:
+    one_argument:
+      assert: "len(f.args)"
+      eq: 1
+    returns_list:
+      assert: "isinstance(f.call(1),int)"
+      eq: true
+    value_0:
+      assert: "f.call(1)"
+      eq: 1
+    value_5:
+      assert: "f.call(5)"
+      eq: 120
 ```
 
 ## Cons
@@ -247,13 +245,13 @@ Validates LLM on 3 tasks
 Some interesting points noted in the paper:
 
 > Python Retrieval Shows Higher Accuracy Than Java: The language-specific results show that Python tasks typically show higher accuracy than
-Java across all retrieval methods. This discrepancy might be attributed to Python’s simpler syntax and
-less verbose nature, potentially reducing the variability of similar code snippets.
+> Java across all retrieval methods. This discrepancy might be attributed to Python’s simpler syntax and
+> less verbose nature, potentially reducing the variability of similar code snippets.
 
 > Pronounced Performance Differences in Java for RepoBenchC-2k: The evaluation on Java showcases a marked differentiation in model performance: Codex
-notably stands out as the superior model, followed by StarCoder, while CodeGen largely lags behind.
+> notably stands out as the superior model, followed by StarCoder, while CodeGen largely lags behind.
 
-*While there are some intuitive reasons cited, this clearly shows that benchmarks on Python may not directly apply to React / Typescript codebases.*
+_While there are some intuitive reasons cited, this clearly shows that benchmarks on Python may not directly apply to React / Typescript codebases._
 
 ### Interesting bits
 
