@@ -1,4 +1,3 @@
-
 ---
 Category: ML Trading
 Title: Adventures in ML trading - Part 1
@@ -7,10 +6,19 @@ Name: Adventures in ML trading - Part 1
 date: 2024-12-19
 banner: "SimpleStrategy1-Banner.webp"
 cover:
-image: "SimpleStrategy1-Banner.webp"
+  image: "SimpleStrategy1-Banner.webp"
 tags: [ML, Trading, AI, Beginner, AlgorthmicTrading, Basics]
-keywords: [ML, machine-learning, AI, Transformers,Trading, AlgorithmicTrading, Beginner, Basics]
-
+keywords:
+  [
+    ML,
+    machine-learning,
+    AI,
+    Transformers,
+    Trading,
+    AlgorithmicTrading,
+    Beginner,
+    Basics,
+  ]
 ---
 
 # Preface
@@ -39,9 +47,9 @@ We have 3 numbers here of note.
 
 3. The difference between 1) and 2)
 
-*While the price and SMA are not oscillating number, their difference - the distance of the stocks price to its 50 day moving average is an oscillating number we can observe*
+_While the price and SMA are not oscillating number, their difference - the distance of the stocks price to its 50 day moving average is an oscillating number we can observe_
 
-> **Key insight**  What if we statistically identify when the stock is at the extremes - too far above the MA / too far below the MA from normal. Those could be good entry / exit points on the stock.
+> **Key insight** What if we statistically identify when the stock is at the extremes - too far above the MA / too far below the MA from normal. Those could be good entry / exit points on the stock.
 
 For the rest of the article, we will focus on number-3, the difference of price to its 50 day simple moving average (SMA)
 
@@ -49,7 +57,7 @@ For the rest of the article, we will focus on number-3, the difference of price 
 
 {{< glightbox href="/image_1734624431836_0.png" src="/image_1734624431836_0.png" alt="image.png" >}}
 
-Plotting the *Distance from SMA 50 for SPY* gives us the above chart.
+Plotting the _Distance from SMA 50 for SPY_ gives us the above chart.
 
 We've successfully found an oscillating pattern in the price structure.
 
@@ -75,7 +83,7 @@ I'm interested in the 5th percentiles - namely the 95 and 5 percentiles, let's p
 
 2. Conversely, when the stock is more than $16.76 below its 50 SMA - There is a 95% chance that it will go back near its median price soon.
 
-*Caveats:*
+_Caveats:_
 
 1. It's also possible that the stock price itself keeps going down or remains stable, and the Moving average comes closer to the price to reduce the gap
 
@@ -152,7 +160,7 @@ Total Profit over 5 years: 8973.001098632812
 
 Naah, you'd do better just to buy and hold the shares. **If you just held , your profit was - $27,014.99**
 
-So in affect, this strategy is actually pretty bad:  **-$18,041.99** bad. Woops.
+So in affect, this strategy is actually pretty bad: **-$18,041.99** bad. Woops.
 
 # What went wrong ?
 
@@ -160,9 +168,11 @@ So in affect, this strategy is actually pretty bad:  **-$18,041.99** bad. Woops.
 
 {{< glightbox href="/image_1734626539846_0.png" src="/image_1734626539846_0.png" alt="image.png" >}}
 
-If we plot the trades on the chart - the problem is clear.
+If we plot the trades on the chart - the problem is clear. The red markers are failed trades. Notice that after the red markers - the stock continues to climb much farther and they typically are in bull runs.
 
 At times, the strategy works - but other times, especially in periods of high momentum - low stock prices go lower, and high stock prices go even higher. These period of high momentum, make us exit the strategy too soon and we lose out on massive gains.
+
+{{< glightbox href="/image_1734691320767_0.png" src="/image_1734691320767_0.png" alt="image.png" >}}
 
 ## Problem 2 - Bias
 
@@ -170,11 +180,11 @@ There is an obvious problem with our solution. We are calculating the statistics
 
 Since we already know the prices historically, ofcourse the math will line up. But future price movements can be quite different from the past.
 
-SPY is a very stable stock, let's do the same chart for TSLA, a much more volatile stock
+SPY is a very stable stock, and so this problem is not so obvious - let's plot the extremes on TSLA chart instead, to show how a much more volatile stock behaves
 
 {{< glightbox href="/image_1734626952657_0.png" src="/image_1734626952657_0.png" alt="image.png" >}}
 
-Notice what happens at the end, when TSLA stock recently went parabolic.  All the points on the chart are showing as SELLs!
+Notice what happens at the end, when TSLA stock recently went parabolic. All the points on the chart are showing as SELLs!
 
 In absolute terms -
 
@@ -184,11 +194,11 @@ In absolute terms -
 
 those numbers are a factor of 50 apart! for the same percentage gain.
 
-Another way to see this bias is by plotting a longer timeframe on the oscillating chart.
+Another way to see this bias is by plotting a longer timeframe on the oscillating distance chart
 
 {{< glightbox href="/image_1734627692454_0.png" src="/image_1734627692454_0.png" alt="image.png" >}}
 
-*When the stock price was in absolute terms low, the variation on the distance converges to 0 on the left.*
+_When the stock price was in absolute terms low, the variation on the distance converges to 0 on the left._
 
 # Let's fix the issues
 
@@ -206,7 +216,7 @@ To demonstrate:-
 
 {{< glightbox href="/image_1734627403318_0.png" src="/image_1734627403318_0.png" alt="image.png" >}}
 
-It's also a simple one line fix - we  Log the close prices right after fetching them in the beginning
+It's also a simple one line fix - we Log the close prices right after fetching them in the beginning
 
 ```python
 data["Close"] = np.log(data["Close"])
@@ -248,7 +258,7 @@ But that gets complex, by adding another variable to the mix - so i'll delve int
 
 For now, let's see if we can use options to fix the problem instead
 
-**Key logic:**  We don't want to have the opportunity loss of missing out on a run. But in cases when this indicator is right - it should generate us some extra cash. So let's try to use a covered call to capitalise on the extremes. When the strategy is losing, we buy back our covered call at a 50% loss, else we retain the profit.
+**Key logic:** We don't want to have the opportunity loss of missing out on a run. But in cases when this indicator is right - it should generate us some extra cash. So let's try to use a covered call to capitalise on the extremes. When the strategy is losing, we buy back our covered call at a 50% loss, else we retain the profit.
 
 ### Simulating a 1% premiums Covered-call option strategy
 
@@ -262,24 +272,24 @@ def simulate_options(data, highlight_indices, highlight_low_indices):
 
   trade_log = []
   holding_option_until = pd.Timestamp.min  # Track until when we are holding an option
-  
+
   for idx in highlight_indices:
       # Skip this index if we are already holding an option that hasn't expired
       if idx <= holding_option_until:
           continue
-  
+
       # Current stock price at the sell signal
       stock_price = data.loc[idx, 'Raw_Close']
       # Premium collected from selling the option
       premium = stock_price * premium_percentage * 100
       strike_price = stock_price * (1 + strike_price_buffer)
-  
+
       # Simulate option expiry
       holding_option_until = get_next_friday(idx)  # Get the price on the next Friday
       if holding_option_until not in data.index: # correct for some missing data.
             continue
       next_friday_price = data['Raw_Close'][holding_option_until]
-  
+
       if next_friday_price > strike_price:  # ITM
           # Calculate opportunity loss (difference between next Friday's price and strike price for 100 shares)
           loss = premium * 1.5 # Bought back the option at 50% higher cost
@@ -309,7 +319,7 @@ def simulate_options(data, highlight_indices, highlight_low_indices):
               'Premium Collected': premium,
               'Opportunity Loss': 0
           })
-  
+
     # Convert log to DataFrame
   trade_log_df = pd.DataFrame(trade_log)
 
@@ -337,5 +347,4 @@ I made a ton of assumptions in the option simulations, that may not work with re
 
 Ignoring the momentum seems silly, let's try to incorporate it next.
 
-*Better still, why add data one by one - let's use ML to make those non-linear relationships into probabilistic decisions.*
-
+_Better still, why add data one by one - let's use ML to make those non-linear relationships into probabilistic decisions._
