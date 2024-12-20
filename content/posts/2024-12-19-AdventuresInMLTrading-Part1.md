@@ -73,7 +73,7 @@ When we plot the frequency distribution of this number as a histogram, its easy 
 
 Note that the distribution is skewed towards the positive ( bull markets in the last 5 years ) , but its easy to see the sigmas.
 
-I'm interested in the 5th percentiles - namely the 95 and 5 percentiles, let's plot those too
+I'm interested in the 95/15th percentiles - namely the 95 and 15 percentiles, let's plot those too
 
 {{< glightbox href="/image_1734624919409_0.png" src="/image_1734624919409_0.png" alt="image.png" >}}
 
@@ -81,7 +81,7 @@ I'm interested in the 5th percentiles - namely the 95 and 5 percentiles, let's p
 
 1. When the stock is more than $24.4 above its 50 SMA - There is a 95% chance it will go back to its median price soon.
 
-2. Conversely, when the stock is more than $16.76 below its 50 SMA - There is a 95% chance that it will go back near its median price soon.
+2. Conversely, when the stock is more than $16.76 below its 50 SMA - There is a 85% chance that it will go back near its median price soon.
 
 _Caveats:_
 
@@ -107,28 +107,37 @@ Let's run the simulation, on what happens if we use this strategy. We buy on the
 def simulate_trades(data, highlight_low_indices, highlight_indices):
     # Initialize variables
     trades = []
-    shares_owned = 0
-    initial_investment = 0
-    current_value = 0
+    shares_owned = 100
     total_profit = 0
+    buy_price = data['Close'][0] # Assuming starting prices
 
+    # Simulate trades over the period
     for i in data.index:
         if i in highlight_low_indices and shares_owned == 0:
-          buy_price = data['Close'][i]
-          shares_owned = 100  # Buy 100 shares
-          initial_investment = shares_owned * buy_price
-          trades.append({'Date': i, 'Action': 'Buy', 'Price': buy_price, 'Shares': shares_owned})
-          print(f"Bought 100 shares at: {buy_price} on {i}")
+            # Buy action
+            buy_price = data['Close'][i]
+            shares_owned = 100
+            trades.append({'Date': i, 'Action': 'Buy', 'Price': buy_price, 'Shares': shares_owned, 'Profit': None})
+            print(f"Bought 100 shares at: {buy_price:.2f} on {i}")
 
         elif i in highlight_indices and shares_owned > 0:
-          sell_price = data['Close'][i]
-          profit = (sell_price - buy_price) * shares_owned
-          total_profit += profit
-          current_value = shares_owned * sell_price
-          trades.append({'Date': i, 'Action': 'Sell', 'Price': sell_price, 'Shares': shares_owned})
-          print(f"Sold 100 shares at: {sell_price} on {i}")
-          print(f"Profit for this trade: {profit}")
-          shares_owned = 0  # Reset shares owned after selling
+            # Sell action
+            sell_price = data['Close'][i]
+            profit = (sell_price - buy_price) * shares_owned
+            total_profit += profit
+            trades.append({'Date': i, 'Action': 'Sell', 'Price': sell_price, 'Shares': shares_owned, 'Profit': profit})
+            print(f"Sold 100 shares at: {sell_price:.2f} on {i}")
+            print(f"Profit/Loss for this trade: {profit:.2f}")
+            shares_owned = 0
+
+    # Sell remaining shares at the last available price
+    if shares_owned > 0:
+        sell_price = data['Close'].iloc[-1]
+        profit = (sell_price - buy_price) * shares_owned
+        total_profit += profit
+        trades.append({'Date': data.index[-1], 'Action': 'Sell', 'Price': sell_price, 'Shares': shares_owned})
+        print(f"Sold remaining shares at: {sell_price:.2f} on {data.index[-1]}")
+        print(f"Profit for this trade: {profit:.2f}")
 
     return total_profit, trades
 ```
@@ -184,7 +193,7 @@ SPY is a very stable stock, and so this problem is not so obvious - let's plot t
 
 {{< glightbox href="/image_1734626952657_0.png" src="/image_1734626952657_0.png" alt="image.png" >}}
 
-Notice what happens at the end, when TSLA stock recently went parabolic. All the points on the chart are showing as SELLs!
+Notice what happens at the end, when TSLA stock recently went parabolic, every points on the chart are showing as SELL!
 
 In absolute terms -
 
@@ -216,7 +225,7 @@ To demonstrate:-
 
 {{< glightbox href="/image_1734627403318_0.png" src="/image_1734627403318_0.png" alt="image.png" >}}
 
-It's also a simple one line fix - we Log the close prices right after fetching them in the beginning
+It's also a simple one line fix - we Log the close prices right after fetching them in the beginning. (but we'll keep separate columns to make things maintainable)
 
 ```python
 data["Close"] = np.log(data["Close"])
@@ -238,13 +247,13 @@ Just for comparison, this was the before image (note the y scales are different,
 
 {{< glightbox href="/image_1734626952657_0.png" src="/image_1734626952657_0.png" alt="image.png" >}}
 
-#### Simulating again
+#### Simulating for SPY over 5 years again, this time with the bias fixes
 
-Total Profit over 6 years: $38,381.93
+Total Profit from new strategy over 5 years: $21,564.00
 
-Buy and hold = $41,241
+Buy and hold total profit: $27,087.00
 
-Strategy outcome = $-2859.53
+Strategy Outcome: $-5,523.00
 
 Which is a marked improvement from our -$18041.99 strategy deficit earlier - but still negative.
 
@@ -258,17 +267,30 @@ But that gets complex, by adding another variable to the mix - so i'll delve int
 
 For now, let's see if we can use options to fix the problem instead
 
-**Key logic:** We don't want to have the opportunity loss of missing out on a run. But in cases when this indicator is right - it should generate us some extra cash. So let's try to use a covered call to capitalise on the extremes. When the strategy is losing, we buy back our covered call at a 50% loss, else we retain the profit.
+> **Key logic:** We don't want to have the opportunity loss of missing out on a strong bull run. But in cases when this indicator is right - it should generate us some extra cash. So let's try to use a covered call to capitalise on the extremes. When the strategy is losing, we buy back our shares on the expiry date - and count the difference of prices as an opportunity loss.
 
 ### Simulating a 1% premiums Covered-call option strategy
 
 ```python
-# highlight_indices are our upper extremes, where we should sell a weekly covered call.
+# Utility fn to find the next Friday
+def get_next_friday(date):
+    date = pd.to_datetime(date)
+    # Get the weekday (Monday=0, ..., Sunday=6)
+    weekday = date.weekday()
+    # Calculate days to next Friday (weekday 4)
+    days_to_friday = (4 - weekday + 7) % 7
+    # If already Friday, move to the next Friday
+    if days_to_friday == 0:
+        days_to_friday = 7
+    # Add the offset to the original date
+    next_friday = date + pd.Timedelta(days=days_to_friday)
+    return next_friday
+
 def simulate_options(data, highlight_indices, highlight_low_indices):
   premium_percentage = 0.01  # 1% premium
   premiums_collected = 0  # Initialize total premiums collected
   opportunity_loss = 0  # Track opportunity loss when buying back shares
-  strike_price_buffer = 0.02 # 2% above current price
+  strike_price_buffer = 0.01 # 1% above current price
 
   trade_log = []
   holding_option_until = pd.Timestamp.min  # Track until when we are holding an option
@@ -279,20 +301,23 @@ def simulate_options(data, highlight_indices, highlight_low_indices):
           continue
 
       # Current stock price at the sell signal
-      stock_price = data.loc[idx, 'Raw_Close']
+      stock_price = data.loc[idx, 'Close']
       # Premium collected from selling the option
       premium = stock_price * premium_percentage * 100
+      # ATM strike price is the same as the current stock price
       strike_price = stock_price * (1 + strike_price_buffer)
 
       # Simulate option expiry
       holding_option_until = get_next_friday(idx)  # Get the price on the next Friday
-      if holding_option_until not in data.index: # correct for some missing data.
+      if holding_option_until not in data.index:
             continue
-      next_friday_price = data['Raw_Close'][holding_option_until]
+      next_friday_price = data['Close'][holding_option_until]
 
       if next_friday_price > strike_price:  # ITM
           # Calculate opportunity loss (difference between next Friday's price and strike price for 100 shares)
-          loss = premium * 1.5 # Bought back the option at 50% higher cost
+          # loss = premium * 1.5 # Bought back the option at 50% higher cost
+          premiums_collected += premium
+          loss = (next_friday_price - strike_price) * 100 # Got sold at strike price since
           opportunity_loss += loss
           # Log the transaction with the loss
           trade_log.append({
@@ -329,15 +354,20 @@ def simulate_options(data, highlight_indices, highlight_low_indices):
 #### Results
 
 ```txt
-Buy and Hold Strategy Base: 41,184.97
-- Opportunity Loss: 1,694.61
-Total profit excluding opp loss: 39,490.35
-+ Total Premium: 2,692.26
+Buy and Hold Strategy Base: 27087.00
+-Opportunity Loss: 2029.44
+Total profit excluding opp loss: 25057.56
++Total Premium: 7803.19
 
-Strategy Delta: 997.64
+Strategy Delta: 5773.75
+Wins: 16
+Losses: 5
+Win rate: 0.7619047619047619
 ```
 
-So we made an additional ~$1000, with is a 2.5% additional return. Not very bad, but probably not great enough to go to production either.
+So we made an additional ~$5,773!, with is a ~21% additional return. This sounds great, but note that I've made a lot of assumptions here and this will likely fail when it goes to production against actual live data.
+
+Also, i've not really backtested properly - I should have split the data into test and validation before I run the simulation, and so this is definitely biased.
 
 # Conclusion
 
