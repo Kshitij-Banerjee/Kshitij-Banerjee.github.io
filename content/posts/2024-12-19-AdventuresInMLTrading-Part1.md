@@ -1,3 +1,4 @@
+
 ---
 Category: ML Trading
 Title: Adventures in ML trading - Part 1
@@ -6,19 +7,10 @@ Name: Adventures in ML trading - Part 1
 date: 2024-12-19
 banner: "SimpleStrategy1-Banner.webp"
 cover:
-  image: "SimpleStrategy1-Banner.webp"
+image: "SimpleStrategy1-Banner.webp"
 tags: [ML, Trading, AI, Beginner, AlgorthmicTrading, Basics]
-keywords:
-  [
-    ML,
-    machine-learning,
-    AI,
-    Transformers,
-    Trading,
-    AlgorithmicTrading,
-    Beginner,
-    Basics,
-  ]
+keywords: [ML, machine-learning, AI, Transformers,Trading, AlgorithmicTrading, Beginner, Basics]
+
 ---
 
 # Preface
@@ -27,7 +19,7 @@ For those who know me, I spend a lot of time reading financial statements and an
 
 Everyone who has tried their hand at trading, can atleast imagine how computers would be able to crunch through numbers better than humans. Hedge funds and algo trading firms have proliferated after [Jim Simmons](https://en.wikipedia.org/wiki/Jim_Simons) showed that computers can indeed make gigantic returns.
 
-I believe that between the high-frequency trading firms, and the average Joe that watches CNBC and trades as a hobby - there is probably an unexplored middle. Hedge funds won't divulge their secrets, and the average Joe doesn't have the Math and Computer science skills to to understand how to use math to make money.
+I believe that between the high-frequency trading firms, and the average Joe that watches CNBC and trades as a hobby - there is probably an unexplored middle. Hedge funds won't divulge their secrets, and the average Joe doesn't have the Math and Computer science skills to to understand how to use statistics and ML to make money.
 
 So if like me, you're curious how can statistics make money - hopefully I scratch that mental itch for you in this post. I'll crunch the numbers, write the code, and show the insights - and I suggest you get your favourite drink at this point. Let's get started with a very simple strategy.
 
@@ -37,7 +29,7 @@ While stock prices generally move up and to the right, they typically oscillate 
 
 The 50 day moving average, is perhaps the most ubiquitous signal that traders take note of when making investment decisions.
 
-![image.png](/image_1734624144744_0.png)
+{{< glightbox href="/image_1734624144744_0.png" src="/image_1734624144744_0.png" alt="image.png" >}}
 
 We have 3 numbers here of note.
 
@@ -47,15 +39,17 @@ We have 3 numbers here of note.
 
 3. The difference between 1) and 2)
 
-_While the price and SMA are not oscillating number, their difference - the distance of the stocks price to its 50 day moving average is an oscillating number we can observe_
+*While the price and SMA are not oscillating number, their difference - the distance of the stocks price to its 50 day moving average is an oscillating number we can observe*
 
-> **Key insight** What if we statistically identify when the stock is at the extremes - too far above the MA / too far below the MA from normal. Those could be good entry / exit points on the stock.
+> **Key insight**  What if we statistically identify when the stock is at the extremes - too far above the MA / too far below the MA from normal. Those could be good entry / exit points on the stock.
+
+For the rest of the article, we will focus on number-3, the difference of price to its 50 day simple moving average (SMA)
 
 # Oscillations from mean
 
-![image.png](/image_1734624431836_0.png)
+{{< glightbox href="/image_1734624431836_0.png" src="/image_1734624431836_0.png" alt="image.png" >}}
 
-Plotting the _Distance from SMA 50_ gives us the above chart.
+Plotting the *Distance from SMA 50 for SPY* gives us the above chart.
 
 We've successfully found an oscillating pattern in the price structure.
 
@@ -65,7 +59,7 @@ Let's get more formal , and define some simple statistics of this number , namel
 
 ## Normal Distributions
 
-![image.png](/image_1734624768328_0.png)
+{{< glightbox href="/image_1734624768328_0.png" src="/image_1734624768328_0.png" alt="image.png" >}}
 
 When we plot the frequency distribution of this number as a histogram, its easy to see that it fits a normal distribution (bell curve)
 
@@ -73,7 +67,7 @@ Note that the distribution is skewed towards the positive ( bull markets in the 
 
 I'm interested in the 5th percentiles - namely the 95 and 5 percentiles, let's plot those too
 
-![image.png](/image_1734624919409_0.png)
+{{< glightbox href="/image_1734624919409_0.png" src="/image_1734624919409_0.png" alt="image.png" >}}
 
 #### Strategy insight
 
@@ -81,7 +75,7 @@ I'm interested in the 5th percentiles - namely the 95 and 5 percentiles, let's p
 
 2. Conversely, when the stock is more than $16.76 below its 50 SMA - There is a 95% chance that it will go back near its median price soon.
 
-_Caveats:_
+*Caveats:*
 
 1. It's also possible that the stock price itself keeps going down or remains stable, and the Moving average comes closer to the price to reduce the gap
 
@@ -91,11 +85,9 @@ Nevertheless, the caveats may or may not happen - Let's find out what actually h
 
 # Simulating the strategy
 
-## Simulating the strategy
-
 Instead of visualising this oscillating number, let's plot these extremes on the stock chart itself
 
-![image.png](/image_1734625924321_0.png)
+{{< glightbox href="/image_1734625924321_0.png" src="/image_1734625924321_0.png" alt="image.png" >}}
 
 The lower indicator, shows the percentiles and mean overlayed on the oscillating chart. While the chart above highlights these extremes on the price chart itself.
 
@@ -156,17 +148,17 @@ Total Profit over 5 years: 8973.001098632812
 
 ```
 
-_Pretty good! We made $8973!!_
+**Pretty good! We made $8,973!!**
 
 Naah, you'd do better just to buy and hold the shares. **If you just held , your profit was - $27,014.99**
 
-So in affect, this strategy is actually pretty bad: **-$18,041.99** bad. Woops.
+So in affect, this strategy is actually pretty bad:  **-$18,041.99** bad. Woops.
 
 # What went wrong ?
 
 ## Problem 1 - Momentum
 
-![image.png](/image_1734626539846_0.png)
+{{< glightbox href="/image_1734626539846_0.png" src="/image_1734626539846_0.png" alt="image.png" >}}
 
 If we plot the trades on the chart - the problem is clear.
 
@@ -180,9 +172,9 @@ Since we already know the prices historically, ofcourse the math will line up. B
 
 SPY is a very stable stock, let's do the same chart for TSLA, a much more volatile stock
 
-![image.png](/image_1734626952657_0.png)
+{{< glightbox href="/image_1734626952657_0.png" src="/image_1734626952657_0.png" alt="image.png" >}}
 
-Notice what happens at the end, when TSLA stock recently went parabolic. All the points on the chart are showing as SELLs!
+Notice what happens at the end, when TSLA stock recently went parabolic.  All the points on the chart are showing as SELLs!
 
 In absolute terms -
 
@@ -194,9 +186,9 @@ those numbers are a factor of 50 apart! for the same percentage gain.
 
 Another way to see this bias is by plotting a longer timeframe on the oscillating chart.
 
-![image.png](/image_1734627692454_0.png)
+{{< glightbox href="/image_1734627692454_0.png" src="/image_1734627692454_0.png" alt="image.png" >}}
 
-_When the stock price was in absolute terms low, the variation on the distance converges to 0 on the left._
+*When the stock price was in absolute terms low, the variation on the distance converges to 0 on the left.*
 
 # Let's fix the issues
 
@@ -212,9 +204,9 @@ When we compare Log(price), the differences have the same relative magnitude and
 
 To demonstrate:-
 
-![image.png](/image_1734627403318_0.png)
+{{< glightbox href="/image_1734627403318_0.png" src="/image_1734627403318_0.png" alt="image.png" >}}
 
-It's also a simple one line fix - we Log the close prices right after fetching them in the beginning
+It's also a simple one line fix - we  Log the close prices right after fetching them in the beginning
 
 ```python
 data["Close"] = np.log(data["Close"])
@@ -222,19 +214,19 @@ data["Close"] = np.log(data["Close"])
 
 Now the Long-term chart has more uniform oscillations
 
-![image.png](/image_1734627832641_0.png)
+{{< glightbox href="/image_1734627832641_0.png" src="/image_1734627832641_0.png" alt="image.png" >}}
 
 And our distributions are also less skewed
 
-![image.png](/image_1734627869439_0.png)
+{{< glightbox href="/image_1734627869439_0.png" src="/image_1734627869439_0.png" alt="image.png" >}}
 
 Plotting extremes on Log prices
 
-![image.png](/image_1734628342474_0.png)
+{{< glightbox href="/image_1734628342474_0.png" src="/image_1734628342474_0.png" alt="image.png" >}}
 
 Just for comparison, this was the before image (note the y scales are different, so its not an exact comparison)
 
-![image.png](/image_1734626952657_0.png)
+{{< glightbox href="/image_1734626952657_0.png" src="/image_1734626952657_0.png" alt="image.png" >}}
 
 #### Simulating again
 
@@ -256,7 +248,7 @@ But that gets complex, by adding another variable to the mix - so i'll delve int
 
 For now, let's see if we can use options to fix the problem instead
 
-**Key logic:** We don't want to have the opportunity loss of missing out on a run. But in cases when this indicator is right - it should generate us some extra cash. So let's try to use a covered call to capitalise on the extremes. When the strategy is losing, we buy back our covered call at a 50% loss, else we retain the profit.
+**Key logic:**  We don't want to have the opportunity loss of missing out on a run. But in cases when this indicator is right - it should generate us some extra cash. So let's try to use a covered call to capitalise on the extremes. When the strategy is losing, we buy back our covered call at a 50% loss, else we retain the profit.
 
 ### Simulating a 1% premiums Covered-call option strategy
 
@@ -270,24 +262,24 @@ def simulate_options(data, highlight_indices, highlight_low_indices):
 
   trade_log = []
   holding_option_until = pd.Timestamp.min  # Track until when we are holding an option
-
+  
   for idx in highlight_indices:
       # Skip this index if we are already holding an option that hasn't expired
       if idx <= holding_option_until:
           continue
-
+  
       # Current stock price at the sell signal
       stock_price = data.loc[idx, 'Raw_Close']
       # Premium collected from selling the option
       premium = stock_price * premium_percentage * 100
       strike_price = stock_price * (1 + strike_price_buffer)
-
+  
       # Simulate option expiry
       holding_option_until = get_next_friday(idx)  # Get the price on the next Friday
       if holding_option_until not in data.index: # correct for some missing data.
             continue
       next_friday_price = data['Raw_Close'][holding_option_until]
-
+  
       if next_friday_price > strike_price:  # ITM
           # Calculate opportunity loss (difference between next Friday's price and strike price for 100 shares)
           loss = premium * 1.5 # Bought back the option at 50% higher cost
@@ -317,7 +309,7 @@ def simulate_options(data, highlight_indices, highlight_low_indices):
               'Premium Collected': premium,
               'Opportunity Loss': 0
           })
-
+  
     # Convert log to DataFrame
   trade_log_df = pd.DataFrame(trade_log)
 
@@ -335,7 +327,7 @@ Total profit excluding opp loss: 39,490.35
 Strategy Delta: 997.64
 ```
 
-So we made an additional $1000, with is a 2.5% additional return. Not too bad, but probably not something you'd move to production.
+So we made an additional ~$1000, with is a 2.5% additional return. Not very bad, but probably not great enough to go to production either.
 
 # Conclusion
 
@@ -345,4 +337,5 @@ I made a ton of assumptions in the option simulations, that may not work with re
 
 Ignoring the momentum seems silly, let's try to incorporate it next.
 
-Better still, why add data one by one - let's use ML to make those non-linear relationships into probabilistic decisions.
+*Better still, why add data one by one - let's use ML to make those non-linear relationships into probabilistic decisions.*
+
