@@ -1,4 +1,4 @@
-baseURL: https://Kshitij-Banerjee.github.io
+baseURL: https://kshitijbanerjee.com
 languageCode: en-us
 title: KiloBytes by KB
 subtitle: by KB
@@ -18,7 +18,7 @@ params:
     enabled: true
     imageUrl: https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Feb0e0342-380c-4c11-94fa-4e2c586ac21e_1170x1168.jpeg
     title: "**Kshitij Banerjee (KB)**"
-    subtitle: "*Trading and Code Generation with LLMs*"
+    subtitle: "*Trading and Code Generation with ML, LLMs*"
   socialIcons:
     - name: "linkedin"
       url: https://www.linkedin.com/in/kshitijbanerjee/
