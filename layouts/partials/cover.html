@@ -3,7 +3,6 @@
 {{- $alt := (.Params.cover.alt | default .Params.cover.caption | plainify) }}
 {{- $loading := cond $.IsSingle "eager" "lazy" }}
 <figure class="entry-cover">
-	<div> hello </div>
 	{{- $responsiveImages := (.Params.cover.responsiveImages | default site.Params.cover.responsiveImages) | default true
 	}}
 	{{- $addLink := (and site.Params.cover.linkFullImages $.IsSingle) }}
