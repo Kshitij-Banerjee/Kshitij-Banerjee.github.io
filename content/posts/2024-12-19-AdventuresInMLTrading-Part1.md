@@ -247,13 +247,46 @@ Just for comparison, this was the before image (note the y scales are different,
 
 {{< glightbox href="/image_1734626952657_0.png" src="/image_1734626952657_0.png" alt="image.png" >}}
 
-#### Simulating for SPY over 5 years again, this time with the bias fixes
+Also - we should split the data in train, test and validation - because we don't want to have the hindsight bias, and this reflects actual conditions much bette.r
 
-Total Profit from new strategy over 5 years: $21,564.00
+Let's run the statistics for SPY again, before we run the simulation again.
 
-Buy and hold total profit: $27,087.00
+Statistics for Log Distances:
 
-Strategy Outcome: $-5,523.00
+{{< glightbox href="/image_1734847258387_0.png" src="/image_1734847258387_0.png" alt="image.png" >}}
+
+Highlighting extreme points on `test` price chart
+
+{{< glightbox href="/image_1734847295284_0.png" src="/image_1734847295284_0.png" alt="image.png" >}}
+
+### Simulating for SPY over 5 years again, this time with the bias fixes
+
+We'll use the validation dataset now : Here's how the trades look for the validation dataset
+
+{{< glightbox href="/image_1734847328466_0.png" src="/image_1734847328466_0.png" alt="image.png" >}}
+
+```
+Sold 100 shares at: 427.92 on 2023-06-02 00:00:00
+Profit/Loss for this trade: 4169.00
+Bought 100 shares at: 439.64 on 2023-08-16 00:00:00
+Sold 100 shares at: 449.68 on 2023-11-15 00:00:00
+Profit/Loss for this trade: 1004.00
+Bought 100 shares at: 504.45 on 2024-04-15 00:00:00
+Sold 100 shares at: 541.36 on 2024-06-12 00:00:00
+Profit/Loss for this trade: 3691.00
+Bought 100 shares at: 538.41 on 2024-07-25 00:00:00
+Sold 100 shares at: 579.58 on 2024-10-11 00:00:00
+Profit/Loss for this trade: 4117.00
+Bought 100 shares at: 586.28 on 2024-12-18 00:00:00
+Sold remaining shares at: 591.15 on 2024-12-20 00:00:00
+Profit for this trade: 487.00
+
+Total Profit over 728 days: 13468.00
+```
+
+Buy and hold total profit: $20,492.00
+
+**Strategy Outcome: $-7,024.00**
 
 Which is a marked improvement from our -$18041.99 strategy deficit earlier - but still negative.
 
@@ -354,20 +387,25 @@ def simulate_options(data, highlight_indices, highlight_low_indices):
 #### Results
 
 ```txt
-Buy and Hold Strategy Base: 27087.00
--Opportunity Loss: 2029.44
-Total profit excluding opp loss: 25057.56
-+Total Premium: 7803.19
-
-Strategy Delta: 5773.75
-Wins: 16
-Losses: 5
-Win rate: 0.7619047619047619
+Buy and Hold Strategy Base: 20492.00
+-Opportunity Loss: 1312.18
+Total profit excluding opp loss: 19179.82
++Total Premium: 17445.38
+Strategy Delta: 16133.20
+Wins: 28
+Losses: 9
+Win rate: 0.7567567567567568
 ```
 
-So we made an additional ~$5,773!, with is a ~21% additional return. This sounds great, but note that I've made a lot of assumptions here and this will likely fail when it goes to production against actual live data.
+**So we made an additional ~$16,133!**
 
-Also, i've not really backtested properly - I should have split the data into test and validation before I run the simulation, and so this is definitely biased.
+This sounds great, but note that I've made a lot of assumptions here and this will likely fail when it goes to production against actual live data.
+
+Also, I've not really backtested properly - I should have split the data into test and validation before I run the simulation, and so this is definitely biased.
+
+Here's the graphical representation of all the trades. We (almost) never sell the stock, and we make more profitable covered call premiums than opportunity losses.
+
+{{< glightbox href="/image_1734855911680_0.png" src="/image_1734855911680_0.png" alt="image.png" >}}
 
 # Conclusion
 
