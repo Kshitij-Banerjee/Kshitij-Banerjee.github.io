@@ -401,8 +401,6 @@ Win rate: 0.7567567567567568
 
 This sounds great, but note that I've made a lot of assumptions here and this will likely fail when it goes to production against actual live data.
 
-Also, I've not really backtested properly - I should have split the data into test and validation before I run the simulation, and so this is definitely biased.
-
 Here's the graphical representation of all the trades. We (almost) never sell the stock, and we make more profitable covered call premiums than opportunity losses.
 
 {{< glightbox href="/image_1734855911680_0.png" src="/image_1734855911680_0.png" alt="image.png" >}}
