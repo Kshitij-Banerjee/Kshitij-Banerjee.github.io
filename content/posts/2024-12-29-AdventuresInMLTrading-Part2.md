@@ -23,177 +23,209 @@ keywords:
 
 # Preface
 
-In the last [post](2024/12/19/adventures-in-ml-trading-part-1/), I tried building a simple mean reversion strategy based on distance from SMA 50, and it was clear that without considering momentum - our algorithm was failing to recognise, and exited parabolic moves early/late.
+In my previous [post](2024/12/19/adventures-in-ml-trading-part-1/), I developed a simple mean-reversion strategy based on an oscillating signal calculated from a stock's distance to its 50-day simple moving average.
+
+However, the results revealed a key shortcoming: the algorithm struggled to account for momentum, leading to poorly timed exits during parabolic moves—either too early or too late.
 
 {{< glightbox href="/image_1734691320767_0.png" src="/image_1734691320767_0.png" alt="image.png" >}}
 
-So this time, we'll take a look into momentum and do some analysis to validate our assumption. If can successfully validate that adding momentum will be beneficial to the strategy - we can then continue building our advanced strategy to utilise it.
+In this post, we’ll dive into momentum and conduct an analysis to validate our assumption. If we can confirm that incorporating momentum enhances the strategy, we’ll move forward with developing a more advanced approach to leverage it effectively.
 
-Note: This article builds up from learnings from the first [post](2024/12/19/adventures-in-ml-trading-part-1/), so do skim-read that if you haven't already
+**Note** : This article builds on the insights from the first [post](2024/12/19/adventures-in-ml-trading-part-1/). If you haven’t read it yet, consider giving it a quick skim to catch up!
 
 # Hypothesis
 
-In the previous strategy - we would look at large periods of stock market history (1-2 years), and build probability statistics around the stock reverting, and we would use that information for taking trades.
+In the previous strategy, we analyzed large periods of stock market history (1–2 years) to build probability statistics around a stock's likelihood of mean-reversion. These probabilities informed our trading decisions. However, such broad timeframes encompass various market conditions—bull, bear, and flat phases—which the overall probability statistic fails to account for, instead averaging everything out.
 
-However in such large periods of time, the stock is going through many bull, bear and flat markets - but the overall probability statistic is not considering those finer movements and averaging everything out.
+Take TSLA as an example: it often experiences prolonged sideways consolidations that frequently precede exponential upward movements. By calculating probability statistics across many years, we overlook these distinct "states" of the stock, treating them as a single homogeneous dataset.
 
-Consider TSLA stock, it goes through many periods of large sideways consolidations, and they typically lead into large upside exponential movements. By calculating probability statistics across many years, we are not taking these "states" of the stock into consideration.
+> **Key question:** What if we could classify a stock into specific momentum states—such as ultra-bear, bear, flat, bull, and ultra-bull—and refine the previous strategy to incorporate these states?
 
-> **Key question:** What if we could classify the stock to be in certain momentum states (ultra-bear, bear, flat, bull, ultra-bull), and enhance the previous strategy using these internal states.
-
-_Our assumption is that the data distribution is quite different in each of these momentum-states, and calculating statistics over a large period averages out the statistics from various distributions - leading to incorrect outcomes_
+_Our hypothesis is that the data distribution differs significantly across these momentum states. Relying on aggregated statistics over a large period blends these distributions, leading to inaccurate conclusions and suboptimal trading decisions._
 
 # Method
 
-So the above leads to a simple line of attack..
+This leads us to a straightforward plan of action:
 
-1. Let's classify the stock to be in various momentum-states over certain window intervals.
+1. **Classify Momentum States:** Identify the stock's momentum states (e.g., ultra-bear, bear, flat, bull, ultra-bull) across defined window intervals.
 
-2. We'll find probability statistics of the stock for each of these momentum-states, and consider them to be different data distributions.
+2. **Analyze Probability Distributions:** Calculate probability statistics for each momentum state, treating them as distinct data distributions.
 
-3. When running the strategy from the previous [post](2024/12/19/adventures-in-ml-trading-part-1/), we'll consider the current momentum-state of the stock - and use that state specific probability distribution to take the trades.
+3. **Incorporate Momentum into Strategy:** When applying the strategy from the previous [post](2024/12/19/adventures-in-ml-trading-part-1/), factor in the stock’s current momentum state and use its corresponding probability distribution to make trading decisions.
 
-Hopefully, our hypothesis turns out to be true, and if not - we'll learn something new.
+The goal is simple: validate our hypothesis that momentum states offer more precise insights, enhancing the strategy. And if the hypothesis doesn’t hold, we’ll still gain valuable insights.
 
-Let's crunch the numbers, and I'd recommend getting your favourite drink here.
+Now, let’s crunch the numbers—grab your favourite drink and settle in!
 
-# Step 1 - Defining the Momentum-States
+# Step 1: Defining the Momentum States
 
-Let's give these states some english meaning.
+To start, let’s give each momentum state a clear, intuitive meaning:
 
-1. **ULTRA-BEAR **: Extreme downward movements, causing considerable loss. We want to avoid holding a position in this time.
+1. **ULTRA-BEAR**: Severe downward movements leading to significant losses. Avoid holding positions during this time.
 
-2. **BEAR**: Downward momentum causing loss. We also want to avoid holding a position, and potentially be short.
+2. **BEAR**: Noticeable downward momentum causing losses. Consider avoiding positions or possibly going short.
 
-3. **FLAT**: We expect sideways movement of the stock, this will be boring. Better invest somewhere else, or utilise the consistent patterns here.
+3. **FLAT**: Sideways movement with minimal gains or losses. This phase is uneventful—better to allocate resources elsewhere or exploit consistent patterns here.
 
-4. **BULL**: Considerable positive returns. We should be holding a position in the stock.
+4. **BULL**: Upward momentum with notable positive returns. A good time to hold a position in the stock.
 
-5. **ULTRA-BULL**: Extreme levels of greed in the market, the stock is parabolic. We should be in the stock and maybe even have some call options.
+5. **ULTRA-BULL**: Intense market greed leading to parabolic upward movements. Ideal for holding positions, and perhaps leveraging with call options.
 
-> **But we need to find the mathematical definition of these states**. Let's run some analysis on TSLA and define these more broadly
+> **The challenge:** We need mathematical definitions for these states. Let’s analyze TSLA to establish these definitions more broadly.
 
-## Return distributions over 3 day intervals
+---
 
-This method is quite simple. We find the stock returns over a 3-day interval and use those returns as a classification of the momentum.
+## Return Distributions Over 3-Day Intervals
 
-(We could use some 'indicator' like RSI / MACD, but IMO the actual return is a better representation of the "truth". Higher momentum, should give higher profits and vice versa - I welcome debate and discussion here)
+Our approach is straightforward: calculate stock returns over 3-day intervals and use those returns to classify momentum states.  
+While indicators like RSI or MACD could be used, actual returns better represent the “truth.”
 
-### Absolute distribution over 15 day intervals
+IMO - Higher momentum should equate to higher profits, and vice versa.
 
+> _I’m open to discussion on this point if you have alternative suggestions!_
+
+---
+
+### Absolute Distribution Over 15-Day Intervals
+
+The chart below shows the dollar return for every point on the stock price, looking 3 days forward:
 {{< glightbox href="/image_1735391127954_0.png" src="/image_1735391127954_0.png" alt="image.png" >}}
 
-_This is the $ return, for every point of the stock, looking 3 days forward._
+---
 
-### Percentage-gain distribution over 3 day interval
+### Percentage-Gain Distribution Over 3-Day Intervals
 
-As with our previous post, we shouldn't take absolute values, as that causes a skew in our data towards recent dates as they have higher stock prices.
-
-So let's look at _percentage gain_ for each point instead.
-
+As noted in the previous post, absolute values introduce bias toward recent dates with higher stock prices. Instead, we analyze _percentage gains_ for a more balanced view:
 {{< glightbox href="/image_1735391146939_0.png" src="/image_1735391146939_0.png" alt="image.png" >}}
 
-Nice, Let's now find the threshold values that divide these return in 5 equal buckets from 'ULTRA_BEAR' -> 'ULTRA_BULL'
+---
+
+### Determining Threshold Values
+
+To divide the returns into five momentum states (ULTRA-BEAR to ULTRA-BULL), we calculate threshold values that evenly segment the data into five groups of ~500 days each:
+
+```python
+thresholds = np.percentile(percentage_returns, np.linspace(0, 100, num_states + 1))
+```
+
+The resulting thresholds:
 
 ```
- thresholds = np.percentile(percentage_returns, np.linspace(0, 100, num_states + 1))
-
-Equal Thresholds: [-21.29815971  -3.22985358  -0.61682303   1.2045505    3.61522128
-  36.35119642]
+- [-21.29815971, -3.22985358, -0.61682303, 1.2045505, 3.61522128, 36.35119642]
 ```
 
-This divides our 2516 days of data, into groups roughly 500 in size. Let's plot these states on the price chart and see if they're making sense.
+### Visualizing the Momentum States
 
+The price chart below illustrates these momentum states, based on our thresholds:
 {{< glightbox href="/image_1735391229928_0.png" src="/image_1735391229928_0.png" alt="image.png" >}}
 
-At this point, I think we have a good definition of each of these momentum states.
+At this stage, we have a solid mathematical definition for each momentum state. The segmentation aligns well with intuitive patterns in TSLA's price action, and we can move forward
 
-# Step 2 - Probability Statistics for each state
+# Step 2: Probability Statistics for Each State
 
-Now that we have 5 distinct groups,
+Now that we have identified 5 distinct momentum states:
 
-> Let's validate our assumption that these are indeed separate data distributions, by showing the different `Log Distance to SMA 50` as we did before
+> Let’s validate our assumption that these states represent separate data distributions by analyzing the `Log Distance to SMA 50`, as we did earlier.
 
 {{< glightbox href="/image_1735391253380_0.png" src="/image_1735391253380_0.png" alt="image.png" >}}
 
-Instead of raw log prices, let's see the data distribution as histograms
+---
 
+## Visualizing Data Distributions
+
+Instead of examining raw log prices, we visualize the data distributions as histograms for clarity:
 {{< glightbox href="/image_1735391262210_0.png" src="/image_1735391262210_0.png" alt="image.png" >}}
 
-##### Considerations
+---
 
-1. **ULTRA_BEAR**: Skewed to the left, indicating most values are negative and below the SMA50.
+### Key Observations
 
-2. **BEAR**: Symmetrical but shifted slightly to the left, with a narrower spread compared to other states.
+    1. **ULTRA-BEAR** Skewed to the left, indicating most values are negative and below the SMA50.
 
-3. **FLAT**: Nearly symmetrical and centered around zero, indicating minimal deviation from the SMA50.
+2. **BEAR**: Symmetrical but slightly shifted to the left, with a narrower spread compared to other states.
 
-4. **BULL**: Symmetrical but shifted slightly to the right, with a narrower spread.
+3. **FLAT**:Nearly symmetrical and centered around zero, reflecting minimal deviation from the SMA50.
 
-5. **ULTRA_BULL**: Skewed to the right, indicating most values are positive and above the SMA50.
+4. **BULL**: Symmetrical but slightly shifted to the right, with a narrower spread.  
+   5. **ULTRA-BULL**: Skewed to the right, indicating most values are positive and above the SMA50.
 
-### Conclusion
+---
 
-**Indeed all the momentum states do have different probability distributions, and hence different statistics to consider.**
+## Summary
 
-# Step 3 - Simulating / Backtesting basis momentum-state
+The data confirms that all momentum states exhibit distinct probability distributions.  
+**These differences validate the need to consider separate statistics for each state when analyzing or trading.**
 
-Now let's try to use this this new information to simulate the trades. But there's a problem :-
+# Step 3: Simulating/Backtesting Based on Momentum States
 
-### How do we estimate the current momentum state ?
+## Now that we have momentum-state definitions, let’s use this information to simulate trades.
 
-I've taken a simple strategy of taking an average of recently seen momentum-states
+## Challenge: Estimating the Current Momentum State
 
-1. I look at 3 dates, `[ t-6, t-5, t-4 ]`, and then get the percentage returns and momentum states for those 3 points.
+To estimate the current momentum state, I use a simple heuristic for now (more in next blog):
 
-2. I then pick the majority (highest frequency) momentum state.
+1. Look at the past 3 dates, `[t-6, t-5, t-4]`, and calculate the percentage returns and corresponding momentum states for those points.
 
-3. In case of a tie, I randomly pick one to have no bias.
+2. Pick the majority (highest frequency) momentum state.
 
-Once I have an estimated momentum-state, **I consider only the probability statistics for that specific momentum state.**
+3. In case of a tie, randomly select one to avoid bias.  
+   Once the estimated momentum state is determined, **I use only the probability statistics for that specific state.**
+   This allows the algorithm to contextualize current price movements based on similar past price structures, improving decision-making.
 
-This allows us to look at the current price movements, in context of similar price structures in the past, and make better decisions than looking at everything as one.
+---
 
-## Simulation with nearby momentum states
+## Simulation Using Momentum States
 
-### Simulation results for a simple BUY-and-HOLD
+### Baseline: Simple BUY-and-HOLD Strategy
 
-Let's consider a baseline first - what if buy and never sell. Below is the backtrader plot of such a strategy.
-
+First, let’s consider a baseline where we buy and never sell:
 {{< glightbox href="/image_1735391846341_0.png" src="/image_1735391846341_0.png" alt="image.png" >}}
 
-### Simulation results for our strategy
+---
 
-This time,
+### Our Momentum-Based Strategy
 
+Next, we run the simulation using the momentum-state approach:
 {{< glightbox href="/image_1735391911417_0.png" src="/image_1735391911417_0.png" alt="image.png" >}}
 
-### Side by Side comparison
+---
 
+### Side-by-Side Comparison
+
+Comparing the two strategies:
 {{< glightbox href="/image_1735392004631_0.png" src="/image_1735392004631_0.png" alt="image.png" >}}
+
+---
+
+# Observations
+
+While the momentum-based strategy didn’t outperform BUY-and-HOLD overall, it demonstrated interesting results:
+
+1. During significant price surges, the a*lgorithm adapted and avoided blindly selling.*
+
+2. It showed agility by correcting itself, _entering buy/sell positions after observing strong directional surges._
+
+---
+
+### Examples of Strategy Adjustments
+
+**Changed to BUY after detecting a price surge:**  
+{{< glightbox href="/image_1735392902602_0.png" src="/image_1735392902602_0.png" alt="image.png" >}}
+
+**Avoided a big crash by adapting to the price structure:**  
+{{< glightbox href="/image_1735392912063_0.png" src="/image_1735392912063_0.png" alt="image.png" >}}
+
+Compare this with trades from the previous strategy (without momentum consideration):
+{{< glightbox href="/image_1735393119125_0.png" src="/image_1735393119125_0.png" alt="image.png" >}}
+
+The older strategy exited parabolic moves prematurely because the statistics didn’t align with the observed price structure.
 
 ## Conclusion
 
-While this strategy did not beat the BUY-and-HOLD, it has some really interesting results.
+Although the momentum-based strategy didn’t beat the traditional BUY-and-HOLD, it showed clear improvements in agility and adaptability:
 
-Notice in the big price surges, when the price structure has changed, the new algorithm _IS_ adapting to the surge and not blindly saying SELL as we saw in the previous post.
+**Agility:** The algorithm adjusted to price surges and crashes dynamically.
 
-Showing some instances of the strategy correcting itself and entering buy/sell positions after a strong surge in one direction
+**Improved Contextualization:** Considering momentum alongside oscillating signals enabled better alignment with price structures.
 
-_Changed to a BUY, once price surge was seen_
-
-{{< glightbox href="/image_1735392902602_0.png" src="/image_1735392902602_0.png" alt="image.png" >}}
-
-_Changed to see, and avoided a big crash_
-
-{{< glightbox href="/image_1735392912063_0.png" src="/image_1735392912063_0.png" alt="image.png" >}}
-
-Compare this to trades from our previous post, that did not consider momentum - the strategy was exiting parabolic moves because the statistics didn't match the price structure being seen.
-
-{{< glightbox href="/image_1735393119125_0.png" src="/image_1735393119125_0.png" alt="image.png" >}}
-
-**So overall - this agility, and considering the price movements feels like this is an improvement to me, even though our strategy currently still fails the traditional BUY-and-HOLD**
-
-It's also clear that using momentum in addition to oscillating signals - makes the algorithm more agile and adaptable.
-
-In the next post, I'll build an ML model to _predict_ the current momentum-state, and see if that improves our algorithm further.
+In the next post, I’ll explore building an ML model to _predict_ the current momentum state, aiming to further enhance the algorithm. Stay tuned!
