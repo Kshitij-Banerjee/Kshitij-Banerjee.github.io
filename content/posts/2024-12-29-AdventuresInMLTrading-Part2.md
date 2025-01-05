@@ -4,9 +4,9 @@ Title: Adventures in ML trading - Part 2
 Layout: post
 Name: Adventures in ML trading - Part 2
 date: 2024-12-25
-banner: "Momentum_Strategy_2.png"
+banner: "SimpleStrategy1-Banner.webp"
 cover:
-  image: "Momentum_Strategy_2.png"
+  image: "SimpleStrategy1-Banner.webp"
 tags: [ML, Trading, AI, Beginner, AlgorthmicTrading, Basics]
 keywords:
   [

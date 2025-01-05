@@ -1,12 +1,12 @@
 ---
 Category: ML Trading
-Title: Santa Rally is Myth
+Title: Santa Rally is a Myth
 Layout: post
 Name: Santa Rally is a Myth
 date: 2025-01-01
-banner: "SantaRally.webp"
+banner: "SantaRally-1.png"
 cover:
-  image: "SantaRally.webp"
+  image: "SantaRally-1.png"
 tags: [ML, Trading, AI, Beginner, AlgorthmicTrading, Basics]
 keywords:
   [
@@ -21,11 +21,12 @@ keywords:
   ]
 ---
 
-## Facts and Myths of the Santa Claus Rally
+## Intro
 
 Santa Claus Rally is a well-known narrative in the stock market, where it is claimed that investors often see positive returns during the final week of the year, from **December 25th to January 2nd**. But is it a real pattern or just a market myth ?
 
-In this post, I've run the numbers and shown that its actually mostly a 'Myth', that it is a fact. Let's get to it..
+It is also claimed that next years returns are positively correlated to the Santa rally. But is it a real pattern or just a market myth ?
+Let’s debunk some myths with data.
 
 ### Data Analysis: 7-Day Returns (December 25th to January 2nd)
 
