@@ -9,3 +9,7 @@ git s | grep '\.md' | awk -F' ' '{ print $2 }' | xargs -I{} sed -i '' \
 -e 's|!\[\(.*\)\](\.\./assets/\([^)]*\))|{{< glightbox href="/\2" src="/\2" alt="\1" >}}|g' \
 -e 's|!\[\(.*\)\](\(/[^)]*\))|{{< glightbox href="\2" src="\2" alt="\1" >}}|g' \
 "{}"
+
+# Add spaces infront of cover.image: tag
+git s | grep '\.md' | awk -F' ' '{ print $2 }' | xargs -I{} sed -i '' 's/^image:/  image:/' "{}"
+
