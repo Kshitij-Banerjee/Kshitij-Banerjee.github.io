@@ -1,12 +1,10 @@
 ---
 Category: ML Trading
-Title: Santa Rally is a Myth
+Title: Statistical learnings - Failed santa rally 2024
 Layout: post
-Name: Santa Rally is a Myth
+Name: Statistical learnings - Failed santa rally 2024
 date: 2025-01-01
 banner: "SantaRally-1.png"
-cover:
-  image: "SantaRally-1.png"
 tags: [ML, Trading, AI, Beginner, AlgorthmicTrading, Basics]
 keywords:
   [
