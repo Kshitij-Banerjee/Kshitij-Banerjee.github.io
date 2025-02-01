@@ -6,7 +6,7 @@ Name: Deepseek-coder writes react
 date: 2024-04-15
 banner: "exploring_code_llms.png"
 cover:
- image: "exploring_code_llms.png"
+  image: "exploring_code_llms.png"
 tags: [Machine-Learning, AI]
 keywords: [Machine-Learning, AI, LLM]
 ---
@@ -15,11 +15,11 @@ keywords: [Machine-Learning, AI, LLM]
 
 The goal of this post is to deep-dive into LLMs that are **specialized in code generation tasks** and see if we can use them to write code.
 
-Note: Unlike copilot, we'll focus on *locally running LLM's*. This should be appealing to any developers working in enterprises that have data privacy and sharing concerns, but still want to improve their developer productivity with locally running models.
+Note: Unlike copilot, we'll focus on _locally running LLM's_. This should be appealing to any developers working in enterprises that have data privacy and sharing concerns, but still want to improve their developer productivity with locally running models.
 
 To test our understanding, we'll perform a few simple coding tasks, compare the various methods in achieving the desired results, and also show the shortcomings.
 
-In [Part-1](https://kshitij-banerjee.github.io/2024/04/14/exploring-code-llms/), I covered some papers around instruction fine-tuning, GQA and Model Quantization - All of which make running LLM's locally possible.
+In [Part-1](https://kshitijbanerjee.com/2024/04/14/exploring-code-llms-instruction-fine-tuning-models-and-quantization/), I covered some papers around instruction fine-tuning, GQA and Model Quantization - All of which make running LLM's locally possible.
 
 In this Part-2 of the series, I'd like to focus on how to setup an M1 to run deepseek-coder, and the verdict on its coding capabilities in react on a few tests
 
@@ -57,7 +57,6 @@ From 1 and 2, you should now have a hosted LLM model running. Now we need VSCode
 
 ## VSCode Extension Calling into the Model
 
-
 **[UPDATE]**: I've recently found an open source plugin works well. If I was starting from scratch, I'd try https://www.continue.dev/.
 
 Given the above best practices on how to provide the model its context, and the prompt engineering techniques that the authors suggested have positive outcomes on result. I created a VSCode plugin that implements these techniques, and is able to interact with Ollama running locally.
@@ -70,7 +69,7 @@ This plugin achieves the following:-
 
 It provides the LLM context on project/repository relevant files.
 
-The plugin not only pulls the current file, but also loads all the currently open files in Vscode into the LLM context. 
+The plugin not only pulls the current file, but also loads all the currently open files in Vscode into the LLM context.
 
 It then trims the context to the last 16000/24000 characters (configurable)
 
@@ -123,12 +122,12 @@ PROMPT
 CODE OUTPUT:
 
 ```typescript
-import { useEffect } from 'react';
+import { useEffect } from "react";
 export default function withLoggingHook(componentName: string) {
   return () => {
     useEffect(() => {
       console.log(`${componentName} mounted`);
-    return () => {
+      return () => {
         console.log(`${componentName} unmounted`);
       };
     }, []);
@@ -146,76 +145,74 @@ It doesn't know when to stop, and kind of keep spitting code at times - so I had
 
 ### 1.2 Writing a HOC that augments the logging instead of using the hook.
 
-*PROMPT:*
+_PROMPT:_
 
 ```tyepscript
 // A react HOC, that wraps a given component and logs the component name
 // on mount and unmount.
 ```
 
-*CODE OUTPUT (Attempt 1):*
+_CODE OUTPUT (Attempt 1):_
 
 ```typescript
-
-import React from 'react';
+import React from "react";
 
 export function withLoggingHook<T extends {}>(
-	WrappedComponent: React.ComponentType<T>,
+  WrappedComponent: React.ComponentType<T>
 ) {
-	return class WithLoggingHoc extends React.PureComponent<T, {}> {
-		constructor(props: T) {
-			super(props);
-			console.log('Mounted ' + WrappedComponent.name);
-		}
+  return class WithLoggingHoc extends React.PureComponent<T, {}> {
+    constructor(props: T) {
+      super(props);
+      console.log("Mounted " + WrappedComponent.name);
+    }
 
-		componentWillUnmount() {
-			console.log('Unmounted ' + WrappedComponent.name);
-		}
+    componentWillUnmount() {
+      console.log("Unmounted " + WrappedComponent.name);
+    }
 
-		render() {
-			return <WrappedComponent {...this.props} />;
-		}
-	};
+    render() {
+      return <WrappedComponent {...this.props} />;
+    }
+  };
 }
 
 // ./src/generated/withLoggingHook.test.tsx
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { withLoggingHook } from './withLoggingHook';
+import React from "react";
+import { render, fireEvent } from "@testing-library/react";
+import { withLoggingHook } from "./withLoggingHook";
 
 const TestComponent = () => <div>Test Component</div>;
 
-describe('withLoggingHook', () => {
-	beforeEach(() => {
-		jest.spyOn(console, 'log');
-	});
+describe("withLoggingHook", () => {
+  beforeEach(() => {
+    jest.spyOn(console, "log");
+  });
 
-	afterEach(() => {
-		jest.resetAllMocks();
-	});
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
 
-	it('should log when mounted and unmounted', () => {
-		const ComponentWithLogging = withLoggingHook(TestComponent);
+  it("should log when mounted and unmounted", () => {
+    const ComponentWithLogging = withLoggingHook(TestComponent);
 
-		const { rerender, unmount } = render(<ComponentWithLogging />);
+    const { rerender, unmount } = render(<ComponentWithLogging />);
 
-		expect(console.log).toHaveBeenCalledWith('Mounted TestComponent');
+    expect(console.log).toHaveBeenCalledWith("Mounted TestComponent");
 
-		rerender(<div></div>);
+    rerender(<div></div>);
 
-		expect(console.log).not.toHaveBeenLastCalledWith('Unmounted TestComponent');
+    expect(console.log).not.toHaveBeenLastCalledWith("Unmounted TestComponent");
 
-		unmount();
+    unmount();
 
-		expect(console.log).toHaveBeenLastCalledWith('Unmounted TestComponent');
-	});
+    expect(console.log).toHaveBeenLastCalledWith("Unmounted TestComponent");
+  });
 });
-
 ```
 
 #### Mistakes:
 
-It used a constructor, instead of the componentDidMount method. 
+It used a constructor, instead of the componentDidMount method.
 
 added a fireEvent import, but didn't use it later.
 
@@ -225,60 +222,59 @@ I retried a couple more times. In the next attempt, it jumbled the output and go
 
 Attempt 3 is did pretty well though
 
-*CODE OUTPUT (Attempt 3):*
+_CODE OUTPUT (Attempt 3):_
 
 ```typescript
 // A react HOC, that wraps a given component and logs the component name
 // on mount and unmount.
-import React from 'react';
-import { useEffect } from 'react';
-import { ComponentType } from 'react';
+import React from "react";
+import { useEffect } from "react";
+import { ComponentType } from "react";
 
 export function withLoggingHook<TProps>(
-	WrappedComponent: ComponentType<TProps>,
-	componentName: string,
+  WrappedComponent: ComponentType<TProps>,
+  componentName: string
 ) {
-	const WithLogging = (props: TProps) => {
-		useEffect(() => {
-			console.log(`${componentName} is mounted`);
-			return () => {
-				console.log(`${componentName} is unmounted`);
-			};
-		}, []);
-		return <WrappedComponent {...props} />;
-	};
-	WithLogging.displayName = `WithLogging(${getDisplayName(WrappedComponent)})`;
-	return WithLogging;
+  const WithLogging = (props: TProps) => {
+    useEffect(() => {
+      console.log(`${componentName} is mounted`);
+      return () => {
+        console.log(`${componentName} is unmounted`);
+      };
+    }, []);
+    return <WrappedComponent {...props} />;
+  };
+  WithLogging.displayName = `WithLogging(${getDisplayName(WrappedComponent)})`;
+  return WithLogging;
 }
 
 function getDisplayName<TProps>(WrappedComponent: ComponentType<TProps>) {
-	return WrappedComponent.displayName || WrappedComponent.name || 'Component';
+  return WrappedComponent.displayName || WrappedComponent.name || "Component";
 }
-
 ```
 
 I also noticed, that asking it specifically what I want, returned the right output in the first attempt
 
-*CODE OUTPUT (Attempt 4): asking explicitly what I want*
+_CODE OUTPUT (Attempt 4): asking explicitly what I want_
 
 ```typescript
 // A react HOC, that wraps a given component and logs the component name
 // on mount and unmount. Use effects, instead of componentDidMount / unmount
-import React from 'react';
+import React from "react";
 
 export function withLoggingHook<P extends object>(
-	Component: React.ComponentType<P>,
+  Component: React.ComponentType<P>
 ) {
-	return (props: P): JSX.Element => {
-		console.log('[withLoggingHook]', Component.name, 'mounted');
+  return (props: P): JSX.Element => {
+    console.log("[withLoggingHook]", Component.name, "mounted");
 
-		React.useEffect(() => {
-			return () =>
-				console.log('[withLoggingHook]', Component.name, 'un-mounted');
-		}, []);
+    React.useEffect(() => {
+      return () =>
+        console.log("[withLoggingHook]", Component.name, "un-mounted");
+    }, []);
 
-		return <Component {...props} />;
-	};
+    return <Component {...props} />;
+  };
 }
 ```
 
@@ -310,7 +306,7 @@ In the previous test, it wrote a withLoggingHook, let's use that as its context
 
 As mentioned before, I used the vscode plugin I created previously, to give it context of the withLoggingHooks code
 
-*PROMPT:*
+_PROMPT:_
 
 ```typescript
 // [FILE-NAME] ./src/generated/withLoggingHook.tsx
@@ -324,43 +320,43 @@ As mentioned before, I used the vscode plugin I created previously, to give it c
 
 ```
 
-*CODE OUTPUT:*
+_CODE OUTPUT:_
 
 ```typescript
-import { render } from '@testing-library/react';
-import { withLoggingHook } from './withLoggingHook';
+import { render } from "@testing-library/react";
+import { withLoggingHook } from "./withLoggingHook";
 
-describe('withLoggingHook', () => {
-	beforeEach(() => {
-		// Mock console.log to prevent unwanted output during testing
-		jest.spyOn(console, 'log').mockImplementation(() => {});
-	});
+describe("withLoggingHook", () => {
+  beforeEach(() => {
+    // Mock console.log to prevent unwanted output during testing
+    jest.spyOn(console, "log").mockImplementation(() => {});
+  });
 
-	afterEach(() => {
-		// Restore original console.log after each test
-		(console.log as jest.Mock).mockRestore();
-	});
+  afterEach(() => {
+    // Restore original console.log after each test
+    (console.log as jest.Mock).mockRestore();
+  });
 
-	it('should log the component name on mount', () => {
-		const TestComponent = withLoggingHook((): null => null);
-		render(<TestComponent />);
-		expect(console.log).toHaveBeenCalledWith(
-			'[withLoggingHook]',
-			'TestComponent',
-			'mounted',
-		);
-	});
+  it("should log the component name on mount", () => {
+    const TestComponent = withLoggingHook((): null => null);
+    render(<TestComponent />);
+    expect(console.log).toHaveBeenCalledWith(
+      "[withLoggingHook]",
+      "TestComponent",
+      "mounted"
+    );
+  });
 
-	it('should log the component name on unmount', () => {
-		const TestComponent = withLoggingHook((): null => null);
-		const { unmount } = render(<TestComponent />);
-		unmount();
-		expect(console.log).toHaveBeenCalledWith(
-			'[withLoggingHook]',
-			'TestComponent',
-			'un-mounted',
-		);
-	});
+  it("should log the component name on unmount", () => {
+    const TestComponent = withLoggingHook((): null => null);
+    const { unmount } = render(<TestComponent />);
+    unmount();
+    expect(console.log).toHaveBeenCalledWith(
+      "[withLoggingHook]",
+      "TestComponent",
+      "un-mounted"
+    );
+  });
 });
 ```
 
@@ -380,7 +376,7 @@ However, I did realise that multiple attempts on the same test case did not alwa
 
 Let's ask it to make a slightly more complicated component with some functionality
 
-*PROMPT*
+_PROMPT_
 
 ```typescript
 // A react component, that allows the user to upload excel files.
@@ -390,63 +386,62 @@ Let's ask it to make a slightly more complicated component with some functionali
 // The final parsed values of foo and bar, are given back as an array to the callback.
 ```
 
-*CODE OUTPUT:*
+_CODE OUTPUT:_
 
 ```typescript
-import React from 'react';
-import XLSX from 'xlsx';
+import React from "react";
+import XLSX from "xlsx";
 
 interface ExcelUploadComponentProps {
-	onFileLoad: (data: { foo: number[]; bar: number[] }) => void;
+  onFileLoad: (data: { foo: number[]; bar: number[] }) => void;
 }
 
 const ExcelUploadComponent: React.FC<ExcelUploadComponentProps> = ({
-	onFileLoad,
+  onFileLoad,
 }: ExcelUploadComponentProps) => {
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (!e.target.files || e.target.files.length === 0) return;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) return;
 
-		const file = e.target.files[0];
-		const reader = new FileReader();
+    const file = e.target.files[0];
+    const reader = new FileReader();
 
-		reader.onload = (event: ProgressEvent<FileReader>) => {
-			if (!event.target || !event.target.result) return;
+    reader.onload = (event: ProgressEvent<FileReader>) => {
+      if (!event.target || !event.target.result) return;
 
-			const data = event.target.result as string;
-			const workbook = XLSX.read(data, { type: 'binary' });
-			const sheetName = workbook.SheetNames[0];
-			const worksheet = workbook.Sheets[sheetName];
+      const data = event.target.result as string;
+      const workbook = XLSX.read(data, { type: "binary" });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
 
-			// Convert the excel data to JSON
-			const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+      // Convert the excel data to JSON
+      const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-			// Extract the foo and bar values from the JSON data
-			const fooValues = [];
-			const barValues = [];
+      // Extract the foo and bar values from the JSON data
+      const fooValues = [];
+      const barValues = [];
 
-			for (let i = 0; i < jsonData.length; i++) {
-				if (!jsonData[i]) continue;
-				const row = jsonData[i];
-				fooValues.push(row[0]);
-				barValues.push(row[1]);
-			}
+      for (let i = 0; i < jsonData.length; i++) {
+        if (!jsonData[i]) continue;
+        const row = jsonData[i];
+        fooValues.push(row[0]);
+        barValues.push(row[1]);
+      }
 
-			onFileLoad({ foo: fooValues, bar: barValues });
-		};
+      onFileLoad({ foo: fooValues, bar: barValues });
+    };
 
-		reader.readAsBinaryString(file);
-	};
+    reader.readAsBinaryString(file);
+  };
 
-	return <input type="file" accept=".xls,.xlsx,.csv" onChange={handleChange} />;
+  return <input type="file" accept=".xls,.xlsx,.csv" onChange={handleChange} />;
 };
 
 export default ExcelUploadComponent;
-
 ```
 
 ### Verdict: 👍 👍
 
-- Now that, was *pretty* good. I have no idea how to use the xlsx utility, and have not looked at its documentation
+- Now that, was _pretty_ good. I have no idea how to use the xlsx utility, and have not looked at its documentation
 
 - Even though, I had to correct some typos and some other minor edits - this gave me a component that does exactly what I needed.
 
@@ -454,9 +449,9 @@ export default ExcelUploadComponent;
 
 # Conclusion
 
-All in all, I think having locally running LLMs that can help us with code is possibly *very* near
+All in all, I think having locally running LLMs that can help us with code is possibly _very_ near
 
-These current models, while don't really get things correct always, *do* provide a pretty handy tool and in situations where new territory / new apps are being made, I think they can make significant progress.
+These current models, while don't really get things correct always, _do_ provide a pretty handy tool and in situations where new territory / new apps are being made, I think they can make significant progress.
 
 Something to note, is that once I provide more longer contexts, the model seems to make a lot more errors. This is potentially only model specific, so future experimentation is needed here.
 
@@ -466,7 +461,7 @@ There were quite a few things I didn't explore here. I will cover those in futur
 
 Here's a list of a few things I'm going to experiment next
 
-- Providing more examples of *good* code, instead of trying to explicitly mention every detail we want
+- Providing more examples of _good_ code, instead of trying to explicitly mention every detail we want
 
 - Comparing other models on similar exercises. Possibly making a benchmark test suite to compare them against.
 
