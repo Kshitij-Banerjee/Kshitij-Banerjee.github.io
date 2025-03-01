@@ -1,4 +1,39 @@
 {{- define "main" }}
+<style>
+  .entry-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .entry-text {
+    flex: 1;
+  }
+
+  .entry-image {
+    max-width: 40%;
+    max-height: 11vh;
+    overflow-y: hidden;
+    margin-left: 20px;
+  }
+
+  /* Additional overrides */
+  .entry-content {
+    margin-top: 10px;
+  }
+
+  .cover-categories {
+    display: inline-block;
+    /* Aligns tags horizontally */
+    padding: 1px;
+    /* Reduced padding for a subtler look */
+    color: #666;
+    /* Lighter text color */
+    font-size: 10px;
+    /* Slightly larger text */
+    background: none;
+  }
+</style>
 
 {{- if (and site.Params.profileMode.enabled .IsHome) }}
 {{- partial "index_profile.html" . }}
@@ -42,7 +77,7 @@
 
 {{- if .IsHome }}
 {{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
-{{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true"  }}
+{{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true" }}
 {{- end }}
 
 {{- $paginator := .Paginate $pages }}
@@ -62,29 +97,41 @@
 {{- else if $term }}
 {{- $class = "post-entry tag-entry" }}
 {{- end }}
-
 <article class="{{ $class }}">
   {{- $isHidden := (.Param "cover.hiddenInList") | default (.Param "cover.hidden") | default false }}
-  {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">
-			{{- .Title }}
-			<div class="cover-tags"> {{- .Params.Category }}  </div>
-      {{- if .Draft }}
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
+
+  <!-- Wrap the image and text content in a flex container -->
+  <div class="entry-header-content">
+    <!-- Text Content (Title and Description) -->
+    <div class="entry-text">
+      <header class="entry-header">
+        <h2 class="entry-hint-parent">
+          {{- .Title }}
+          <div class="cover-categories">{{- .Params.Category }}</div>
+          {{- if .Draft }}
+          <span class="entry-hint" title="Draft">
+            <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+              <path
+                d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+            </svg>
+          </span>
+          {{- end }}
+        </h2>
+      </header>
+
+      {{- if (ne (.Param "hideSummary") true) }}
+      <div class="entry-content">
+        <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>
+      </div>
       {{- end }}
-    </h2>
-  </header>
-  {{- if (ne (.Param "hideSummary") true) }}
-  <div class="entry-content">
-    <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>
+    </div>
+
+    <!-- Image (Cover) -->
+    <div class="entry-image">
+      {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
+    </div>
   </div>
-  {{- end }}
+
   {{- if not (.Param "hideMeta") }}
   <footer class="entry-footer">
     {{- partial "post_meta.html" . -}}

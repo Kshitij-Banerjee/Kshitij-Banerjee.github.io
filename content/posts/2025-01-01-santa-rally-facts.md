@@ -1,8 +1,8 @@
 ---
 Category: ML Trading
-Title: Statistical learnings - Failed santa rally 2024
+Title: Statistical learnings from a failed 20245 santa rally
 Layout: post
-Name: Statistical learnings - Failed santa rally 2024
+Name: Statistical learnings from a failed 2024 santa rally
 date: 2025-01-01
 banner: "SantaRally-1.png"
 tags: [ML, Trading, AI, Beginner, AlgorthmicTrading, Basics]
