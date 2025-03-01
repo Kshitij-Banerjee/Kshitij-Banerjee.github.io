@@ -19,7 +19,7 @@ In his book _Nonviolent Communication: A Language of Life_, Rosenberg presents a
 
 ## Core Components of Nonviolent Communication
 
-Here are 6 of takeaways that connected with me from the book:-
+Here are some takeaways that connected with me most from the book :-
 
 1. **Observation Without Evaluation**: Focus on objective observations free from personal judgments or evaluations. This clarity prevents misunderstandings and reduces defensive reactions.
 
@@ -53,7 +53,7 @@ Here are 6 of takeaways that connected with me from the book:-
 
    - **Creating a Supportive Environment**: By concentrating on the emotions and needs of others, even in challenging situations, we create an environment where everyone feels heard and valued.
 
-6. **Reframing Self-Evaluation **
+6. **Reframing Self-Evaluation**
 
    - **From Self-Judgment to Self-Awareness**: NVC encourages a shift from self-judgment to self-awareness. By framing actions as conscious choices, we can align more closely with our values and needs. For example, saying, "I choose to work late because I value financial stability," acknowledges personal agency.
 
@@ -73,4 +73,4 @@ Here are 6 of takeaways that connected with me from the book:-
 
 I've been practicing NVC and its definitely a great framework. It’s all about empathy, being clear, and recognizing that we all share the same basic needs.
 
-While this book is all about empathic communications, the other book I've really enjoyed that complements this well is [Radical Candor: Be a Kickass Boss Without Losing Your HumanityCandor](https://www.goodreads.com/book/show/29939161-radical-candor). Perhaps i'll write a book summary on it next.
+While this book is all about empathic communications, the other book I've really enjoyed that complements this well is [Radical Candor: Be a Kickass Boss Without Losing Your HumanityCandor](https://www.goodreads.com/book/show/29939161-radical-candor). I'll summarise it next.

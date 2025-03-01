@@ -12,14 +12,19 @@
 
   .entry-image {
     max-width: 40%;
-    max-height: 11vh;
+    max-height: 15vh;
     overflow-y: hidden;
-    margin-left: 20px;
+    margin-right: 10px;
   }
 
   /* Additional overrides */
   .entry-content {
     margin-top: 10px;
+  }
+
+  .entry-footer {
+    display: flex;
+    justify-content: right;
   }
 
   .cover-categories {
@@ -30,6 +35,8 @@
     color: #666;
     /* Lighter text color */
     font-size: 10px;
+    font-weight: 400;
+    padding: 10px;
     /* Slightly larger text */
     background: none;
   }
@@ -102,6 +109,11 @@
 
   <!-- Wrap the image and text content in a flex container -->
   <div class="entry-header-content">
+    <!-- Image (Cover) -->
+    <div class="entry-image">
+      {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
+    </div>
+
     <!-- Text Content (Title and Description) -->
     <div class="entry-text">
       <header class="entry-header">
@@ -126,10 +138,6 @@
       {{- end }}
     </div>
 
-    <!-- Image (Cover) -->
-    <div class="entry-image">
-      {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
-    </div>
   </div>
 
   {{- if not (.Param "hideMeta") }}
