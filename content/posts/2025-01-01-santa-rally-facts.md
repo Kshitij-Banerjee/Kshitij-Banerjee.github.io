@@ -1,6 +1,6 @@
 ---
 Category: ML Trading
-Title: Statistical learnings from a failed 20245 santa rally
+Title: Statistical learnings from a failed 2024 santa rally
 Layout: post
 Name: Statistical learnings from a failed 2024 santa rally
 date: 2025-01-01
