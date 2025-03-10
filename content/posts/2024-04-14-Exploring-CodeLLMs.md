@@ -5,21 +5,22 @@ Layout: post
 Name: Code LLMs
 date: 2024-04-14
 banner: "quantization.png"
+popular: True
 cover:
   image: "quantization.png"
 tags: [machine-learning, AI]
 keywords: [machine-learning, AI]
 ---
 
-# Introduction
+# Introduction:
 
-The goal of this post is to deep-dive into LLM's that are **specialised in code generation tasks**, and see if we can use them to write code.
+A deep-dive into LLM's that are **specialised in code generation tasks**, and see if we can use them to write code.
 
 Note: Unlike copilot, we'll focus on _locally running LLM's_. This should be appealing to any developers working in enterprises that have data privacy and sharing concerns, but still want to improve their developer productivity with locally running models.
 
 To test our understanding, we'll perform a few simple coding tasks, and compare the various methods in achieving the desired results and also show the shortcomings.
 
-## The goal - A few simple coding task
+## The goals of this series - Code LLM evaluation on
 
 1. Test 1: Generate a higher-order-component / decorator that enables logging on a react component
 
@@ -31,7 +32,7 @@ To test our understanding, we'll perform a few simple coding tasks, and compare 
 
 We're going to cover some theory, explain how to setup a locally running LLM model, and then finally conclude with the test results.
 
-**Part 1: Quick theory**
+**Part 1: Quick theory - [THIS POST]**
 
 Instead of explaining the concepts in painful detail, I'll refer to papers and quote specific interesting points that provide a summary. For a detailed reading, refer to the papers and links I've attached.
 
@@ -43,7 +44,7 @@ Instead of explaining the concepts in painful detail, I'll refer to papers and q
 
 **If you know all of the above, you may want to skip to [Part 2](https://kshitij-banerjee.github.io/2024/04/15/deepseek-coder-can-it-code-in-react)**
 
-**Part 2: Local LLM Setup**
+**Part 2: Local LLM Setup - NEXT POST**
 
 Using Ollama and setting up my VSCode extension
 
@@ -53,7 +54,7 @@ VSCode Extension available here: https://github.com/Kshitij-Banerjee/kb-ollama-c
 
 Showing results on all 3 tasks outlines above.
 
-# [Part 1] Understanding Instruction Finetuning
+# [1.1] Understanding Instruction Finetuning
 
 Before we venture into our evaluation of coding efficient LLMs. Let's quickly discuss what "Instruction Fine-tuning" really means.
 
@@ -122,7 +123,7 @@ Are less likely to make up facts (‘hallucinate’) less often in closed-domain
 
 ![image.png](/image_1711810033442_0.png)
 
-# [Part 1] Deep dive into Mistral Models
+# [1.2.1] Deep dive into Mistral Models
 
 ## Brief introduction to Mistral models, their architecture, and key features
 
@@ -190,7 +191,7 @@ Benchmark on coding :
 | Mistral Medium | 75.3% | 88.0%               | 88%                | 89.9%                   | 81.1%             | 47%        |
 | Mistral Large  | 81.2% | 89.2%               | 86.7%              | 94.0%                   | 82.7%             | 50.6%      |
 
-# [Part 1] Deepseek Coder, an upgrade?
+# [1.2.2]Deepseek Coder, an upgrade?
 
 ## Overview of Eval metrics
 
@@ -302,7 +303,7 @@ Chain of thought prompting
 > Our analysis indicates that the implementation of Chain-of-Thought (CoT) prompting notably enhances the capabilities of DeepSeek-Coder-Instruct models. This improvement becomes particularly evident in the more challenging subsets of tasks. By adding the directive, "You need first to write a step-by-step outline and then write the code." following the initial prompt, we have observed enhancements in performance.
 > This observation leads us to believe that the process of first crafting detailed code descriptions assists the model in more effectively understanding and addressing the intricacies of logic and dependencies in coding tasks, particularly those of higher complexity. Therefore, we strongly recommend employing CoT prompting strategies when utilizing DeepSeek-Coder-Instruct models for complex coding challenges.
 
-# [Part 1] Model Quantization
+# [1.3] Model Quantization
 
 Along with instruction fine-tuning, another neat technique that makes LLM's more performant (in terms of memory and resources), is model quantization
 
@@ -318,7 +319,7 @@ Some schematics that explain the concept.
 
 ![Model Quantization 1: Basic Concepts | by Florian June | Medium](https://miro.medium.com/v2/resize:fit:516/1*Jlq_cyLvRdmp_K5jCd3LkA.png)
 
-![Model Quantization: single precision, half precision, 8-bit integer](https://deci.ai/wp-content/uploads/2023/02/deci-quantization-blog-1b.png){:height 362, :width 719}
+![Model Quantization: single precision, half precision, 8-bit integer](https://cdn-uploads.huggingface.co/production/uploads/6141a88b3a0ec78603c9e784/rYKKk1_EHID9zqRK1cbda.png)
 
 ## Quantization to Int8
 
@@ -346,27 +347,24 @@ In effect, this means that we clip the ends, and perform a scaling computation i
 
 ## Calibration
 
+The section above described how quantization from float32 to int8 works, but one question remains: how is the [a, b] range of float32 values determined? That is where calibration comes in to play.
+
 An example, explaining calibration to optimise clipping vs rounding error
 
-![Model Quantization: Calibration](https://deci.ai/wp-content/uploads/2023/02/deci-quantization-blog-2a.jpg){:height 187, :width 314}
+![Model Quantization: Calibration](https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0fa3761f-0244-48f7-af56-5fb6c1cdd952_1476x756.png)
+To ensure that we have a good balance of clipping vs rounding errors, based on the range [a, b] that we select. Two categories to do this are:-
 
-To ensure that we have a good balance of clipping vs rounding errors, based on the range [a, b] that we select. Some techniques are available
+**1. Post-Training Quantization (PTQ)**
 
-**Use per-channel granularity for weights and per-tensor for activations**
+**2. Quantization Aware Training (QAT)**
 
-**Quantize residual connections separately by replacing blocks**
+Recommending reading this section for a detailed explanation: https://newsletter.maartengrootendorst.com/i/145531349/calibration
 
-**Identify sensitive layers and skip them from quantization**
-
-https://huggingface.co/blog/4bit-transformers-bitsandbytes
-
-Model quantization + instruct = _Quite Good_ results
-
-Good reference reading on the topic: https://deci.ai/quantization-and-quantization-aware-training
+Another good reference reading on the topic: https://deci.ai/quantization-and-quantization-aware-training
 
 # What's next
 
-This post was more around understanding some fundamental concepts, I'll not take this learning for a spin and try out deepseek-coder model.
+This post was more around understanding some fundamental concepts, I'll now take this learning for a spin and try out deepseek-coder model.
 I'm primarily interested on its coding capabilities, and what can be done to improve it.
 
 Part-2 of this post is available [here](https://kshitij-banerjee.github.io/2024/04/15/deepseek-coder-can-it-code-in-react)

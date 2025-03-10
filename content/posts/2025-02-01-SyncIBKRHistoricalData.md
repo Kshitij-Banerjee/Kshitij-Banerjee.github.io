@@ -1,13 +1,21 @@
-
 ---
 Category: ML Trading
 Title: Syncing historical data from IBKR
 Layout: post
-Name:  Syncing historical data from IBKR
+Name: Syncing historical data from IBKR
 date: 2025-02-01
 tags: [ML, Trading, AI, Beginner, AlgorthmicTrading, Basics]
-keywords: [ML, machine-learning, AI, Transformers,Trading, AlgorithmicTrading, Beginner, Basics]
-
+keywords:
+  [
+    ML,
+    machine-learning,
+    AI,
+    Transformers,
+    Trading,
+    AlgorithmicTrading,
+    Beginner,
+    Basics,
+  ]
 ---
 
 # Syncing Historical Data from IBKR: A Comprehensive Guide
@@ -53,6 +61,7 @@ So we'll cover the following core components:-
 To download historical data from IBKR, you need to set up the Trader Workstation (TWS) or IB Gateway API. Here’s how you can configure it for paper trading:
 
 ### 1. Install IBKR Trader Workstation (TWS)
+
 Download and install [TWS](https://interactivebrokers.github.io/) from the IBKR website.
 
 ### 2. Enable API Access
@@ -63,18 +72,20 @@ Navigate to **Edit** → **Global Configuration**.
 
 Under **API** → **Settings**, enable:
 
-☑ *Enable ActiveX and Socket Clients*
+☑ _Enable ActiveX and Socket Clients_
 
-☑ *Allow connections from localhost only* (for security)
+☑ _Allow connections from localhost only_ (for security)
 
-☑ *Read-Only API* (optional for safety)
+☑ _Read-Only API_ (optional for safety)
 
 Set **Socket Port** to `7497` (default for paper trading).
 
 ### 3. Configure Market Data Subscription
+
 Ensure that your IBKR account has **market data subscriptions** active. Without it, historical data requests may be blocked.
 
 ### 4. Run the API Client
+
 TWS must **remain open** while your script runs. If you prefer a headless setup, use **IB Gateway** instead.
 
 Now, you’re ready to connect your script to IBKR’s paper trading environment!
@@ -152,7 +163,7 @@ class IBapi(EWrapper, EClient):
             tz = pytz.timezone(f'US/{tz_str}')
             localized_dt = tz.localize(naive_dt)
             utc_dt = localized_dt.astimezone(pytz.utc)
-            
+
             self.data.append({
                 'timestamp': utc_dt,
                 'open': bar.open,
@@ -167,7 +178,7 @@ class IBapi(EWrapper, EClient):
     def historicalDataEnd(self, reqId, start, end):
         self.request_complete = True
         self.data_event.set()
-    
+
     def run_loop(self):
         self.run()
 
@@ -175,7 +186,7 @@ def main(args):
     # Initialize API
     app = IBapi()
     app.connect('127.0.0.1', 7497, clientId=2)
-    
+
     # Connection timeout handling
     connect_timeout = 10
     start_time = time.time()
@@ -205,7 +216,7 @@ def main(args):
     while current_date <= end_date:
         end_date_str = current_date.strftime("%Y%m%d 23:59:59 US/Eastern")
         next_date = current_date + timedelta(days=1)
-        
+
         # Request parameters
         app.reqHistoricalData(
             reqId=1,
@@ -229,14 +240,14 @@ def main(args):
         if app.data:
             df = pd.DataFrame(app.data)
             df.set_index('timestamp', inplace=True)
-            
+
             # Create directory structure
             year = current_date.strftime("%Y")
             month = current_date.strftime("%m")
             filename = f"{current_date.strftime('%Y-%m-%d')}.parquet.snappy"
             storage_dir = f"{os.environ['HOME']}/your/local/storage/path/{args.ticker}/{year}/{month}"
             os.makedirs(storage_dir, exist_ok=True)
-            
+
             # Save with partitioning
             df.to_parquet(
                 os.path.join(storage_dir, filename),
@@ -244,13 +255,13 @@ def main(args):
                 index=True
             )
             print(f"Saved {len(df)} rows for {current_date.strftime('%Y-%m-%d')}")
-            
+
             # Clear data for next request
             app.data = []
             app.data_event.clear()
         else:
             print("NO DATA!")
-        
+
         current_date = next_date
 
     app.disconnect()
@@ -258,14 +269,14 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Historical Data Downloader')
-    parser.add_argument('--ticker', type=str, required=True, 
+    parser.add_argument('--ticker', type=str, required=True,
                       help='Stock ticker symbol')
-    parser.add_argument('--start-date', type=str, required=True, 
+    parser.add_argument('--start-date', type=str, required=True,
                       help='Start date in YYYY-MM-DD format')
-    parser.add_argument('--end-date', type=str, required=True, 
+    parser.add_argument('--end-date', type=str, required=True,
                       help='End date in YYYY-MM-DD format')
     args = parser.parse_args()
-    
+
     try:
         main(args)
     except Exception as e:
@@ -368,10 +379,10 @@ if __name__ == "__main__":
   parser.add_argument("file", type=str, help="Path to the Parquet file containing minute-level data.")
   parser.add_argument("interval", type=str, choices=['15min', '1D', '1W'], help="Resampling interval.")
   args = parser.parse_args()
-  
+
   df = pd.read_parquet(args.file)
   df.index = pd.to_datetime(df.index)  # Ensure index is datetime
-  
+
   resampled_df = resample_candles(df, args.interval)
   print(resampled_df.head())
 ```
@@ -381,12 +392,12 @@ if __name__ == "__main__":
 ```bash
 python ./resample_candles.py ./your/data/path/SPY/2024/01/2024-01-01.parquet.snappy 15min
 ```
+
 Expected output:
 
-
 ```yaml
-                            open    high     low   close volume
-timestamp                                                       
+open    high     low   close volume
+timestamp
 2023-12-29 09:00:00+00:00  477.40  477.46  477.37  477.37   2786
 2023-12-29 09:15:00+00:00  477.37  477.37  477.34  477.34    100
 2023-12-29 09:30:00+00:00  477.34  477.34  477.24  477.28   2638
@@ -395,6 +406,7 @@ timestamp
 ```
 
 # Conclusion
+
 This setup provides a robust framework for ensuring that your historical data is accurate, readily available, and formatted as needed for various use cases—be it training ML models or backtesting trading strategies.
 
 With the flexibility of resampling and the reliability of syncing data to the cloud, you can be assured that your data pipeline will support your trading operations and research effectively.
