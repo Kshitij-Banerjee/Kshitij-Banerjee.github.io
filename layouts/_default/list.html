@@ -25,20 +25,24 @@
   .entry-footer {
     display: flex;
     justify-content: right;
+    font-weight: 200;
+    font-size: 0.75rem;
+    padding: 0;
+    margin: 0;
   }
 
   .cover-categories {
-    display: inline-block;
     /* Aligns tags horizontally */
     padding: 1px;
     /* Reduced padding for a subtler look */
     color: #666;
     /* Lighter text color */
-    font-size: 10px;
-    font-weight: 400;
+    font-size: 9px;
+    font-weight: 500;
     padding: 10px;
     /* Slightly larger text */
     background: none;
+    float: right;
   }
 </style>
 
@@ -97,23 +101,19 @@
 
 {{- if gt (len $popularPages) 0 }}
 <section>
-  <h4 style="margin-bottom: 1rem">Popular</h4>
+  <h4 style="margin-bottom: 1rem">Top</h4>
   <div class="popular-posts-list">
     {{- range first 5 $popularPages }}
     <article class="post-entry">
       <!-- Wrap the image and text content in a flex container -->
       <div class="entry-header-content">
-        <!-- Image (Cover) -->
-        <div class="entry-image">
-          {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" false) }}
-        </div>
 
         <!-- Text Content (Title and Description) -->
         <div class="entry-text">
           <header class="entry-header">
             <h2 class="">
               {{- .Title }}
-              <div class="cover-categories">[{{- .Params.Category }}]</div>
+              <div class="cover-categories">{{- .Params.Category }}</div>
               {{- if .Draft }}
               <span class="entry-hint" title="Draft">
                 <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">

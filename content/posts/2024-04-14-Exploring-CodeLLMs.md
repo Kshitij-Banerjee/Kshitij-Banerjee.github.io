@@ -10,6 +10,7 @@ cover:
   image: "quantization.png"
 tags: [machine-learning, AI]
 keywords: [machine-learning, AI]
+Summary: Part 1/3 - A series evaluating LLM's that are **specialised in code generation tasks**, and evaluating their performance on writing code. This post starts with concepts and theory, while the next 2 parts evaluate specific code models.
 ---
 
 # Introduction:

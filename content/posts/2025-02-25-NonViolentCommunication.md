@@ -1,5 +1,5 @@
 ---
-Category: Book Summary
+Category: Management
 Title: Non Violent Communication
 Layout: post
 Name: Non Violent Communication

@@ -8,6 +8,8 @@ banner: "SimpleStrategy1-Banner.webp"
 cover:
   image: "SimpleStrategy1-Banner.webp"
 tags: [ML, Trading, AI, Beginner, AlgorthmicTrading, Basics]
+popular: True
+Summary: Exporing the mathematical, statistical, and probabilistic nature of the market. Specifically, I attempt building a mean-reversion probability model, backtesting it against historical data, and understanding where/why it falls short. The results explain why simple statistical models fail to capture the complex beast that is the financial market. Nevertheless, this helps with foundational understanding and there is much to learn that I then iterate in the subsequent posts on the topic of ML based Trading.
 keywords:
   [
     ML,
@@ -23,7 +25,7 @@ keywords:
 
 # Preface
 
-For those who know me, I spend a lot of time reading financial statements and analysing technical signals. While this is probably the known path, and the perhaps the wiser way to make money in the market - I am particularly interested in the mathematical, statistical and probabilistic nature of the market.
+Those who know me know, that I spend a lot of time reading financial statements and analysing technical signals. While this is probably the known path, and the perhaps the wiser way to make money in the market - I am particularly interested in the mathematical, statistical and probabilistic nature of the market.
 
 Everyone who has tried their hand at trading, can atleast imagine how computers would be able to crunch through numbers better than humans. Hedge funds and algo trading firms have proliferated after [Jim Simmons](https://en.wikipedia.org/wiki/Jim_Simons) showed that computers can indeed make gigantic returns.
 

@@ -16,9 +16,9 @@ params:
   disableThemeToggle: true
   homeInfoParams:
     enabled: true
-    imageUrl: https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Feb0e0342-380c-4c11-94fa-4e2c586ac21e_1170x1168.jpeg
+    imageUrl: https://media.licdn.com/dms/image/v2/D5603AQHkfsx3jgN3kw/profile-displayphoto-shrink_400_400/B56ZWAGj1WGUAg-/0/1741610958543?e=1747872000&v=beta&t=yLaPAkSf98H_oPkulP6bYKYbH9u96NvW8d2iz42zG64
     title: "**Kshitij Banerjee (KB)**"
-    subtitle: "*I write to create clarity for myself. Thoughts on Code generation with LLMs, ML Trading, and books I find fascinating*"
+    subtitle: "*I write to create clarity for myself. <br>Thoughts on Management, Code generation with LLMs and ML Trading*"
   socialIcons:
     - name: "linkedin"
       url: https://www.linkedin.com/in/kshitijbanerjee/
