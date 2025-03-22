@@ -104,30 +104,23 @@
   <h4 style="margin-bottom: 1rem">Top</h4>
   <div class="popular-posts-list">
     {{- range first 5 $popularPages }}
-    <hr style="border: 1px dashed lightgray;">
-    <article>
-      <!-- Wrap the image and text content in a flex container -->
-      <div>
-
+      <a href="{{ .Permalink }}">
+        <hr style="border: 1px dashed lightgray;">
         <!-- Text Content (Title and Description) -->
         <div class="entry-text">
-            <a>
+            <a href="{{ .Permalink }}">
               {{- .Title }}
               <div class="cover-categories">{{- .Params.Category }}</div>
             </a>
 
             {{- if (ne (.Param "hideSummary") true) }}
-            <div class="entry-content">
-              <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>
-            </div>
-          {{- end }}
-
-
+              <div class="entry-content">
+                <a href="{{ .Permalink }}">{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</a>
+              </div>
+            {{- end }}
         </div>
-      </div>
-
-      <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
-    </article>
+        <!-- <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a> -->
+      </a>
     {{- end }}
   </div>
 </section>

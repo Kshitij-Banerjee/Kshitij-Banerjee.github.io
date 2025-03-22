@@ -10,7 +10,7 @@ cover:
   image: "Transformers_banner_1689490231707_0.png"
 tags: [ML, machine-learning, AI, Transformers]
 keywords: [ML, machine-learning, AI, Transformers]
-Summary: A 3 part series on understanding how modern LLMS work. From RNNs, to transformers and scaling laws.
+Summary: Part 2/3 - Understanding how modern LLMS work. From RNNs, to transformers, towards modern scaling laws.
 ---
 
 # Introduction

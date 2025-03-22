@@ -9,7 +9,7 @@ cover:
   image: "SimpleStrategy1-Banner.webp"
 tags: [ML, Trading, AI, Beginner, AlgorthmicTrading, Basics]
 popular: True
-Summary: Exporing the mathematical, statistical, and probabilistic nature of the market. Specifically, I attempt building a mean-reversion probability model, backtesting it against historical data, and understanding where/why it falls short. The results explain why simple statistical models fail to capture the complex beast that is the financial market. Nevertheless, this helps with foundational understanding and there is much to learn that I then iterate in the subsequent posts on the topic of ML based Trading.
+Summary: Part 1/3 - Exporing the mathematical, statistical, and probabilistic nature of the market. Specifically, I attempt building a mean-reversion probability model, backtesting it against historical data, and understanding where/why it falls short. The results explain why simple statistical models fail to capture the complex beast that is the financial market. Nevertheless, this helps with foundational understanding and there is much to learn that I then iterate in the subsequent posts on the topic of ML based Trading.
 keywords:
   [
     ML,
