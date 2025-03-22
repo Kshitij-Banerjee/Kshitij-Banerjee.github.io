@@ -1,23 +1,25 @@
 ---
-Category: Machine Learning
+Category: AI
 Title: Understanding GPT - Transformers
 Layout: post
 Name: Understanding GPT - Transformers
 date: 2023-07-07
 banner: "Transformers_banner_1689490231707_0.png"
+popular: True
 cover:
   image: "Transformers_banner_1689490231707_0.png"
 tags: [ML, machine-learning, AI, Transformers]
 keywords: [ML, machine-learning, AI, Transformers]
+Summary: A 3 part series on understanding how modern LLMS work. From RNNs, to transformers and scaling laws.
 ---
 
 # Introduction
 
 The goal of this series of posts, is to form _foundational knowledge_ that helps us understanding modern state-of-the-art LLM models, and gain a comprehensive understanding of GPT via reading the seminal papers themselves.
 
-In my previous [post](https://kshitij-banerjee.github.io/2023/06/18/understanding-gpt-a-journey-from-rnns-to-transformers/), I covered some of the seminal papers that formulated sequence based models from RNNs to the Attention mechanism in encoder-decoder architectures. If you don't know about them, or would like a quick refresher - I recommend reading through the [previous post](https://kshitij-banerjee.github.io/2023/06/18/understanding-gpt-a-journey-from-rnns-to-transformers/) before continuing here.
+In my previous [post](https://kshitij-banerjee.github.io/2023/06/18/understanding-gpt-a-journey-from-rnns-to-transformers/), I covered some of the seminal papers that formulated sequence based models from RNNs to the Attention mechanism in encoder-decoder architectures. 
 
-This post will focus on the "Attention is all you need" paper that introduced the ground-breaking transformer architecture to the world and has since started a cascading and exponential affect on the AI landscape.
+This post will focus on the "Attention is all you need" paper that introduced the transformer architecture to the world and has since started a cascading and exponential affect on the AI landscape.
 
 # Papers to be covered in this series
 
@@ -36,30 +38,17 @@ This post will focus on the "Attention is all you need" paper that introduced th
 7. PaLM: following Chowdhery et al. 2022 {{< pdflink "https://arxiv.org/pdf/2204.02311.pdf" "Scaling Language Modeling with Pathways" >}}
 
 8. Maybe: MACAW-LLM, following Lyu et al. 2023 {{< pdflink "https://arxiv.org/pdf/2306.09093.pdf" "MULTI-MODAL LANGUAGE MODELING" >}}
-
-# Transformers
-
 ## Paper
 
 Transformers, following Vaswani et al. 2017 Google  {{< pdflink "https://arxiv.org/pdf/1706.03762.pdf" "Attention is all you need" >}}
 
-## The problem its solving
+To understand the transformers paper, let's understand the building blocks that make up the transformer architecture.
 
-> This inherently sequential nature (of RNNs) precludes parallelization within training examples, which becomes critical at longer sequence lengths, as memory constraints limit batching across examples
-
-## Intention
-
-> In this work we propose the Transformer, a model architecture eschewing recurrence and instead relying entirely on an attention mechanism to draw global dependencies between input and output.
-
-## Architecture
-
-![image.png](/image_1688744668247_0.png)
-
-## Main Points
-
-### Attention
+# Building Block 1: Attention
 
 In its essence, attention allows the model to look-back on the previous inputs, based on the current-state, in an efficient manner.
+
+### Softmax attention
 
 Softmax attention is the simplest form, where we take advantage of 3 facts:-
 
@@ -75,39 +64,42 @@ In the paper, attention takes the more complicated form with queries, keys, and 
 
 > An attention function can be described as mapping a query and a set of key-value pairs to an output, where the query, keys, values, and output are all vectors. The output is computed as a weighted sum of the values, where the weight assigned to each value is computed by a compatibility function of the query with the corresponding key.
 
+### Origins of attention
+
 - Originally, additive attention was described previously in the paper by {{< pdflink "https://arxiv.org/pdf/1409.0473.pdf" "Dzmitry" >}}
 
 ![image.png](/image_1688788567033_0.png)
 
-Refer to the diagram above from the paper by {{< pdflink "https://arxiv.org/pdf/1409.0473.pdf" "Dzmitry" >}}. In it, attention is realised by creating a context vector C that is generated via an alignment model. The model has weights alpha[tx,ty] that act as weighted sum on the states h[j] of the encoded sentence. This helps provide an "attention" mechanism.
+Refer to the diagram above from the paper by {{< pdflink "https://arxiv.org/pdf/1409.0473.pdf" "Dzmitry" >}}. In it, attention is realised by creating a context vector C that is generated via an alignment model. The model creates weights \\(alpha[tx,ty]\\) that help in building a weighted sum on the input states \\(h[j]\\) of the encoded sentence. This helps provide an "attention" mechanism.
 
-The authors are summarising this behaviour by explaining attention as a query + key-value pairs => output.
+## Queries, Keys, and Values
 
-- The query in this case, is the alpha vector that understands which parts of the X[t] to query. The values are the hidden-states h[j].
+Today, the attention mechanism is generalised further with 3 separate query, key, and value vectors that create the final output. All 3 of these are generated from the same input vector in an encoder-only model.
 
-- In affect, the attention mechanism is a way for the decoder network to query the positionally encoded hidden states, based on the current state s[t-1]
+### Why create 3 vectors ?
 
-- Later in the paper, they also mention the following:- In "encoder-decoder attention" layers, the queries come from the previous decoder layer, and the memory keys and values come from the output of the encoder. This allows every position in the decoder to attend over all positions in the input sequence. This mimics the typical encoder-decoder attention mechanisms in sequence-to-sequence models
+Because they help the model learn different representations of the input that contribute to the output.
 
-- But note that the previous paper relies on an RNN to create the context of time, which the current papers want to get rid of. So how do we create the keys then?
+1. Query vectors, enable the model to learn the optimal way to _query previous state_.
+2. Key vectors, enable the model to expose the input state in a way that optimises _similarity matching_ between query and input.
+3. Value vectors, enable the model to learn the optimal way to _output the knowledge_ about the input that is most useful for generation.
 
-Another helpful visualisation of attention, is found in the paper [Massive Exploration of Neural Machine Translation Architectures](https://arxiv.org/pdf/1703.03906.pdf)
+Together, these 3 vectors, enable the model to learn the best way to query the input, match it, and carry forward the most important knowledge that will help produce the right output.
 
-![image.png](/image_1688789627419_0.png)
+The following diagram is helpful to understand how the query, key and value vectors interact to produce the outputs Y.
 
-### Scaled Dot-Product Attention
+1. Note that Q, K, and V are all coming from the original inputs \\(X_i\\)
+2. We compute similarity between Q and K, to produce alignment matrix \\(E_ik\\)
+   - When \\(K_j\\) is more relevanto \\(Q_i\\), then \\(E_{ij}\\) will be higher
+3. Softmax is used to create probability distribution from \\(E_{ij}\\) -> \\(A_{ij}\\)
+4. Finally, the \\(V_i\\) are weighted summed based on the \\(A_{ij}\\) to produce the \\(Y_i\\)
+   ![attention_calculations.png](/static/attention_calculations.png)
 
-The authors hint that they prefers the multiplicative attention mechanism, due to its computational effeciencies - even though historically the additive attention has proven to work better.
+**In summary, attention mechanism allows the model to transform the input space into 3 separate spaces, and creates a way for the model to learn to dynamically _attend_ the most relevant parts of the historical input state.**
 
-##### Additive vs Multiplicative Attention
+Coming back to the papare, the authors hint that they prefers this multiplicative attention mechanism, due to its computational effeciencies - even though historically the additive attention was proven to work better then.
 
-While the transformers paper doesn't explain the difference between the additive and multiplicative versions. The referenced [paper](https://arxiv.org/pdf/1703.03906.pdf) can be expanded to understand them.
-
-Equation 6 is the additive version, and 7 is the multiplicative version
-
-![image.png](/image_1688791715884_0.png)
-
-The multiplicative attention is introduced [here](https://arxiv.org/pdf/1508.04025.pdf) by Luong et al.
+The multiplicative attention was introduced [here](https://arxiv.org/pdf/1508.04025.pdf) by Luong et al.
 
 The authors hypothize that the multiplicative attention has underperformed as it moves the logits into extreme ends where the gradients are close to 0. So they choose to scale down the logits before passing them to the softmax.
 
@@ -117,13 +109,12 @@ The authors hypothize that the multiplicative attention has underperformed as it
 
 ![image.png](/image_1688789158876_0.png)
 
-- This is similar to doing the weighted sum on the values, where the weights are a softmax outputs from aligning the queries and the keys via a dot-product
 
 ##### Visually
 
 ![image.png](/image_1688789296684_0.png)
 
-### Multi-Head Attention
+# Building Block 2: Multi-Head & Self Attention
 
 Further, the authors propose to do multi-head attention. This is essentially a way to parallelise the attention process on multiple heads instead of a single head.
 
@@ -131,8 +122,7 @@ So instead of doing a single attention with d_model dimensions. They, parallely 
 
 The reason for doing this?
 
-> Multi-head attention allows the model to jointly attend to information from different representation  
-> subspaces at different positions. With a single attention head, averaging inhibits this.
+> Multi-head attention allows the model to jointly attend to information from different representation  subspaces at different positions. With a single attention head, averaging inhibits this.
 
 ##### Mathematically:
 
@@ -144,31 +134,7 @@ Self attention, is essentially where the attention is given to itself, rather th
 
 They use this in the encoder. In a self-attention layer all of the keys, values and queries come from the same place, in this case, the output of the previous layer in the encoder. Each position in the encoder can attend to all positions in the previous layer of the encoder.
 
-### Positional Encoding
 
-Since the authors completely got rid of the recurrence, or convolutional parts in the network - they need to provide the model with the positional information to compensate for this missing and crucial context.
-
-To that effect, they chose to create positional embeddings (with the same dim size as the text embeddings).
-
-But, they chose to not make them learnable parameters - and that makes sense to me.
-
-They create the positional embeddings with the following logic
-
-![image.png](/image_1689402565327_0.png)
-
-> We  
-> chose this function because we hypothesized it would allow the model to easily learn to attend by  
-> relative positions, since for any fixed offset k, P Epos+k can be represented as a linear function of  
-> P Epos.  
-> The d2l.ai book has the best [explanation](https://d2l.ai/chapter_attention-mechanisms-and-transformers/self-attention-and-positional-encoding.html#positional-encoding) to this that I could find.
-
-![image.png](/image_1689407591006_0.png)
-
-If we plot different columns, we can see that one can easily be transformed into the other, via linear transformations.
-
-Even after this though, I don't think I fully understand this part well. For now, I've marked this as a TODO, and will come back to it later.
-
-## Why Self-Attention
 
 The core of this goes back to the original intention described towards the beginning of the paper.
 
@@ -196,6 +162,48 @@ Below is the tabular version for comparison
 - The authors are able to build attention distributions on the model, to realise that the model is relatively easier to reason about the relationship between positions and tokens.
 
 ![image.png](/image_1689489530758_0.png)
+# Building Block 3:  Positional Encoding
+
+Since the authors completely got rid of the recurrence, or convolutional parts in the network - they need to provide the model with the positional information to compensate for this missing and crucial context.
+
+To that effect, they chose to create positional embeddings (with the same dim size as the text embeddings).
+
+But, they chose to not make them learnable parameters - and that makes sense to me.
+
+They create the positional embeddings with the following logic
+
+![image.png](/image_1689402565327_0.png)
+
+> We  
+> chose this function because we hypothesized it would allow the model to easily learn to attend by  
+> relative positions, since for any fixed offset k, P Epos+k can be represented as a linear function of  
+> P Epos.  
+> The d2l.ai book has the best [explanation](https://d2l.ai/chapter_attention-mechanisms-and-transformers/self-attention-and-positional-encoding.html#positional-encoding) to this that I could find.
+
+![image.png](/image_1689407591006_0.png)
+
+If we plot different columns, we can see that one can easily be transformed into the other, via linear transformations.
+
+Even after this though, I don't think I fully understand this part well. For now, I've marked this as a TODO, and will come back to it later.
+# Final Architecture: Transformers
+
+## Paper
+
+Transformers, following Vaswani et al. 2017 Google  {{< pdflink "https://arxiv.org/pdf/1706.03762.pdf" "Attention is all you need" >}}
+
+## The problem its solving
+
+> This inherently sequential nature (of RNNs) precludes parallelization within training examples, which becomes critical at longer sequence lengths, as memory constraints limit batching across examples
+
+## Intention
+
+> In this work we propose the Transformer, a model architecture eschewing recurrence and instead relying entirely on an attention mechanism to draw global dependencies between input and output.
+
+## Architecture
+
+Since we now understand attention, multi-head attention, and positional encodings - these building blocks can be put together to build the final architecture as shown in the paper.
+![image.png](/image_1688744668247_0.png)
+
 
 # Conclusion
 
