@@ -15,11 +15,11 @@ Summary: Part 2/3 - Understanding how modern LLMS work. From RNNs, to transforme
 
 # Introduction
 
-The goal of this series of posts, is to form _foundational knowledge_ that helps us understanding modern state-of-the-art LLM models, and gain a comprehensive understanding of GPT via reading the seminal papers themselves.
+The goal of this series of posts, is to form foundational knowledge that helps understanding modern state-of-the-art LLM models, and gain a comprehensive understanding of GPT. I prefer doing this via reading the seminal papers themselves, instead of online articles.
 
-In my previous [post](https://kshitij-banerjee.github.io/2023/06/18/understanding-gpt-a-journey-from-rnns-to-transformers/), I covered some of the seminal papers that formulated sequence based models from RNNs to the Attention mechanism in encoder-decoder architectures. 
+In my previous [post](https://kshitij-banerjee.github.io/2023/06/18/understanding-gpt-a-journey-from-rnns-to-transformers/), I covered some of the papers that formulated sequence based models from RNNs to the Attention mechanism in encoder-decoder architectures. 
 
-This post will focus on the "Attention is all you need" paper that introduced the transformer architecture to the world and has since started a cascading and exponential affect on the AI landscape.
+This post will focus on the "Attention is all you need" paper that introduced the transformer architecture to the world, and has since had an exponential affect on the AI landscape.
 
 # Papers to be covered in this series
 

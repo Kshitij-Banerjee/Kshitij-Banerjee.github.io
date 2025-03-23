@@ -18,7 +18,7 @@ params:
     enabled: true
     imageUrl: https://media.licdn.com/dms/image/v2/D5603AQHkfsx3jgN3kw/profile-displayphoto-shrink_400_400/B56ZWAGj1WGUAg-/0/1741610958543?e=1747872000&v=beta&t=yLaPAkSf98H_oPkulP6bYKYbH9u96NvW8d2iz42zG64
     title: "**Kshitij Banerjee (KB)**"
-    subtitle: "*Thoughts on Management, Code generation with LLMs and ML Trading*"
+    subtitle: "*Thoughts on Management, LLM Code generation, and ML Trading*"
   socialIcons:
     - name: "linkedin"
       url: https://www.linkedin.com/in/kshitijbanerjee/
