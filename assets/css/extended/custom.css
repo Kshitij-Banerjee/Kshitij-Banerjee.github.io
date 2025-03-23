@@ -1,0 +1,66 @@
+/* Override theme's styles here */
+.entry-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+body {
+  /* font-family: 'Times New Roman', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
+  /* font-family: Playfair Display, Merriweather, Georgia, 'Times New Roman', Times, serif, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
+  font-family: Georgia, 'Times New Roman', 'Segoe UI', Roboto, Oxygen, Ubuntu, Canterel;
+  word-break: break-word;
+  background: var(--theme);
+}
+.entry-text {
+  color: yellow;
+  flex: 1;
+}
+
+.entry-image {
+  max-width: 40%;
+  margin-left: 20px;
+}
+
+/* Additional overrides */
+.entry-content {
+  margin-top: 10px;
+}
+
+.entry-footer {
+  justify-content: right;
+  font-weight: 200;
+  font-size: 0.75rem;
+  padding: 0;
+  margin: 0;
+}
+
+.cover-categories {
+  /* Aligns tags horizontally */
+  padding: 1px;
+  /* Reduced padding for a subtler look */
+  color: #666;
+  /* Lighter text color */
+  font-size: 9px;
+  font-weight: 500;
+  padding: 10px;
+  /* Slightly larger text */
+  background: none;
+  float: right;
+}
+
+h1 {
+  font-size: 30px !important;
+}
+h2 {
+  font-size: 25px !important;
+}
+h3 {
+  font-size: 20px !important;
+}
+h4 {
+  font-size: 15px !important;
+}
+h5 {
+  font-size: 10px !important;
+}

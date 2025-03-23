@@ -1,15 +1,6 @@
 {{- define "main" }}
+{{- $reset := (resources.Get "css/custom.css") }}
 <style>
-  .entry-header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-
-  .entry-text {
-    flex: 1;
-  }
-
   .entry-image {
     max-width: 40%;
     max-height: 15vh;
@@ -17,33 +8,6 @@
     margin-right: 10px;
   }
 
-  /* Additional overrides */
-  .entry-content {
-    margin-top: 10px;
-  }
-
-  .entry-footer {
-    display: flex;
-    justify-content: right;
-    font-weight: 200;
-    font-size: 0.75rem;
-    padding: 0;
-    margin: 0;
-  }
-
-  .cover-categories {
-    /* Aligns tags horizontally */
-    padding: 1px;
-    /* Reduced padding for a subtler look */
-    color: #666;
-    /* Lighter text color */
-    font-size: 9px;
-    font-weight: 500;
-    padding: 10px;
-    /* Slightly larger text */
-    background: none;
-    float: right;
-  }
 </style>
 
 {{- if (and site.Params.profileMode.enabled .IsHome) }}
@@ -102,33 +66,31 @@
 {{- if gt (len $popularPages) 0 }}
 <section>
   <h4 style="margin-bottom: 1rem">Top</h4>
-  <div class="popular-posts-list">
+  <div style="position: relative">
     {{- range first 5 $popularPages }}
-      <a href="{{ .Permalink }}">
-        <hr style="border: 1px dashed lightgray;">
+      <hr style="border: 1px dashed lightgray;">
         <!-- Text Content (Title and Description) -->
         <div class="entry-text">
-            <a href="{{ .Permalink }}">
-              {{- .Title }}
+          <header class="entry-header">
+              <h4 class="entry-hint-parent"> {{- .Title }} </h4>
               <div class="cover-categories">{{- .Params.Category }}</div>
-            </a>
+          </header>
 
-            {{- if (ne (.Param "hideSummary") true) }}
-              <div class="entry-content">
-                <a href="{{ .Permalink }}">{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</a>
-              </div>
-            {{- end }}
+          {{- if (ne (.Param "hideSummary") true) }}
+            <div class="entry-content">
+              {{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}
+            </div>
+          {{- end }}
         </div>
-        <!-- <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a> -->
-      </a>
+        <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
     {{- end }}
   </div>
 </section>
 {{- end }}
 
-<hr style="border: 1px dashed lightgray;">
+<hr style="margin-top: 2rem; margin-bottom: 2rem">
 
-<h4 style=" margin-bottom: 1rem; margin-top: 1rem">All posts</h4>
+<h4 style=" margin-bottom: 1rem">All posts</h4>
 {{- $term := .Data.Term }}
 {{- range $index, $page := $paginator.Pages }}
 
@@ -140,31 +102,21 @@
 {{- else if $term }}
 {{- $class = "post-entry tag-entry" }}
 {{- end }}
-<article class="{{ $class }}">
+<article style="position:relative">
   {{- $isHidden := (.Param "cover.hiddenInList") | default (.Param "cover.hidden") | default false }}
 
   <!-- Wrap the image and text content in a flex container -->
   <div class="entry-header-content">
     <!-- Image (Cover) -->
-    <div class="entry-image">
+    <!-- <div class="entry-image">
       {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
-    </div>
+    </div> -->
 
     <!-- Text Content (Title and Description) -->
     <div class="entry-text">
       <header class="entry-header">
-        <h2 class="entry-hint-parent">
-          {{- .Title }}
-          <div class="cover-categories">{{- .Params.Category }}</div>
-          {{- if .Draft }}
-          <span class="entry-hint" title="Draft">
-            <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-              <path
-                d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-            </svg>
-          </span>
-          {{- end }}
-        </h2>
+        <h4 class="entry-hint-parent"> {{- .Title }} </h4>
+        <div class="cover-categories">{{- .Params.Category }}</div>
       </header>
 
       {{- if (ne (.Param "hideSummary") true) }}
@@ -180,6 +132,7 @@
     {{- partial "post_meta.html" . -}}
   </footer>
   {{- end }}
+  <hr style="border: 1px dashed lightgray;">
   <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
 </article>
 {{- end }}
