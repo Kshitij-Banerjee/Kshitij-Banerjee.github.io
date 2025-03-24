@@ -70,7 +70,7 @@
     {{- range first 5 $popularPages }}
       <hr style="border: 1px dashed lightgray;">
         <!-- Text Content (Title and Description) -->
-        <div class="entry-text">
+        <div style="position: relative" class="entry-text">
           <header class="entry-header">
               <h4 class="entry-hint-parent"> {{- .Title }} </h4>
               <div class="cover-categories">{{- .Params.Category }}</div>
@@ -81,8 +81,9 @@
               {{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}
             </div>
           {{- end }}
+
+          <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
         </div>
-        <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
     {{- end }}
   </div>
 </section>

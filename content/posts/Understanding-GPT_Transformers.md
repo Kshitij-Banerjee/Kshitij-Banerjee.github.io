@@ -97,11 +97,11 @@ The following diagram is helpful to understand how the query, key and value vect
 
 **In summary, attention mechanism allows the model to transform the input space into 3 separate spaces, and creates a way for the model to learn to dynamically _attend_ the most relevant parts of the historical input state.**
 
-Coming back to the papare, the authors hint that they prefers this multiplicative attention mechanism, due to its computational effeciencies - even though historically the additive attention was proven to work better then.
+Coming back to the paper, the authors hint that they prefer this multiplicative attention mechanism, due to its computational effeciencies - even though historically, the additive attention was proven to work better back then.
 
 The multiplicative attention was introduced [here](https://arxiv.org/pdf/1508.04025.pdf) by Luong et al.
 
-The authors hypothize that the multiplicative attention has underperformed as it moves the logits into extreme ends where the gradients are close to 0. So they choose to scale down the logits before passing them to the softmax.
+The authors hypothize that the multiplicative attention had underperformed as it moves the logits into extreme ends where the gradients are close to 0. So they choose to scale down the logits before passing them to the softmax.
 
 > We compute the dot products of the query with all keys, divide each by √dk, and apply a softmax function to obtain the weights on the values
 
@@ -118,23 +118,23 @@ The authors hypothize that the multiplicative attention has underperformed as it
 
 Further, the authors propose to do multi-head attention. This is essentially a way to parallelise the attention process on multiple heads instead of a single head.
 
-So instead of doing a single attention with d_model dimensions. They, parallely run N attention models with d_model/N dimensions each.
+So instead of doing a single attention with \\( d_{model}  \\) dimensions. They, parallely run N attention models with \\( d_{model}/N \\) dimensions each.
 
 The reason for doing this?
 
 > Multi-head attention allows the model to jointly attend to information from different representation  subspaces at different positions. With a single attention head, averaging inhibits this.
 
-##### Mathematically:
+#### Mathematically:
 
 ![image.png](/image_1688828209600_0.png)
 
 ### Self Attention
 
-Self attention, is essentially where the attention is given to itself, rather than a separate encoder model.
+In the paper, the overall model is a encoder-decoder model, and self-attention is applied only on the decoder side of the stack. However, for generative AI, the encoder only stack with self attention is the popular mechanism.
+Self attention, is essentially where the attention is given to itself rather than a separate encoder model.
 
-They use this in the encoder. In a self-attention layer all of the keys, values and queries come from the same place, in this case, the output of the previous layer in the encoder. Each position in the encoder can attend to all positions in the previous layer of the encoder.
-
-
+In a self-attention layer all of the keys, values and queries come from the same input space, in this case, the output of the previous layer in the encoder. 
+Each position in the decoder can attend to all positions in the previous layer of the decoder.
 
 The core of this goes back to the original intention described towards the beginning of the paper.
 

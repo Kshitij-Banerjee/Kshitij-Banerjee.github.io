@@ -1,6 +1,6 @@
 
 ---
-Category: Book-Review
+Category: Management
 Title: Build - Tony Fadell
 Layout: post
 Name: Build - Tony Fadell

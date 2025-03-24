@@ -1,6 +1,6 @@
 
 ---
-Category: Book Review
+Category: Management
 Title: Getting Things Done with LogSeq
 Layout: post
 Name: Getting Things Done with Logseq
