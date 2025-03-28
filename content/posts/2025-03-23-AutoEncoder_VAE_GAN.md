@@ -28,25 +28,24 @@ In this post, I'll cover some theory around
 
 # Autoencoder
 
-TODO: Image
-
-## Summary
-In essence, we predict a certain embedding vector from the encoder that represents the input in a (compressed) space.
+In essence, we predict a certain embedding vector from the encoder that represents the input in a (usually compressed) latent space.
+![EncoderDecoder](/encoder_decoder.png)
 We then use this vector representation, and decode the original input from this embedding. 
 When we train such a system end to end, the model is forced to find optimal embedding vectors that capture the essence of the input.
 
 
-
 # Variational Auto Encoder
-
-## Summary
 
 In Autoencoders, we converted the input into a specific vector point in the embedding space and aimed to recontruct the exact same input from this embedding. 
 
 In variational auto encoders, we instead ask the encoder to output a _probability distribution_ that represents the input. 
-The encoder now outputs a mean, and variance over the output distirbution instead of a single point. 
+The encoder now outputs a mean, and variance over the output distribution instead of a single point. 
 This allows us to sample from this distribution, and train the decoder to create a _similar_ image as the input.
 
+![VAE](/vae.png)
+
+The hypothesis here is that, we want the compressed representation from an autoencoder to truly represent the latent variables of the distribution. That is that the latent space \\( z \\) is a smaller set of
+factors of variation in our data. eg. for MNIST we have a notion of scale, rotation, number etc. We view these latent variables as being from some distribution themselves, so if we were to sample from the distributions governing the latents they would map to some meaningful data back in the input space.
 
 
 ## Illustrative Example

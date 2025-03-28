@@ -25,16 +25,15 @@ keywords:
 
 # Preface
 
-Over the last decade, I've spent a lot of time learning about the financial markets in terms of both fundamental analysis, as well as technical analysis as an individual retail investor managing his own money.
+Over the last 6+ years, I’ve been actively trading and learning about the financial markets. The markets fascinate me - both fundamentally and technically.
 
 I am now particularly interested in the mathematical, statistical and probabilistic nature of the market.
 
-I recommend reading [The man who solved the market](https://www.amazon.sg/Man-Who-Solved-Market-Revolution/dp/073521798X), as its a great read on the historical quant context, as well as how hedge funds and algo trading firms have proliferated after [Jim Simmons](https://en.wikipedia.org/wiki/Jim_Simons) showed that computers can indeed make gigantic returns.
+[The man who solved the market](https://www.amazon.sg/Man-Who-Solved-Market-Revolution/dp/073521798X) was a great read in this context, as it gave me a few historical insights on how hedge funds and algo trading firms have proliferated after [Jim Simmons](https://en.wikipedia.org/wiki/Jim_Simons) showed that computers can indeed make gigantic returns.
 
-I believe that between the high-frequency trading firms, and the average Joe that watches CNBC and trades as a hobby - there is probably an unexplored middle. 
-Hedge funds won't divulge their secrets, and the average Joe doesn't have the Math and Computer science skills to to understand how to use statistics and ML to make money.
+I believe that between the high-frequency trading firms, and the average retail trader who trades as a hobby - there is probably an under explored middle. Hedge funds won't divulge their secrets, and the average investor wouldn’t have the Math and Comp. science skills to understand how to use statistics and ML to make money.
 
-So if like me, you're curious how can statistics make money - hopefully I scratch that mental itch for you in this post. I'll crunch the numbers, write the code, and show the insights - and I suggest you get your favourite drink at this point. Let's get started with a very simple strategy.
+So if like me, you're curious how can statistics make money - hopefully I scratch that mental itch for you in this post series. I'll crunch the numbers, write the code, and show the insights - and I suggest you get your favourite drink at this point. Let's get started with a very simple strategy.
 
 # Strategy 1 - Distance from moving average
 
