@@ -3,6 +3,7 @@ Category: AI
 Title: Exploring Code LLMs - Instruction fine-tuning, models and quantization
 Layout: post
 Name: Code LLMs
+slug: exploring-code-llms
 date: 2024-04-14
 banner: "quantization.png"
 popular: True
@@ -17,17 +18,15 @@ Summary: Part 1/3 - Evaluating LLM's that are **specialised in code generation t
 
 A deep-dive into LLM's that are **specialised in code generation tasks**, and see if we can use them to write code.
 
-Note: Unlike copilot, we'll focus on _locally running LLM's_. This should be appealing to any developers working in enterprises that have data privacy and sharing concerns, but still want to improve their developer productivity with locally running models.
-
-To test our understanding, we'll perform a few simple coding tasks, and compare the various methods in achieving the desired results and also show the shortcomings.
+To test our understanding, I'll perform a few simple coding tasks, and compare the methods in achieving the desired results and also show some shortcomings.
 
 ## The goals of this series - Code LLM evaluation on
 
-1. Test 1: Generate a higher-order-component / decorator that enables logging on a react component
+1. Test 1: Generate some moderate react code. i.e A higher-order-component / decorator that enables logging on a react component
 
 2. Test 2: Write a test plan, and implement the test cases
 
-3. Test 3: Parse an uploaded excel file in the browser.
+3. Test 3: Parse an uploaded excel file in the browser
 
 # How the rest of the post is structured
 

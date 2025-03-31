@@ -19,7 +19,7 @@ Note: Unlike copilot, we'll focus on _locally running LLM's_. This should be app
 
 To test our understanding, we'll perform a few simple coding tasks, compare the various methods in achieving the desired results, and also show the shortcomings.
 
-In [Part-1](https://kshitijbanerjee.com/2024/04/14/exploring-code-llms-instruction-fine-tuning-models-and-quantization/), I covered some papers around instruction fine-tuning, GQA and Model Quantization - All of which make running LLM's locally possible.
+In [Part-1](https://kshitijbanerjee.com/2024/04/14/exploring-code-llms/), I covered some papers around instruction fine-tuning, GQA and Model Quantization - All of which make running LLM's locally possible.
 
 In this Part-2 of the series, I'd like to focus on how to setup an M1 to run deepseek-coder, and the verdict on its coding capabilities in react on a few tests
 
