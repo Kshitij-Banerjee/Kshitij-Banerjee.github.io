@@ -367,4 +367,6 @@ Another good reference reading on the topic: https://deci.ai/quantization-and-qu
 This post was more around understanding some fundamental concepts, I'll now take this learning for a spin and try out deepseek-coder model.
 I'm primarily interested on its coding capabilities, and what can be done to improve it.
 
-Part-2 of this post is available [here](https://kshitij-banerjee.github.io/2024/04/15/deepseek-coder-can-it-code-in-react)
+Part-2 of this post is available [here](https://kshitij-banerjee.github.io/2024/04/15/deepseek-coder-can-it-code-in-react), where I evaluate deepseek-coder (not deepseek-R1) on code abilities.
+
+Other interesting posts on this topic [Can LLMs Produce Better Code](/2024/04/30/can-llms-produce-better-code/)
