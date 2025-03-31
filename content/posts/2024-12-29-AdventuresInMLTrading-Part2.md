@@ -3,6 +3,7 @@ Category: ML Trading
 Title: Adventures in ML trading - Part 2
 Layout: post
 Name: Adventures in ML trading - Part 2
+slug: adventures-in-ml-trading-part-2
 date: 2024-12-25
 banner: "SimpleStrategy1-Banner.webp"
 cover:
@@ -23,7 +24,7 @@ keywords:
 
 # Preface
 
-In my previous [post](2024/12/19/adventures-in-ml-trading-part-1/), I developed a simple mean-reversion strategy based on an oscillating signal calculated from a stock's distance to its 50-day simple moving average.
+In my previous [post](/2024/12/19/adventures-in-ml-trading-part-1/), I developed a simple mean-reversion strategy based on an oscillating signal calculated from a stock's distance to its 50-day simple moving average.
 
 However, the results revealed a key shortcoming: the algorithm struggled to account for momentum, leading to poorly timed exits during parabolic moves—either too early or too late.
 
@@ -31,7 +32,7 @@ However, the results revealed a key shortcoming: the algorithm struggled to acco
 
 In this post, we’ll dive into momentum and conduct an analysis to validate our assumption. If we can confirm that incorporating momentum enhances the strategy, we’ll move forward with developing a more advanced approach to leverage it effectively.
 
-**Note** : This article builds on the insights from the first [post](2024/12/19/adventures-in-ml-trading-part-1/). If you haven’t read it yet, consider giving it a quick skim to catch up!
+**Note** : This article builds on the insights from the first [post](/2024/12/19/adventures-in-ml-trading-part-1/). If you haven’t read it yet, consider giving it a quick skim to catch up!
 
 # Hypothesis
 
@@ -51,7 +52,7 @@ This leads us to a straightforward plan of action:
 
 2. **Analyze Probability Distributions:** Calculate probability statistics for each momentum state, treating them as distinct data distributions.
 
-3. **Incorporate Momentum into Strategy:** When applying the strategy from the previous [post](2024/12/19/adventures-in-ml-trading-part-1/), factor in the stock’s current momentum state and use its corresponding probability distribution to make trading decisions.
+3. **Incorporate Momentum into Strategy:** When applying the strategy from the previous [post](/2024/12/19/adventures-in-ml-trading-part-1/), factor in the stock’s current momentum state and use its corresponding probability distribution to make trading decisions.
 
 The goal is simple: validate our hypothesis that momentum states offer more precise insights, enhancing the strategy. And if the hypothesis doesn’t hold, we’ll still gain valuable insights.
 

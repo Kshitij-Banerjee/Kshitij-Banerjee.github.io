@@ -3,6 +3,7 @@ Category: ML Trading
 Title: Adventures in ML trading - Part 1
 Layout: post
 Name: Adventures in ML trading - Part 1
+slug: adventures-in-ml-trading-part-1
 date: 2024-12-19
 banner: "SimpleStrategy1-Banner.webp"
 cover:
@@ -418,3 +419,6 @@ I made a ton of assumptions in the option simulations, that may not work with re
 Ignoring the momentum seems silly, let's try to incorporate it next.
 
 *Better still, why add data one by one - let's use ML to make those non-linear relationships into probabilistic decisions.*
+
+
+Next Post: [post](/2024/12/25/adventures-in-ml-trading-part-2/)

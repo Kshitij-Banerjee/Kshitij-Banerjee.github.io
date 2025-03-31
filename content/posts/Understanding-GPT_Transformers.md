@@ -5,6 +5,7 @@ Layout: post
 Name: Understanding GPT - Transformers
 date: 2023-07-07
 banner: "Transformers_banner_1689490231707_0.png"
+slug: understanding-gpt-transformers
 popular: True
 cover:
   image: "Transformers_banner_1689490231707_0.png"
@@ -17,7 +18,7 @@ Summary: Part 2/3 - Understanding how modern LLMS work. From RNNs, to transforme
 
 The goal of this series of posts, is to form foundational knowledge that helps understanding modern state-of-the-art LLM models, and gain a comprehensive understanding of GPT. I prefer doing this via reading the seminal papers themselves, instead of online articles.
 
-In my previous [post](https://kshitij-banerjee.github.io/2023/06/18/understanding-gpt-a-journey-from-rnns-to-transformers/), I covered some of the papers that formulated sequence based models from RNNs to the Attention mechanism in encoder-decoder architectures. 
+In my previous [post](/2023/06/18/understanding-gpt-rnn-attention), I covered some of the papers that formulated sequence based models from RNNs to the Attention mechanism in encoder-decoder architectures. 
 
 This post will focus on the "Attention is all you need" paper that introduced the transformer architecture to the world, and has since had an exponential affect on the AI landscape.
 
@@ -211,4 +212,4 @@ The paper packs a ton of things into it. Its brilliant, but also probably takes 
 
 I intend to dive into the code that is available in [tensor2tensor](https://github.com/tensorflow/tensor2tensor/tree/master/tensor2tensor) and update this post with more understanding and learnings from the code.
 
-In the next post, I intend to cover GPT-1 and 2 and work our way towards the GPT-3 and other state-of-the-art model architectures and additions.
+In the next [post](/2023/10/01/understanding-gpt-1-2-3), I intend to cover GPT-1 and 2 and work our way towards the GPT-3 and other state-of-the-art model architectures and additions.

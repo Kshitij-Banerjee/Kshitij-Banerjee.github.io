@@ -3,6 +3,7 @@ Category: Machine Learning
 Title: Understanding GPT - A Journey from RNNs to Attention
 Layout: post
 Name: Understanding GPT - A Journey from RNNs to Attention
+slug: understanding-gpt-rnn-attention
 date: 2023-06-18
 banner: "UnderstandingGPTBanner.jpg"
 cover:
@@ -13,11 +14,17 @@ keywords: [ML, AI, machine-learning, RNN, Neural-networks]
 
 # Introduction
 
-ChatGPT has rightly taken the world by storm, and has possibly started the 6th wave. Given its importance, the rush to build new products and research on top is understandable. But, I've always liked to ground myself with foundational knowledge on how things work, before exploring anything additive. To gain such foundational knowledge, I believe understanding the progression of techniques and models is crucial to comprehend how these LLM models work under the hood.
+ChatGPT has took the world by storm, and has possibly started the 6th wave. 
+Given its importance, the rush to build new products and research on top is understandable. 
 
-Inspired by Andrej Karpathy's enlightening 'makemore' series, this post aims to dive deep into the key academic papers that shaped our current landscape of language models. From Recurrent Neural Networks (RNNs) to Transformers, let's demystify these complex concepts together.
+But, I've always liked to ground myself with foundational knowledge on how things work, before exploring anything additive. To gain such foundational knowledge, I believe understanding the progression of techniques and models is important to comprehend and appreciate how these LLM models work under the hood.
 
-As of the time of this writing, Andrej hasn't updated his series in the last 6 months. This leaves a gap in our comprehension as the series jumps from WaveNets to Transformers and GPT. Hence, I'd like this blog to act as a bridge, filling the void for anyone on a similar journey of understanding. Rest assured, when Andrej completes his series, it will serve as a comprehensive resource. Meanwhile, let me summarise as best as I can.
+
+Inspired by Andrej Karpathy's enlightening [makemore](https://github.com/karpathy/makemore) series, this post aims to dive deep into the key academic papers that shaped our current landscape of language models. From Recurrent Neural Networks (RNNs) to Transformers, let's demystify these complex concepts together.
+
+As of the time of this writing, Andrej hasn't updated his series in the last 6 months. This leaves a gap in my comprehension as the series jumps from WaveNets to Transformers and GPT. Hence, I'd like this blog to act as a bridge, filling the void for anyone on a similar journey of understanding. 
+
+When Andrej completes his series, it will serve as a comprehensive resource. Meanwhile, let me summarise as best as I can.
 
 ## Papers NOT be going through
 
@@ -407,6 +414,6 @@ A detailed analysis of each influential paper in this domain can facilitate a co
 
 While the completion of Andrej Karpathy's series is anticipated, further exploration of these foundational works will serve to strengthen our understanding of modern language models. Anticipate future posts in this series, which will delve into the realm of Transformers.
 
-I invite readers to share their insights on these concepts. Which paper do you consider most intriguing?
-
 If i've made errors or haven't described something correctly - please do comment, help me learn and correct the article for future readers.
+
+Part 2 of this post is: [here](/2023/07/07/understanding-gpt-transformers) where I build upon this historical knowledge to delve deep into transformers - what made GPT possible.
