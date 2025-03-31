@@ -4,6 +4,8 @@ Category: Management
 Title: Getting Things Done with LogSeq
 Layout: post
 Name: Getting Things Done with Logseq
+slug: getting-things-done
+popular: True
 date: 2024-02-16
 banner: "GTD-Book-Transparent-2"
 cover:
