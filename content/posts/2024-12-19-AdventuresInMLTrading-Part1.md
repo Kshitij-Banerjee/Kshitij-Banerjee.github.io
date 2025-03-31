@@ -29,13 +29,13 @@ Over the last 6+ years, I’ve been actively trading and learning about the fina
 
 I am now particularly interested in the mathematical, statistical and probabilistic nature of the market.
 
-[The man who solved the market](https://www.amazon.sg/Man-Who-Solved-Market-Revolution/dp/073521798X) was a great read in this context, as it gave me a few historical insights on how hedge funds and algo trading firms have proliferated after [Jim Simmons](https://en.wikipedia.org/wiki/Jim_Simons) showed that computers can indeed make gigantic returns.
-
 I believe that between the high-frequency trading firms, and the average retail trader who trades as a hobby - there is probably an under explored middle. Hedge funds won't divulge their secrets, and the average investor wouldn’t have the Math and Comp. science skills to understand how to use statistics and ML to make money.
 
 So if like me, you're curious how can statistics make money - hopefully I scratch that mental itch for you in this post series. I'll crunch the numbers, write the code, and show the insights - and I suggest you get your favourite drink at this point. Let's get started with a very simple strategy.
 
 # Strategy 1 - Distance from moving average
+
+### Hypothesis
 
 While stock prices generally move up and to the right, they typically oscillate around a moving average.
 
@@ -51,17 +51,17 @@ We have 3 numbers here of note.
 
 3. The difference between 1) and 2)
 
-_While the price and SMA are not oscillating number, their difference - the distance of the stocks price to its 50 day moving average is an oscillating number we can observe_
+*While the price and SMA are not oscillating number, their difference - the distance of the stocks price to its 50 day moving average is an oscillating number we can observe*
 
-> **Key insight** What if we statistically identify when the stock is at the extremes - too far above the MA / too far below the MA from normal. Those could be good entry / exit points on the stock.
+> **Key insight**  What if we statistically identify when the stock is at the extremes - i.e too far above the MA, or too far below the MA from normal. Those could be good entry / exit points on the stock.
 
 For the rest of the article, we will focus on number-3, the difference of price to its 50 day simple moving average (SMA)
 
-# Oscillations from mean
+### Oscillations from mean
 
 {{< glightbox href="/image_1734624431836_0.png" src="/image_1734624431836_0.png" alt="image.png" >}}
 
-Plotting the _Distance from SMA 50 for SPY_ gives us the above chart.
+Plotting the *Distance from SMA 50 for SPY* gives us the above chart.
 
 We've successfully found an oscillating pattern in the price structure.
 
@@ -69,11 +69,11 @@ Intuitively, its easy to visualise an average line and see the number oscillatin
 
 Let's get more formal , and define some simple statistics of this number , namely - its average, median, standard deviation, and some percentiles.
 
-## Normal Distributions
+## Distributions
 
 {{< glightbox href="/image_1734624768328_0.png" src="/image_1734624768328_0.png" alt="image.png" >}}
 
-When we plot the frequency distribution of this number as a histogram, its easy to see that it fits a normal distribution (bell curve)
+When we plot the frequency distribution of this number as a histogram, its easy to see that it fits a right-skewed distribution with its mean away and to the right of 0.
 
 Note that the distribution is skewed towards the positive ( bull markets in the last 5 years ) , but its easy to see the sigmas.
 
@@ -87,7 +87,7 @@ I'm interested in the 95/15th percentiles - namely the 95 and 15 percentiles, le
 
 2. Conversely, when the stock is more than $16.76 below its 50 SMA - There is a 85% chance that it will go back near its median price soon.
 
-_Caveats:_
+*Caveats:*
 
 1. It's also possible that the stock price itself keeps going down or remains stable, and the Moving average comes closer to the price to reduce the gap
 
@@ -95,7 +95,7 @@ _Caveats:_
 
 Nevertheless, the caveats may or may not happen - Let's find out what actually happens.
 
-# Simulating the strategy
+### Simulating the strategy
 
 Instead of visualising this oscillating number, let's plot these extremes on the stock chart itself
 
@@ -173,9 +173,9 @@ Total Profit over 5 years: 8973.001098632812
 
 Naah, you'd do better just to buy and hold the shares. **If you just held , your profit was - $27,014.99**
 
-So in affect, this strategy is actually pretty bad: **-$18,041.99** bad. Woops.
+So in affect, this strategy is actually pretty bad:  **-$18,041.99** bad. Woops.
 
-# What went wrong ?
+### What went wrong ?
 
 ## Problem 1 - Momentum
 
@@ -211,11 +211,11 @@ Another way to see this bias is by plotting a longer timeframe on the oscillatin
 
 {{< glightbox href="/image_1734627692454_0.png" src="/image_1734627692454_0.png" alt="image.png" >}}
 
-_When the stock price was in absolute terms low, the variation on the distance converges to 0 on the left._
+*When the stock price was in absolute terms low, the variation on the distance converges to 0 on the left.*
 
-# Let's fix the issues
+### Let's fix the issues
 
-## Fixing the bias
+#### Fixing the bias
 
 We could simply compare the %age movement, instead of the absolute values to fix this bias.
 
@@ -229,7 +229,7 @@ To demonstrate:-
 
 {{< glightbox href="/image_1734627403318_0.png" src="/image_1734627403318_0.png" alt="image.png" >}}
 
-It's also a simple one line fix - we Log the close prices right after fetching them in the beginning. (but we'll keep separate columns to make things maintainable)
+It's also a simple one line fix - we  Log the close prices right after fetching them in the beginning. (but we'll keep separate columns to make things maintainable)
 
 ```python
 data["Close"] = np.log(data["Close"])
@@ -296,7 +296,7 @@ Which is a marked improvement from our -$18041.99 strategy deficit earlier - but
 
 **In summary:** This seems slightly better on the extremes - but momentum is still making us buy on continued downward pressure, and also making us sell sooner, making the overall strategy loss making.
 
-## Fixing for momentum
+#### Fixing for momentum
 
 A proper solution would be to factor the momentum into the equation when making our buy and sell decisions.
 
@@ -304,7 +304,7 @@ But that gets complex, by adding another variable to the mix - so i'll delve int
 
 For now, let's see if we can use options to fix the problem instead
 
-> **Key logic:** We don't want to have the opportunity loss of missing out on a strong bull run. But in cases when this indicator is right - it should generate us some extra cash. So let's try to use a covered call to capitalise on the extremes. When the strategy is losing, we buy back our shares on the expiry date - and count the difference of prices as an opportunity loss.
+> **Key logic:**  We don't want to have the opportunity loss of missing out on a strong bull run. But in cases when this indicator is right - it should generate us some extra cash. So let's try to use a covered call to capitalise on the extremes. When the strategy is losing, we buy back our shares on the expiry date - and count the difference of prices as an opportunity loss.
 
 ### Simulating a 1% premiums Covered-call option strategy
 
@@ -331,7 +331,7 @@ def simulate_options(data, highlight_indices, highlight_low_indices):
 
   trade_log = []
   holding_option_until = pd.Timestamp.min  # Track until when we are holding an option
-
+  
   for idx in highlight_indices:
       # Skip this index if we are already holding an option that hasn't expired
       if idx <= holding_option_until:
@@ -417,4 +417,4 @@ I made a ton of assumptions in the option simulations, that may not work with re
 
 Ignoring the momentum seems silly, let's try to incorporate it next.
 
-_Better still, why add data one by one - let's use ML to make those non-linear relationships into probabilistic decisions._
+*Better still, why add data one by one - let's use ML to make those non-linear relationships into probabilistic decisions.*
