@@ -26,13 +26,50 @@ keywords:
 
 # Preface
 
-Over the last 6+ years, I’ve been actively trading and learning about the financial markets. The markets fascinate me - both fundamentally and technically.
+I've been actively trading the markets for about 6 years now.
+Here's an year-by-year retrospective of my trading portfolio (excluding my long-term investments which perform inline with indexes).
 
-I am now particularly interested in the mathematical, statistical and probabilistic nature of the market.
 
-I believe that between the high-frequency trading firms, and the average retail trader who trades as a hobby - there is probably an under explored middle. Hedge funds won't divulge their secrets, and the average investor wouldn’t have the Math and Comp. science skills to understand how to use statistics and ML to make money.
+1. **Year 1 (2019) [Beginners Luck]**: 
+  Got lucky with covid bull market. Felt like a god. Started learning technical-analysis, options and crypto.
+2. **Year 2 (2020) [Massive loss]**: Was humbled by the market. Realised I have much to learn.
+3. **Year 3 (2021) [Learning]**: Became much better at technical-analysis and options. Traded small, with an intention to learn. Bull market - Did well.
 
-So if like me, you're curious how can statistics make money - hopefully I scratch that mental itch for you in this post series. I'll crunch the numbers, write the code, and show the insights - and I suggest you get your favourite drink at this point. Let's get started with a very simple strategy.
+*(I can only pull data from 2022 on my broker)*
+
+4. **Year 4 (2022) (-25%) [Learning]**: SPY(-22%) Bear market, kept trades small to learn, made some good trades and some bad.
+5. **Year 5 (2023) (+56%) [Outperform]**: SPY (+24%): Screenshots below
+6. **Year 6 (2024) (+52%) [Outperform]**: SPY (+23%) - I actually did even better this year. Since I bought a house - I took a defensive stance, kept much higher cash positions and traded less.
+7. **Year 7 (Jan25- May25) (+16.15%) [Outperform]**: SPY (+1.39%) - Markets have crashed this year due to trump tariffs, were down 20% a few weeks back.
+
+**In summary**: It took me years to learn. But it's starting to bear fruit.
+
+![proof](/assets/2023Return.png)
+
+
+## What strategy have I learnt? 
+I have 3 parts to my current strategy, and its quite simple.
+1. *Discipline*: For Investing - I plan for 5 years ahead. I allocate based on the plan, and I stick to the plan. This prevents me from making rash/too-risky decisions.
+2. *Calculation*: For Trading - Technical and Probabilistic Analysis are the backbone of my trading. To guide direction, size and timing of the trades - I use both TA and Probabilistic models. (Detailed in this post)
+2. *Risk*: I follow Nassim Talebs barbell-strategy. Most trades are on good quality companies - if I make a mistake, I feel comfortable holding long. I do take significant risky-trades with favourable risk-reward at times, but always in proportion.
+
+## How these posts are structured:-
+
+* **PART 1 & 2** - I explain my current probabilistic model. I use this as _input information_ to my discretionary trades. I also backtest to show why my current options strategy works.
+* **Part 2.5:** *In [Syncing via IBKR](/2025/02/01/syncing-historical-data-from-ibkr/)* - I show how I collect historical data from broker with python.
+* **PART 3** - I build an ML Autoencoder + N-Gram predictive model that improves on the simple probabilistic model here. I show backtests on how this improves overall performance. (Yet to write this)
+* **PART 4** - I show how to automate this model with IBKR. (Yet to write this)
+* **PART 5, & Beyond** - This is where I'm currently at. Exploring more complex ML & RL techniques to improve my strategy further.
+
+**My goal:** is to inform and automate my trading strategy - so I can focus on my tinkerings with AI.
+
+
+## Who should read this post:
+If you're curious how statistics make money - hopefully I scratch that mental itch for you in this post series.
+There's numbers, code, and insights - If that sounds interesting, I suggest you get your favourite drink at this point. 
+
+**Let's get started with an explanation of my simple probabilistic model.**
+
 
 # Strategy 1 - Distance from moving average
 
@@ -418,7 +455,5 @@ I made a ton of assumptions in the option simulations, that may not work with re
 
 Ignoring the momentum seems silly, let's try to incorporate it next.
 
-*Better still, why add data one by one - let's use ML to make those non-linear relationships into probabilistic decisions.*
 
-
-Next Post: [post](/2024/12/25/adventures-in-ml-trading-part-2/)
+Congratulations for reading this far, I fix these issues and improve in Part 2: [post](/2024/12/25/adventures-in-ml-trading-part-2/)
